@@ -50,8 +50,7 @@ namespace sdl2
     class SDL2_Interface
     {
         private:
-            bool _initialized = false;
-            
+            bool videoInit = false;
             window_ptr_t gameWindow = window_ptr_t(nullptr, nullptr);
             renderer_ptr_t gameRenderer = renderer_ptr_t(nullptr, nullptr);
 
@@ -61,9 +60,9 @@ namespace sdl2
             SDL2_Interface();
             ~SDL2_Interface();
 
-            bool isInitialized();
+            bool isVideoInitialized();
             bool SetupWindow();
-            bool InitializeRenderer();
+            bool Initialize();
 
             void PerformEmptyBackSurfaceBlt();
             bool Flip();

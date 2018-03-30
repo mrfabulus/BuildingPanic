@@ -4,19 +4,18 @@ namespace sdl2
 {
     SDL2_Interface::SDL2_Interface()
     {
-        _initialized = (SDL_Init(SDL_INIT_EVERYTHING) == 0);
+        videoInit = (SDL_Init(SDL_INIT_VIDEO) == 0);
         nextFrameDrawTime = 0;
     }
 
     SDL2_Interface::~SDL2_Interface()
     {
         SDL_Quit();
-        _initialized = false;
     }
 
-    bool SDL2_Interface::isInitialized()
+    bool SDL2_Interface::isVideoInitialized()
     {
-        return _initialized;
+        return videoInit;
     }
 
     bool SDL2_Interface::SetupWindow()
@@ -32,8 +31,19 @@ namespace sdl2
         return true;
     }
 
-    bool SDL2_Interface::InitializeRenderer()
+    bool SDL2_Interface::Initialize()
     {
+        // Initialize subsystems other than video
+        uint32_t subsystems = SDL_INIT_TIMER | SDL_INIT_AUDIO | SDL_INIT_EVENTS;
+        
+        // TODO: Handle and init JOYSTICK, HAPTIC, GAMECONTROLLER
+
+        if (SDL_InitSubSystem(subsystems) != 0)
+        {
+            cout << "Error in further SDL initialization: " << SDL_GetError() << endl;
+            return false;
+        }
+
         gameRenderer = sdl2::make_renderer(gameWindow.get(), -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
         if (gameRenderer.get() == nullptr)

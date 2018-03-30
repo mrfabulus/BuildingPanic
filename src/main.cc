@@ -1,19 +1,19 @@
 #include "SDL2_Interface.hpp"
 #include "Globals.hpp"
-#include "GameManager.hpp"
+#include "Manager/GameManager.hpp"
 
 int main()
 {
-    if (!gSys.isInitialized())
+    if (!gSys.isVideoInitialized())
     {
-        cout << "Error initializing SDL2: " << SDL_GetError() << endl;
+        cout << "Error initializing SDL2 video: " << SDL_GetError() << endl;
         return 1;
     }
 
     if (!gSys.SetupWindow())
         return 1;
 
-    if (!gSys.InitializeRenderer())
+    if (!gSys.Initialize())
         return 1;
 
     gGameManager = new GameManager();
@@ -23,7 +23,7 @@ int main()
         return 1;
 
     // Gameloop
-    while (true)
+    while (gGameloopActive)
     {
         gGameManager->Update();
     }
