@@ -11,4 +11,9 @@ class Bitmap
         // DDBLTFX bltfx;
         int resourceID;
 
+        Bitmap();
+
+        void incRefCount();
+        void decRefCount();
+
 };

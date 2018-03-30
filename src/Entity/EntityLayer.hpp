@@ -4,6 +4,5 @@
 
 class EntityLayer : public Entity_base
 {
-
 };
 

@@ -52,6 +52,9 @@ class GameScene
                 this->finished = true;
         }
 
+        void AttachEntityToLayer(Entity* aEntity);
+        void DetachEntityFromLayer(Entity* aEntity);
+
         // VTable entries beside sdtor
         virtual int GetNextSceneIDReference();
         virtual void F3();

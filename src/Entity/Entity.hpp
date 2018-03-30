@@ -1,61 +1,55 @@
 #pragma once
 
-#include "../SDL2_Interface.hpp"
 #include "Entity_base.hpp"
+#include "../SDL2_Interface.hpp"
 #include "../Scene/GameScene.hpp"
+#include "../Resource/Bitmap.hpp"
+
+struct EntityExtraPositionData
+{
+    Entity* entityPtr;
+    double dCenterX;
+    double dCenterY;
+    double coordinateLikeThingie;
+};
 
 class Entity : public Entity_base
 {
     public:
         GameScene* scene;
-        // Bitmap* entityImageBmp;
-        void* entityImageBmp;
-        // EntityExtraPositionData* extraPositionData;
-        void* extraPositionData;
+        Bitmap* entityImageBmp;
+        EntityExtraPositionData* extraPositionData;
         bool attachedToLayer;
-        int entityFacingLeft;
-        int dword34;
-        int dword38_assignedZeroFromRenderSetup;
-        int dword3C;
-        short renderDataPtrIndex;
-        short field_42;
-        short firstWordFromRenderDataPtr1;
-        short field_46;
+        int32_t entityFacingLeft;
+        int32_t dword34;
+        int32_t dword38_assignedZeroFromRenderSetup;
+        int32_t dword3C;
+        int16_t renderDataPtrIndex;
+        int16_t field_42;
+        int16_t firstWordFromRenderDataPtr1;
+        int16_t field_46;
         void* dataPtrs;
-        short* dataPtr1;
+        int16_t* dataPtr1;
         SDL_Rect* srcRectPtr;
         SDL_Rect* dimensionRectPtr;
         SDL_Rect* lastDataPtrRectanglePtr;
-        short word5C;
-        short AttachedRenderDataIndex;
-        int dword60;
+        int16_t word5C;
+        int16_t AttachedRenderDataIndex;
+        int32_t dword60;
 
-        Entity(GameScene* aScene, void* aBitmap, void* dataPtrs)
-            : Entity_base()
-        {
-            this->scene = aScene;
-            this->entityImageBmp = aBitmap;
-            this->extraPositionData = 0;
-            this->attachedToLayer = 0;
-            this->entityFacingLeft = 0;
-            this->dword34 = 0;
-            this->dword38_assignedZeroFromRenderSetup = 0;
-            this->dword3C = 0;
-            this->dataPtrs = dataPtrs;
-            this->word5C = 0;
-            this->AttachedRenderDataIndex = 0;
-            this->dword60 = 0;
+        Entity(GameScene* aScene, void* aBitmap, void* dataPtrs);
 
-            if ( !aBitmap )
-            {
-                // bpanic_ShowError_wrapper(600, 1, &surfaceUninitializedErrorStr);// Surface is not initialized.
-            }
+        void ResetRenderRectangleMetadata();
 
-            // Entity_ResetRenderRectangleMetadata(this);
-        }
-
-        void AttachWithPosition(int aX, int aY, uint16_t AttachedRenderDataIndex)
-        {
-
-        }
+        // VTable entries
+        virtual void SetLayerIndex(uint16_t aLayerIndex);
+        virtual void F3();
+        virtual bool Render();
+        virtual bool AttachWithPosition2(int32_t aX, int32_t aY, uint16_t AttachedRenderDataIndex);
+        virtual bool AttachWithPosition(int32_t aX, int32_t aY, int32_t unk, uint16_t AttachedRenderDataIndex);
+        virtual bool Detach();
+        virtual void SetupRenderingInformation();
+        virtual void ReleaseResources();
+        virtual bool CheckRenderBoundaries(SDL_RECT* aSrcRect, SDL_RECT* aDstRect);
+        virtual bool GetRenderRectangles(SDL_RECT* aSrcRect, SDL_RECT* aDstRect);
 };

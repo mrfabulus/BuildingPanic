@@ -53,6 +53,70 @@ GameScene::GameScene(void* aPaletteDataBytes)
     }
 }
 
+void GameScene::AttachEntityToLayer(Entity* aEntity)
+{
+    // push_front() type of logic into the linked list
+    Entity* cFirstEntity = this->layers[aEntity->layerIndex]->nextAttachedEntity;
+
+    if (cFirstEntity)
+    {
+        // set the current first element to be the next-> of this entity
+        aEntity->nextAttachedEntity = cFirstEntity;
+        cFirstEntity->nextAttachedEntity = aEntity;
+    }
+    else
+    {
+        // ->next is zero in case there were no entities attached to this layer
+        aEntity->nextAttachedEntity = nullptr;
+    }
+
+    // latestEntity is set to the EntityLayer the entity resides on
+    aEntity->latestEntity = this->layers[aEntity->layerIndex];
+
+    // set this entity to be the first element of the linked list
+    this->layers[aEntity->layerIndex]->nextAttachedEntity = aEntity;
+    // end of push_front() logic
+
+    // increase entity count on layer
+    this->layerEntityCounts[aEntity->layerIndex]++;
+}
+
+// I do not understand this function but looks good! lmao
+void GameScene::DetachEntityFromLayer(Entity* aEntity)
+{
+    EntityLayer* cLayer = this->layers[aEntity->layerIndex];
+
+    // Check if this entity is the first in the linked list
+    if (cLayer->nextAttachedEntity == aEntity)
+    {
+        // Set the next entity to be the first in the linked list
+        Entity* nextEntity = aEntity->nextAttachedEntity;
+        cLayer->nextAttachedEntity = nextEntity;
+
+        if (nextEntity != nullptr)
+        {
+            // ???
+            this->layers[aEntity->layerIndex]->nextAttachedEntity->latestEntity = this->layer[aEntity->layerIndex];
+        }
+    }
+    else
+    {
+        // entity is not first in linked list
+        aEntity->latestEntity->nextAttachedEntity = aEntity->nextAttachedEntity;
+
+        Entity* nextEntity = aEntity->nextAttachedEntity;
+
+        if (nextEntity != nullptr)
+        {
+            // ???
+            nextEntity->latestEntity = aEntity->latestEntity;
+        }
+    }
+
+    // Decrease entity count on layer
+    this->layerEntityCounts[aEntity->layerIndex]--;
+}
+
 int GameScene::GetNextSceneIDReference()
 {
 }
