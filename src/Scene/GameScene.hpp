@@ -2,6 +2,7 @@
 
 #include "../Entity/Entity_base.hpp"
 #include "../Entity/EntityLayer.hpp"
+#include "../Entity/Entity.hpp"
 #include "../Input/InputProcessorBase.hpp"
 #include "../Globals.hpp"
 
@@ -55,10 +56,13 @@ class GameScene
         void AttachEntityToLayer(Entity* aEntity);
         void DetachEntityFromLayer(Entity* aEntity);
 
+        void Tick(); // generic tick/update (shared between scenes)
+        void RenderLayers();
+
         // VTable entries beside sdtor
         virtual int GetNextSceneIDReference();
         virtual void F3();
         virtual void F4();
-        virtual void Tick();
+        virtual void Update(); // scene specific virtual function
 };
 

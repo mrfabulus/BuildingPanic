@@ -20,7 +20,58 @@ LogoScene::LogoScene(SaveManager* aSaveManager)
     }
 }
 
+bool LogoScene::CreateEntities()
+{
+    this->inputProcessor = new LogoScene_InputProcessor();
+    this->sceneBitmapMgr = new BitmapResourceManager(0, nullptr, 0);
+    this->sceneSoundMgr = new SoundResourceManager(0);
+
+    // LOGO_BMP for the loading screen
+    this->logoEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[17], nullptr, 0);
+
+    if (this->logoEntity != nullptr)
+        return true;
+    else
+    {
+        // bpanic_ShowError_wrapper(8001, 4, memAllocFailStr);
+        return false;
+    }
+}
+
+int LogoScene::GetNextSceneIDReference()
+{
+    return 1; // reference to MenuScene
+}
+
 void LogoScene::F3()
 {
 
+}
+
+void LogoScene::F4()
+{
+
+}
+
+void LogoScene::Update()
+{
+    switch (this->scenePhaseIndex)
+    {
+        case 1:
+            if (this->ticksLeftUntilReEval > 0)
+            {
+                // TODO: Check InputProcessor for PANIC cheat code and add logic
+            }
+            else
+            {
+                this->PaletteFadeAwayStart(1, 32);
+                this->scenePhaseIndex = 2;
+            }
+
+            break;
+        case 2:
+            // Once the fadeaway effect finishes, we leave this scene and start the menu's cutscene
+            this->SetFinishedIfFadesDone();
+            break;
+    }
 }

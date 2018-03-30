@@ -65,7 +65,7 @@ namespace sdl2
             bool Initialize();
 
             void PerformEmptyBackSurfaceBlt();
-            bool Flip();
+            void Flip();
 
             SDL_Renderer* GetRenderer();
     };

@@ -2,7 +2,7 @@
 
 Bitmap::Bitmap()
 {
-
+    this->refCount = 0;
 }
 
 void Bitmap::incRefCount()

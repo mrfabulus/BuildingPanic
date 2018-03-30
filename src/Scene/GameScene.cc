@@ -71,7 +71,7 @@ void GameScene::AttachEntityToLayer(Entity* aEntity)
     }
 
     // latestEntity is set to the EntityLayer the entity resides on
-    aEntity->latestEntity = this->layers[aEntity->layerIndex];
+    aEntity->latestEntity = (Entity*) this->layers[aEntity->layerIndex]; // note: pointer conversion was explicitly added later
 
     // set this entity to be the first element of the linked list
     this->layers[aEntity->layerIndex]->nextAttachedEntity = aEntity;
@@ -96,7 +96,8 @@ void GameScene::DetachEntityFromLayer(Entity* aEntity)
         if (nextEntity != nullptr)
         {
             // ???
-            this->layers[aEntity->layerIndex]->nextAttachedEntity->latestEntity = this->layer[aEntity->layerIndex];
+            this->layers[aEntity->layerIndex]->nextAttachedEntity->latestEntity = (Entity*) this->layers[aEntity->layerIndex];
+            // note: pointer conversion was explicitly added later                ^
         }
     }
     else
@@ -117,6 +118,7 @@ void GameScene::DetachEntityFromLayer(Entity* aEntity)
     this->layerEntityCounts[aEntity->layerIndex]--;
 }
 
+// VTABLE
 int GameScene::GetNextSceneIDReference()
 {
 }
@@ -129,6 +131,65 @@ void GameScene::F4()
 {
 }
 
+void GameScene::Update()
+{
+
+}
+// END OF VTABLE
+
 void GameScene::Tick()
 {
+    this->Update();
+
+    if (this->phantomTicksEnabled)
+    {    
+        this->RenderLayers();
+        return;
+    }
+
+    // GameScene->UpdateEntities();
+
+    if (!this->finished)
+    {
+        if (this->tick_part1_optional_do_number)
+        {
+            // TODO: implement
+        }
+
+        // First, rotate palette if applicable
+        if (this->fadeIn_active)
+        {
+            // TODO: Implement
+            // GameScene_paletteRotation_fadeIn()
+        }
+        else if (this->fadeAway_active)
+        {
+            // TODO: Implement
+            // GameScene_paletteRotation_fadeAway()
+        }
+
+        // Simplified original logic a bit, not sure if its correct
+        if (!this->fadeIn_active && !this->fadeAway_active && this->tick_part4_optional_do_fade_related)
+        {
+            // TODO: Implement
+            // GameScene_402A90_paletteRotation()
+        }
+
+        this->RenderLayers();
+        --this->ticksLeftUntilReEval;
+    }
+}
+
+void GameScene::RenderLayers()
+{
+    for (int i = 0; i < 5; i++)
+    {
+        Entity* currentEntity = this->layers[i]->nextAttachedEntity;
+
+        while (currentEntity != nullptr)
+        {
+            currentEntity->Render();
+            currentEntity = currentEntity->nextAttachedEntity;
+        }
+    }
 }

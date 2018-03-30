@@ -10,6 +10,14 @@ extern GameManager* gGameManager;
 extern bool gGameloopActive;
 extern bool gNonStandardDimensions;
 
+struct MSRect
+{
+    int32_t left;
+    int32_t top;
+    int32_t right;
+    int32_t bottom;
+};
+
 enum GameSceneID
 {
     GameSceneID_Logo = 0,

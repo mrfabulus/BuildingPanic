@@ -1,6 +1,6 @@
 #include "StaticPictureEntity.hpp"
 
-StaticPictureEntity::StaticPictureEntity (GameScene* aScene, void* aBitmap, void* dataPtrs, char a5)
+StaticPictureEntity::StaticPictureEntity (GameScene* aScene, Bitmap* aBitmap, void* dataPtrs, char a5)
     : Entity(aScene, aBitmap, dataPtrs)
 {
     this->byte64_lastArg = a5;

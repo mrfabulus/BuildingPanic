@@ -1,10 +1,12 @@
 #include "Entity.hpp"
+#include "../Scene/GameScene.hpp"
+#include "../Resource/Bitmap.hpp"
 
-Entity::Entity(GameScene* aScene, void* aBitmap, void* dataPtrs)
+Entity::Entity(GameScene* aScene, Bitmap* aBitmap, void* dataPtrs)
     : Entity_base()
 {
     this->scene = aScene;
-    this->entityImageBmp = (Bitmap*) aBitmap;
+    this->entityImageBmp = aBitmap;
     this->extraPositionData = 0;
     this->attachedToLayer = 0;
     this->entityFacingLeft = 0;
@@ -22,6 +24,14 @@ Entity::Entity(GameScene* aScene, void* aBitmap, void* dataPtrs)
     }
 
     this->ResetRenderRectangleMetadata();
+}
+
+void Entity::ResetRenderRectangleMetadata()
+{
+    this->renderDataPtrIndex = 0xFFFF;
+    this->field_42 = 0;
+    this->firstWordFromRenderDataPtr1 = 0xFFFF;
+    this->dword38_assignedZeroFromRenderSetup = 0;
 }
 
 void Entity::SetLayerIndex(uint16_t aLayerIndex)
@@ -58,7 +68,7 @@ bool Entity::Render()
     }
 }
 
-bool Entity::AttachWithPosition(int aX, int aY, uint16_t AttachedRenderDataIndex)
+bool Entity::AttachWithPosition(int32_t aX, int32_t aY, uint16_t AttachedRenderDataIndex)
 {
     if (this->attachedToLayer)
         return false;
@@ -120,15 +130,32 @@ bool Entity::Detach()
     {
         this->ReleaseResources();
         this->scene->DetachEntityFromLayer(this);
-        this->entityImageBmp->Detach();
+        this->entityImageBmp->decRefCount();
         this->attachedToLayer = false;
     }
 }
 
-void Entity::ResetRenderRectangleMetadata()
+bool Entity::CheckRenderBoundaries(MSRect* aSrcRect, MSRect* aDstRect)
 {
-    this->renderDataPtrIndex = 0xFFFF;
-    this->field_42 = 0;
-    this->firstWordFromRenderDataPtr1 = 0xFFFF;
-    this->dword38_assignedZeroFromRenderSetup = 0;
+
+}
+
+bool Entity::GetRenderRectangles(MSRect* aSrcRect, MSRect* aDstRect)
+{
+    // aSrcRect->left = this->srcRectPtr->left;
+}
+
+void Entity::F3()
+{
+
+}
+
+void Entity::SetupRenderingInformation()
+{
+
+}
+
+void Entity::ReleaseResources()
+{
+    
 }

@@ -1,4 +1,30 @@
+#define _POSIX_C_SOURCE 200809L
+
 #include "SDL2_Interface.hpp"
+#include <inttypes.h>
+#include <math.h>
+#include <stdio.h>
+#include <time.h>
+
+long getTimeMS()
+{
+    long            ms; // Milliseconds
+    time_t          s;  // Seconds
+    struct timespec spec;
+
+    clock_gettime(CLOCK_REALTIME, &spec);
+
+    s  = spec.tv_sec;
+    ms = round(spec.tv_nsec / 1.0e6); // Convert nanoseconds to milliseconds
+    
+    if (ms > 999)
+    {
+        s++;
+        ms = 0;
+    }
+
+    return ms;
+}
 
 namespace sdl2
 {
@@ -60,18 +86,18 @@ namespace sdl2
         SDL_RenderClear(gameRenderer.get());
     }
 
-    bool SDL2_Interface::Flip()
+    void SDL2_Interface::Flip()
     {
-        while(false)
+        long cTime = getTimeMS();
+
+        // If necessary, wait before pushing out the frame
+        if (cTime < nextFrameDrawTime)
         {
-            if (nextFrameDrawTime - 0 > 16)
-                nextFrameDrawTime = 0;
+            SDL_Delay(nextFrameDrawTime - cTime);
         }
 
-        // TODO: Check for errors
         SDL_RenderPresent(gameRenderer.get());
-        nextFrameDrawTime = 0 + 16;
-        return true;
+        nextFrameDrawTime = cTime + 16;
     }
 
     SDL_Renderer* SDL2_Interface::GetRenderer()

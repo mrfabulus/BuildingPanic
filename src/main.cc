@@ -18,10 +18,6 @@ int main()
 
     gGameManager = new GameManager();
 
-    // Could not render an empty frame
-    if (!gGameManager->lastFrameStatus)
-        return 1;
-
     // Gameloop
     while (gGameloopActive)
     {
