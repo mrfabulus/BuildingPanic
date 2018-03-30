@@ -1,12 +1,14 @@
 #pragma once
 
 #include "SDL2_Interface.hpp"
+#include <cstdint>
 
 class GameManager;
 
 extern sdl2::SDL2_Interface gSys;
 extern GameManager* gGameManager;
 extern bool gGameloopActive;
+extern bool gNonStandardDimensions;
 
 enum GameSceneID
 {

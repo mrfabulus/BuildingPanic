@@ -5,6 +5,7 @@
 #include "SaveManager.hpp"
 #include "../Scene/GameScene.hpp"
 #include "../Scene/LogoScene.hpp"
+#include "../Scene/MenuScene.hpp"
 
 class GameManager
 {
@@ -64,8 +65,33 @@ class GameManager
                     newScene = new LogoScene(this->saveManager);
                     break;
                 case GameSceneID_Menu:
+                    newScene = new MenuScene(this->saveManager);
                     break;
                 case GameSceneID_Demoplay:
+                    this->saveManager->CreatePlayerObjects();
+                    this->saveManager->nextStage = this->nextDemoplayStage;
+                    this->saveManager->nextLevel = 0;
+
+                    if (this->nextDemoplayStage == 1)
+                    {
+                        this->saveManager->saveFlags = 0x1102;
+
+                        // TODO: Check the original logic here..
+                        
+                        this->currentSceneID = GameSceneID_Ingame_Stage2;
+                        this->nextDemoplayStage = 0;
+                        newScene = nullptr; // new Ingame_Stage2_Scene();
+                    }
+                    else
+                    {
+                        this->saveManager->saveFlags = 0x1101;
+                        
+                        // TODO: Check the original logic here..
+
+                        this->currentSceneID = GameSceneID_Ingame_Stage1;
+                        newScene = nullptr; // new Ingame_Stage1_Scene();
+                    }
+
                     break;
                 case GameSceneID_CharacterChoice:
                     break;
@@ -105,11 +131,37 @@ class GameManager
 
         bool Tick()
         {
+            InputProcessorBase* input = this->currentSceneObjectPtr->inputProcessor;
+            
+            if (input != nullptr)
+                input->Process();
 
+            this->currentSceneObjectPtr->Tick();
+
+            if (this->currentSceneObjectPtr->finished)
+                this->sceneState = 2;
+
+            // Flip is logical here, it pushes out the freshly rendered frame
+            bool result = gSys.Flip();
+            return result;
         }
 
         bool ChangeScene()
         {
+            int reference = this->currentSceneObjectPtr->GetNextSceneIDReference();
+            int newSceneID = 0; // referenceToSceneID_Linker[reference];
 
+            this->sceneState = 0;
+            this->currentSceneID = newSceneID;
+            
+            if (this->currentSceneObjectPtr)
+            {
+                delete this->currentSceneObjectPtr;
+                this->currentSceneObjectPtr = nullptr;
+            }
+
+            gSys.PerformEmptyBackSurfaceBlt();
+            bool result = gSys.Flip();
+            return result;
         }
 };

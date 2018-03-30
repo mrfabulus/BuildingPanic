@@ -3,3 +3,4 @@
 sdl2::SDL2_Interface gSys;
 GameManager* gGameManager;
 bool gGameloopActive = true;
+bool gNonStandardDimensions = true;

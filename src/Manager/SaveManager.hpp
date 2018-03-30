@@ -9,6 +9,10 @@ class Save_PlayerObject
     public:
         Save_PlayerObject()
         {
+        }
+
+        void Initialize()
+        {
             this->isPlayerControlled = -1;
             this->dword4 = 0;
             this->word8 = 8;
@@ -17,7 +21,8 @@ class Save_PlayerObject
 
 class SaveManager
 {
-    private:
+    // private:
+    public:
         uint16_t nextStage;
         short nextLevel;
         short saveFlags;
@@ -28,7 +33,7 @@ class SaveManager
         Save_PlayerObject playerObject1;
         Save_PlayerObject playerObject2;
         char rawSaveData[524];
-    public:
+    // public:
         SaveManager()
         {
             this->nextStage = 0;
@@ -38,5 +43,13 @@ class SaveManager
             this->dwordC = 0;
 
             // TODO: Read save data from file or create it in memory
+
+            this->CreatePlayerObjects();
+        }
+
+        void CreatePlayerObjects()
+        {
+            this->playerObject1.Initialize();
+            this->playerObject2.Initialize();
         }
 };

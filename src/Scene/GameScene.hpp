@@ -3,6 +3,7 @@
 #include "../Entity/Entity_base.hpp"
 #include "../Entity/EntityLayer.hpp"
 #include "../Input/InputProcessorBase.hpp"
+#include "../Globals.hpp"
 
 class GameScene
 {
@@ -27,46 +28,34 @@ class GameScene
         char tick_part1_optional_do_number;
         short word84C_tick1_related;
         short tick_part4_optional_do_fade_related;
-        // int buffer32[8];
+        int buffer32[8];
         // char field_870[96];
         uint16_t scenePhaseIndex;
         // __int16 field_8D2;
         InputProcessorBase* inputProcessor;
 
-        GameScene(void* aPaletteDataBytes)
-        {
-            // this->palette1 = 0;
-            // this->palette2 = 0;
-            this->init_OK = false;
-            this->finished = false;
-            this->phantomTicksEnabled = false;
-            this->ticksLeftUntilReEval = 0;
-            this->paletteDataPtr = aPaletteDataBytes;
-            this->fadeFrameProgressCount = 0;
-            this->word846 = 0;
-            this->fadeAway_active = false;
-            this->fadeIn_active = false;
-            this->tick_part1_optional_do_number = 0;
-            this->word84C_tick1_related = 0;
-            this->tick_part4_optional_do_fade_related = 0;
-            this->scenePhaseIndex = 0;
-            this->inputProcessor = nullptr;
-
-            // Create layers
-            for (int i = 0; i < 5; i++)
-            {
-                layers[i] = new EntityLayer();
-                layers[i]->latestEntity = nullptr;
-                layers[i]->nextAttachedEntity = nullptr;
-                layerEntityCounts[i] = 0;
-            }
-
-            // TODO: Init palettes
-        }
+        GameScene(void* aPaletteDataBytes);
 
         void PaletteFadeInStart(char, short)
         {
 
         }
+
+        void PaletteFadeAwayStart(char, short)
+        {
+
+        }
+
+        void SetFinishedIfFadesDone()
+        {
+            if (!this->fadeIn_active && !this->fadeAway_active)
+                this->finished = true;
+        }
+
+        // VTable entries beside sdtor
+        virtual int GetNextSceneIDReference();
+        virtual void F3();
+        virtual void F4();
+        virtual void Tick();
 };
 
