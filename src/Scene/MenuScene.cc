@@ -5,6 +5,7 @@
 #include "../Manager/BitmapResourceManager.hpp"
 #include "../Manager/SoundResourceManager.hpp"
 #include "../Input/MenuScene_InputProcessor.hpp"
+#include <iostream>
 
 MenuScene::MenuScene(SaveManager* aSaveManager)
     : GameScene(/* misc_PaletteData */ nullptr)
@@ -19,6 +20,7 @@ MenuScene::MenuScene(SaveManager* aSaveManager)
     this->byte959 = 0;
     this->titleEntity = 0;
     this->gap8D8 = 0;
+
     this->yamadaCopyrightEntity = nullptr;
     this->menuOptionsEntity = nullptr;
     this->optionLabelEntity = nullptr;
@@ -47,6 +49,9 @@ void MenuScene::CreateEntities()
     this->menuCursorEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[33], nullptr, 0);
     this->selectCursorEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[37], nullptr, 0);
     this->introCutSceneObject = new IntroCutSceneEntity(this, this->sceneBitmapMgr->bitmapPtrs[71]);
+
+    // TODO: Setup fontCharsetEntity & fontGlyphEntities
+    // this->fontCharsetEntity->SetLayerIndex(4);
 }
 
 int MenuScene::GetNextSceneIDReference()
@@ -67,6 +72,8 @@ void MenuScene::F4()
 void MenuScene::Update()
 {
     // TODO: hoooly shit, this function..
+    std::cout << "MenuScene::Update SPI " << this->scenePhaseIndex << " TL " << this->ticksLeftUntilReEval;
+    std::cout << " CSP " << (int) this->cutScenePhase << std::endl;
 
     switch (this->scenePhaseIndex)
     {
