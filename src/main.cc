@@ -4,7 +4,7 @@
 
 int main()
 {
-    if (!gSys.isVideoInitialized())
+    if (!gSys.IsVideoInitialized())
     {
         cout << "Error initializing SDL2 video: " << SDL_GetError() << endl;
         return 1;

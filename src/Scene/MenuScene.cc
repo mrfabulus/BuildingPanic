@@ -1,4 +1,10 @@
 #include "MenuScene.hpp"
+#include "../Entity/UI/IntroCutSceneEntity.hpp"
+#include "../Entity/Generic/StaticPictureEntity.hpp"
+#include "../Manager/SaveManager.hpp"
+#include "../Manager/BitmapResourceManager.hpp"
+#include "../Manager/SoundResourceManager.hpp"
+#include "../Input/MenuScene_InputProcessor.hpp"
 
 MenuScene::MenuScene(SaveManager* aSaveManager)
     : GameScene(/* misc_PaletteData */ nullptr)
@@ -27,7 +33,8 @@ MenuScene::MenuScene(SaveManager* aSaveManager)
     this->CreateEntities();
 
     this->ticksLeftUntilReEval = 90;
-    // TODO: start playing menu midi
+    // TODO: start playing menu midi (Bpbgm01.mid)
+
 }
 
 void MenuScene::CreateEntities()
@@ -39,10 +46,7 @@ void MenuScene::CreateEntities()
     this->optionLabelEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[80], nullptr, 0);
     this->menuCursorEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[33], nullptr, 0);
     this->selectCursorEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[37], nullptr, 0);
-
-    // TODO: Further initialization
-    this->introCutSceneObject = nullptr;
-
+    this->introCutSceneObject = new IntroCutSceneEntity(this, this->sceneBitmapMgr->bitmapPtrs[71]);
 }
 
 int MenuScene::GetNextSceneIDReference()

@@ -1,6 +1,6 @@
 #include "Entity.hpp"
-#include "../Scene/GameScene.hpp"
-#include "../Resource/Bitmap.hpp"
+#include "../../Scene/GameScene.hpp"
+#include "../../Resource/Bitmap.hpp"
 #include <iostream>
 
 EntityExtraPositionData::EntityExtraPositionData(Entity* aEntity)
@@ -67,6 +67,10 @@ void Entity::AssignRenderRectangles(uint16_t aRenderDataPtrIndex)
 
         this->dimensionRectPtr = phantomDim;
     }
+}
+
+void Entity::AssignRenderRectanglesAdvanced()
+{
 }
 
 void Entity::SetLayerIndex(uint16_t aLayerIndex)

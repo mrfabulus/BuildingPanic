@@ -39,7 +39,7 @@ namespace sdl2
         SDL_Quit();
     }
 
-    bool SDL2_Interface::isVideoInitialized()
+    bool SDL2_Interface::IsVideoInitialized()
     {
         return videoInit;
     }
@@ -78,6 +78,17 @@ namespace sdl2
             return false;
         }
 
+        // Init SDL2_Mixer
+        // TODO: Check which flags are really needed
+        int mixFlags = 0; /* MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_MP3 | MIX_INIT_OGG | MIX_INIT_MID */ ;
+        int32_t inited = Mix_Init(mixFlags);
+
+        if (inited != mixFlags)
+        {
+            cout << "Error initializing mixer: " << SDL_GetError() << endl;
+            return false;
+        }
+
         return true;
     }
 
@@ -98,6 +109,11 @@ namespace sdl2
 
         SDL_RenderPresent(gameRenderer.get());
         nextFrameDrawTime = cTime + 16;
+    }
+
+    SDL_Surface* SDL2_Interface::CreateSurface(uint32_t width, uint32_t height)
+    {
+        return SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
     }
 
     SDL_Renderer* SDL2_Interface::GetRenderer()

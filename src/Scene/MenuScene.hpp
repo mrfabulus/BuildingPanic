@@ -1,11 +1,13 @@
 #pragma once
 
 #include "GameScene.hpp"
-#include "../Manager/SaveManager.hpp"
-#include "../Manager/BitmapResourceManager.hpp"
-#include "../Manager/SoundResourceManager.hpp"
-#include "../Input/MenuScene_InputProcessor.hpp"
-#include "../Entity/StaticPictureEntity.hpp"
+
+class SaveManager;
+class BitmapResourceManager;
+class SoundResourceManager;
+class StaticPictureEntity;
+class IntroCutSceneEntity;
+
 
 class MenuScene : public GameScene
 {
@@ -23,8 +25,7 @@ class MenuScene : public GameScene
         StaticPictureEntity* optionLabelEntity;
         StaticPictureEntity* menuCursorEntity;
         StaticPictureEntity* selectCursorEntity;
-        // MenuScene_IntroCutScene* introCutSceneObject;
-        void* introCutSceneObject;
+        IntroCutSceneEntity* introCutSceneObject;
         // TileSetEntity* fontCharsetEntity;
         void* fontCharsetEntity;
         BitmapResourceManager* sceneBitmapMgr;

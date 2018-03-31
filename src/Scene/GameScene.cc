@@ -1,11 +1,15 @@
 #include "GameScene.hpp"
 #include "../Globals.hpp"
+#include "../Entity/Generic/Entity_base.hpp"
+#include "../Entity/Generic/LayerEntity.hpp"
+#include "../Entity/Generic/Entity.hpp"
+#include "../Input/InputProcessorBase.hpp"
 #include <string.h>
 
 GameScene::GameScene(void* aPaletteDataBytes)
 {
-    // this->palette1 = 0;
-    // this->palette2 = 0;
+    this->palette1 = nullptr;
+    this->palette2 = nullptr;
     this->init_OK = false;
     this->finished = false;
     this->phantomTicksEnabled = false;
@@ -24,7 +28,7 @@ GameScene::GameScene(void* aPaletteDataBytes)
     // Create layers
     for (int i = 0; i < 5; i++)
     {
-        layers[i] = new EntityLayer();
+        layers[i] = new LayerEntity();
         layers[i]->latestEntity = nullptr;
         layers[i]->nextAttachedEntity = nullptr;
         layerEntityCounts[i] = 0;
@@ -84,7 +88,7 @@ void GameScene::AttachEntityToLayer(Entity* aEntity)
 // I do not understand this function but looks good! lmao
 void GameScene::DetachEntityFromLayer(Entity* aEntity)
 {
-    EntityLayer* cLayer = this->layers[aEntity->layerIndex];
+    LayerEntity* cLayer = this->layers[aEntity->layerIndex];
 
     // Check if this entity is the first in the linked list
     if (cLayer->nextAttachedEntity == aEntity)
@@ -192,4 +196,20 @@ void GameScene::RenderLayers()
             currentEntity = currentEntity->nextAttachedEntity;
         }
     }
+}
+
+void GameScene::PaletteFadeInStart(char, short)
+{
+
+}
+
+void GameScene::PaletteFadeAwayStart(char, short)
+{
+
+}
+
+void GameScene::SetFinishedIfFadesDone()
+{
+    if (!this->fadeIn_active && !this->fadeAway_active)
+        this->finished = true;
 }

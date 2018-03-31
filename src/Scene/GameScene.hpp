@@ -1,21 +1,24 @@
 #pragma once
 
-#include "../Entity/Entity_base.hpp"
-#include "../Entity/EntityLayer.hpp"
-#include "../Entity/Entity.hpp"
-#include "../Input/InputProcessorBase.hpp"
 #include "../Globals.hpp"
+
+class LayerEntity;
+class Entity_base;
+class Entity;
+class InputProcessorBase;
 
 class GameScene
 {
     public: 
         // LPDIRECTDRAWPALETTE palette1;
         // LPDIRECTDRAWPALETTE palette2;
+        SDL_Palette* palette1;
+        SDL_Palette* palette2;
         bool init_OK;
         bool finished;
         bool phantomTicksEnabled;
         int ticksLeftUntilReEval;
-        EntityLayer* layers[5];
+        LayerEntity* layers[5];
         short layerEntityCounts[5];
         // __int16 word3A;
         void* paletteDataPtr;
@@ -37,21 +40,11 @@ class GameScene
 
         GameScene(void* aPaletteDataBytes);
 
-        void PaletteFadeInStart(char, short)
-        {
+        void PaletteFadeInStart(char, short);
 
-        }
+        void PaletteFadeAwayStart(char, short);
 
-        void PaletteFadeAwayStart(char, short)
-        {
-
-        }
-
-        void SetFinishedIfFadesDone()
-        {
-            if (!this->fadeIn_active && !this->fadeAway_active)
-                this->finished = true;
-        }
+        void SetFinishedIfFadesDone();
 
         void AttachEntityToLayer(Entity* aEntity);
         void DetachEntityFromLayer(Entity* aEntity);

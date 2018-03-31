@@ -4,7 +4,7 @@
 #include "../Manager/SaveManager.hpp"
 #include "../Manager/BitmapResourceManager.hpp"
 #include "../Manager/SoundResourceManager.hpp"
-#include "../Entity/StaticPictureEntity.hpp"
+#include "../Entity/Generic/StaticPictureEntity.hpp"
 #include "../Input/LogoScene_InputProcessor.hpp"
 
 class LogoScene : public GameScene

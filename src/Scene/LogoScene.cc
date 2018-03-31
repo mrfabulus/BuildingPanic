@@ -9,7 +9,7 @@ LogoScene::LogoScene(SaveManager* aSaveManager)
     if (this->CreateEntities())
     {
         this->logoEntity->AttachWithPosition(320, 240, 0);
-        this->ticksLeftUntilReEval = 300; // show for 5 seconds ( 60 frames / sec ); then start fadeaway into MenuScene
+        this->ticksLeftUntilReEval = 30; /* 300; */ // show for 5 seconds ( 60 frames / sec ); then start fadeaway into MenuScene
         this->scenePhaseIndex = 1;
 
         this->PaletteFadeInStart(1, 32);

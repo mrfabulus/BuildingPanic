@@ -1,8 +1,10 @@
 #pragma once
 
 #include <SDL2/SDL.h>
+#include "SDL2/SDL_mixer.h" 
 #include <memory>
 #include <iostream>
+#include <climits>
 
 using namespace std;
 
@@ -60,13 +62,13 @@ namespace sdl2
             SDL2_Interface();
             ~SDL2_Interface();
 
-            bool isVideoInitialized();
+            bool IsVideoInitialized();
             bool SetupWindow();
             bool Initialize();
 
             void PerformEmptyBackSurfaceBlt();
             void Flip();
-
+            SDL_Surface* CreateSurface(uint32_t width, uint32_t height);
             SDL_Renderer* GetRenderer();
     };
 }

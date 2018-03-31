@@ -1,8 +1,10 @@
 #pragma once
 
 #include "Entity.hpp"
-#include "../Scene/GameScene.hpp"
 #include <climits>
+
+class GameScene;
+class Bitmap;
 
 class StaticPictureEntity : public Entity
 {

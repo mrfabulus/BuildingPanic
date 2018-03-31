@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Entity_base.hpp"
-#include "../SDL2_Interface.hpp"
-#include "../Globals.hpp"
+#include "../../SDL2_Interface.hpp"
+#include "../../Globals.hpp"
 
 class GameScene;
 class Bitmap;
@@ -46,6 +46,7 @@ class Entity : public Entity_base
 
         void ResetRenderRectangleMetadata();
         void AssignRenderRectangles(uint16_t aRenderDataPtrIndex);
+        void AssignRenderRectanglesAdvanced();
 
         // VTable entries
         virtual void SetLayerIndex(uint16_t aLayerIndex);
