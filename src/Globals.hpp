@@ -10,12 +10,15 @@ struct gConsts
     static const uint16_t referenceToSceneID_Linker[];
 };
 
-struct MSRect
+class MSRect
 {
-    int32_t left;
-    int32_t top;
-    int32_t right;
-    int32_t bottom;
+    public:
+        int32_t left;
+        int32_t top;
+        int32_t right;
+        int32_t bottom;
+
+        SDL_Rect ToSDLRect();
 };
 
 enum GameSceneID

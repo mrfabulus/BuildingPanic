@@ -39,6 +39,7 @@ class MenuScene : public GameScene
 
         void CreateEntities();
 
+        // VTable
         int GetNextSceneIDReference() override;
 
         virtual void F3();
@@ -46,4 +47,14 @@ class MenuScene : public GameScene
         virtual void F4() override;
 
         virtual void Update() override;
+        // END OF VTable
+
+        void InitCutSceneObject();
+        void CutSceneObject_F2();
+        void CutSceneObject_F3();
+        void CutSceneObject_F4();
+        void CutSceneObject_F5();
+        void CutSceneObject_F6();
+
+        void InitMainMenu();
 };

@@ -13,6 +13,7 @@ class IntroCutSceneEntity : public Entity
         int32_t dword6C;
         
         // DDBLTFX cutSceneDDBLTFX;
+
         // LPDIRECTDRAWSURFACE7 ddSurface;
         SDL_Surface* ddSurface;
 
@@ -20,4 +21,7 @@ class IntroCutSceneEntity : public Entity
 
         virtual void Render() override;
         virtual void SetupRenderingInformation() override;
+
+        void Custom_AssignRenderRectangles(uint16_t aRenderDataPtrIndex);
+        void F_4146D0();
 };

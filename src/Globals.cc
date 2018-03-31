@@ -20,3 +20,13 @@ const uint16_t gConsts::referenceToSceneID_Linker[] =
     GameSceneID_Ingame_Stage4,
     GameSceneID_Ingame_Stage5
 };
+
+SDL_Rect MSRect::ToSDLRect()
+{
+    SDL_Rect result;
+    result.x = this->left;
+    result.y = this->top;
+    result.w = this->right - this->left;
+    result.h = this->bottom - this->top;
+    return result;
+}
