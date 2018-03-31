@@ -10,18 +10,16 @@ struct BitmapInformation
 
     static const int16_t* LogoScene_ResourceLinkerPtr;
     static const int16_t* MenuScene_ResourceLinkerPtr;
-    /*
     static const int16_t* CharacterChoice_ResourceLinkerPtr;
     static const int16_t* ScoreboardScene_ResourceLinkerPtr;
-    static const int16_t* StageStatusScene_ResourceLinker;
-    static const int16_t* AfterGameCreditsScene_ResourceLinker;
-    static const int16_t* IngameStage1ResourceLinker;
-    static const int16_t* IngameStage2ResourceLinker;
-    static const int16_t* IngameStage3ResourceLinker;
-    static const int16_t* IngameStage4ResourceLinker;
-    static const int16_t* IngameStage5ResourceLinker;
-    static const int16_t* LooksSecretToMe;
-    */
+    static const int16_t* StageStatusScene_ResourceLinkerPtr;
+    static const int16_t* AfterGameCreditsScene_ResourceLinkerPtr;
+    static const int16_t* IngameStage1ResourceLinkerPtr;
+    static const int16_t* IngameStage2ResourceLinkerPtr;
+    static const int16_t* IngameStage3ResourceLinkerPtr;
+    static const int16_t* IngameStage4ResourceLinkerPtr;
+    static const int16_t* IngameStage5ResourceLinkerPtr;
+    static const int16_t* LooksSecretToMePtr;
 };
 
 class BitmapResourceManager

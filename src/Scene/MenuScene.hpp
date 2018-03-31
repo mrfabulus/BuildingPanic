@@ -36,16 +36,13 @@ class MenuScene : public GameScene
 
         MenuScene(SaveManager* aSaveManager);
 
-        void CreateEntities()
-        {
-            // TODO: Do properly...
-            this->inputProcessor = new MenuScene_InputProcessor();
-            this->titleEntity = new StaticPictureEntity(this, nullptr, nullptr, 0);
-            this->yamadaCopyrightEntity = new StaticPictureEntity(this, nullptr, nullptr, 0);
-            this->menuOptionsEntity = new StaticPictureEntity(this, nullptr, nullptr, 0);
-            this->optionLabelEntity = new StaticPictureEntity(this, nullptr, nullptr, 0);
-            this->menuCursorEntity = new StaticPictureEntity(this, nullptr, nullptr, 0);
-            this->selectCursorEntity = new StaticPictureEntity(this, nullptr, nullptr, 0);
-            this->introCutSceneObject = nullptr;
-        }
+        void CreateEntities();
+
+        int GetNextSceneIDReference() override;
+
+        virtual void F3();
+
+        virtual void F4() override;
+
+        virtual void Update() override;
 };

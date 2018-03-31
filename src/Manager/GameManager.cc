@@ -5,6 +5,8 @@
 #include "../Scene/LogoScene.hpp"
 #include "../Scene/MenuScene.hpp"
 
+#include <iostream>
+
 GameManager::GameManager()
 {
     this->currentSceneObjectPtr = nullptr;
@@ -42,6 +44,7 @@ bool GameManager::Update()
 
 bool GameManager::LoadNewScene()
 {
+    std::cout << "GameManager::LoadNewScene : " << this->currentSceneID << std::endl;
     GameScene* newScene = (GameScene*) nullptr;
 
     switch (this->currentSceneID)
@@ -134,7 +137,9 @@ bool GameManager::Tick()
 bool GameManager::ChangeScene()
 {
     int reference = this->currentSceneObjectPtr->GetNextSceneIDReference();
-    int newSceneID = 0; // referenceToSceneID_Linker[reference];
+    int newSceneID = gConsts::referenceToSceneID_Linker[reference];
+
+    std::cout << "GameManager::ChangeScene to " << newSceneID << std::endl;
 
     this->sceneState = 0;
     this->currentSceneID = newSceneID;

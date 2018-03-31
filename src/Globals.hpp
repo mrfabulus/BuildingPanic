@@ -5,10 +5,10 @@
 
 class GameManager;
 
-extern sdl2::SDL2_Interface gSys;
-extern GameManager* gGameManager;
-extern bool gGameloopActive;
-extern bool gNonStandardDimensions;
+struct gConsts
+{
+    static const uint16_t referenceToSceneID_Linker[];
+};
 
 struct MSRect
 {
@@ -33,3 +33,8 @@ enum GameSceneID
     GameSceneID_Ingame_Stage4  = 0x13,
     GameSceneID_Ingame_Stage5  = 0x14
 };
+
+extern sdl2::SDL2_Interface gSys;
+extern GameManager* gGameManager;
+extern bool gGameloopActive;
+extern bool gNonStandardDimensions;

@@ -175,15 +175,10 @@ bool Entity::CheckRenderBoundaries(MSRect* aSrcRect, MSRect* aDstRect)
 
 bool Entity::GetRenderRectangles(MSRect* aSrcRect, MSRect* aDstRect)
 {
-    std::cout << "src: " << aSrcRect << std::endl;
-    std::cout << "dst: " << aDstRect << std::endl;
-
     aSrcRect->left = this->srcRectPtr->left;
     aSrcRect->top = this->srcRectPtr->top;
     aSrcRect->right = this->srcRectPtr->right;
     aSrcRect->bottom = this->srcRectPtr->bottom;
-
-    std::cout << "1" << std::endl;
 
     // TODO: Take facing into account, etc
     aDstRect->left = dimensionRectPtr->left + this->centerX;
@@ -191,8 +186,6 @@ bool Entity::GetRenderRectangles(MSRect* aSrcRect, MSRect* aDstRect)
 
     aDstRect->top = this->centerY + this->dimensionRectPtr->top;
     aDstRect->bottom = this->centerY + this->dimensionRectPtr->bottom;
-
-    std::cout << "2" << std::endl;
 }
 
 void Entity::F3()
