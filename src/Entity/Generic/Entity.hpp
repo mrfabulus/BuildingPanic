@@ -50,7 +50,7 @@ class Entity : public Entity_base
 
         // VTable entries
         virtual void SetLayerIndex(uint16_t aLayerIndex);
-        virtual void F3();
+        virtual void Update();
         virtual void Render();
         virtual bool AttachWithPosition(int32_t aX, int32_t aY, uint16_t AttachedRenderDataIndex);
         virtual bool AttachWithPosition2(int32_t aX, int32_t aY, int32_t unk, uint16_t AttachedRenderDataIndex);

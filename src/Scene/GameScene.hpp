@@ -17,22 +17,22 @@ class GameScene
         bool init_OK;
         bool finished;
         bool phantomTicksEnabled;
-        int ticksLeftUntilReEval;
+        int32_t ticksLeftUntilReEval;
         LayerEntity* layers[5];
-        short layerEntityCounts[5];
+        int16_t layerEntityCounts[5];
         // __int16 word3A;
         void* paletteDataPtr;
         // PALETTEENTRY paletteEntries[512];
         uint16_t dwStartingEntry;
         uint16_t dwCount;
         uint16_t fadeFrameProgressCount;
-        short word846;
+        int16_t word846;
         bool fadeAway_active;
         bool fadeIn_active;
-        char tick_part1_optional_do_number;
-        short word84C_tick1_related;
-        short tick_part4_optional_do_fade_related;
-        int buffer32[8];
+        int8_t tick_part1_optional_do_number;
+        int16_t word84C_tick1_related;
+        int16_t tick_part4_optional_do_fade_related;
+        int32_t buffer32[8];
         // char field_870[96];
         uint16_t scenePhaseIndex;
         // __int16 field_8D2;
@@ -51,11 +51,12 @@ class GameScene
 
         void Tick(); // generic tick/update (shared between scenes)
         void RenderLayers();
+        void UpdateEntities();
 
         // VTable entries beside sdtor
         virtual int GetNextSceneIDReference();
         virtual void F3();
-        virtual void F4();
+        virtual void UpdateLayer(LayerEntity* aLayer, int16_t aLayerEntityCount);
         virtual void Update(); // scene specific virtual function
 };
 

@@ -29,6 +29,36 @@ void BitmapResourceManager::LoadBySetID(uint16_t setID)
         case 1:
             setPtr = (int16_t*) BitmapInformation::MenuScene_ResourceLinkerPtr;
             break;
+        case 2:
+            // Intentionally left as zero to preserve original behavior of the binary
+            break;
+        case 3:
+            setPtr = (int16_t*) BitmapInformation::CharacterChoice_ResourceLinkerPtr;
+            break;
+        case 4:
+            setPtr = (int16_t*) BitmapInformation::ScoreboardScene_ResourceLinkerPtr;
+            break;
+        case 5:
+            setPtr = (int16_t*) BitmapInformation::StageStatusScene_ResourceLinkerPtr;
+            break;
+        case 6:
+            setPtr = (int16_t*) BitmapInformation::AfterGameCreditsScene_ResourceLinkerPtr;
+            break;
+        case 7:
+            setPtr = (int16_t*) BitmapInformation::IngameStage1_ResourceLinkerPtr;
+            break;
+        case 8:
+            setPtr = (int16_t*) BitmapInformation::IngameStage2_ResourceLinkerPtr;
+            break;
+        case 9:
+            setPtr = (int16_t*) BitmapInformation::IngameStage3_ResourceLinkerPtr;
+            break;
+        case 10:
+            setPtr = (int16_t*) BitmapInformation::IngameStage4_ResourceLinkerPtr;
+            break;
+        case 11:
+            setPtr = (int16_t*) BitmapInformation::IngameStage5_ResourceLinkerPtr;
+            break;
         default:
             break;
     }
@@ -85,8 +115,258 @@ static const int16_t MenuScene_ResourceLinker[] =
     -1
 };
 
+static const int16_t CharacterChoice_ResourceLinker[] =
+{
+    0x2E,
+    0x31,
+    0x3A,
+    0x43,
+    0x44,
+    0x48,
+    -1
+};
+
+static const int16_t ScoreboardScene_ResourceLinker[] =
+{
+    0x2B,
+    0x2F,
+    0x33,
+    0x34,
+    0x32,
+    0x22,
+    0x25,
+    0x16,
+    0x21,
+    0x2D,
+    -1
+};
+
+static const int16_t StageStatusScene_ResourceLinker[] =
+{
+    0x26,
+    0x27,
+    0x28,
+    0x29,
+    0x2A,
+    0x30,
+    0x24,
+    0x45,
+    0x0F,
+    0x12,
+    -1
+};
+
+static const int16_t AfterGameCreditsScene_ResourceLinker[] =
+{
+    0x0,
+    0x1,
+    0x0E,
+    0x12,
+    0x14,
+    0x4A,
+    0x4B,
+    0x4C,
+    0x4D,
+    0x4E,
+    -1
+};
+
+static const int16_t IngameStage1_ResourceLinker[] =
+{
+    0x0,
+    0x1,
+    0x0E,
+    0x12,
+    0x14,
+    0x15,
+    0x17,
+    0x18,
+    0x19,
+    0x1A,
+    0x1E,
+    0x8,
+    0x9,
+    0x0A,
+    0x0B,
+    0x2,
+    0x3,
+    0x49,
+    0x1D,
+    0x3C,
+    0x20,
+    0x21,
+    0x23,
+    0x24,
+    0x25,
+    0x26,
+    0x3B,
+    0x1B,
+    0x38,
+    0x1C,
+    0x42,
+    0x37,
+    -1
+};
+
+static const int16_t IngameStage2_ResourceLinker[] =
+{
+    0x0,
+    0x1,
+    0x0E,
+    0x12,
+    0x14,
+    0x15,
+    0x17,
+    0x18,
+    0x19,
+    0x1A,
+    0x1E,
+    0x8,
+    0x9,
+    0x0A,
+    0x0B,
+    0x4,
+    0x1D,
+    0x3C,
+    0x1F,
+    0x20,
+    0x21,
+    0x23,
+    0x24,
+    0x25,
+    0x27,
+    0x3B,
+    0x1B,
+    0x38,
+    0x1C,
+    0x42,
+    0x37,
+    -1
+};
+
+static const int16_t IngameStage3_ResourceLinker[] =
+{
+    0x0,
+    0x1,
+    0x0E,
+    0x12,
+    0x14,
+    0x15,
+    0x17,
+    0x18,
+    0x19,
+    0x1A,
+    0x1E,
+    0x8,
+    0x9,
+    0x0A,
+    0x0B,
+    0x0C,
+    0x5,
+    0x1D,
+    0x3C,
+    0x20,
+    0x21,
+    0x23,
+    0x24,
+    0x25,
+    0x28,
+    0x3B,
+    0x1B,
+    0x39,
+    0x10,
+    0x40,
+    0x38,
+    0x1C,
+    0x42,
+    -1
+};
+
+static const int16_t IngameStage4_ResourceLinker[] =
+{
+    0x0,
+    0x1,
+    0x0E,
+    0x12,
+    0x13,
+    0x14,
+    0x15,
+    0x17,
+    0x18,
+    0x19,
+    0x1A,
+    0x1E,
+    0x8,
+    0x9,
+    0x0A,
+    0x0B,
+    0x0C,
+    0x3C,
+    0x6,
+    0x7,
+    0x3E,
+    0x3F,
+    0x41,
+    0x1D,
+    0x20,
+    0x21,
+    0x23,
+    0x24,
+    0x25,
+    0x29,
+    0x3B,
+    0x1B,
+    0x3D,
+    0x38,
+    0x1C,
+    0x42,
+    -1
+};
+
+static const int16_t IngameStage5_ResourceLinker[] =
+{
+    0x0,
+    0x1,
+    0x0E,
+    0x12,
+    0x14,
+    0x15,
+    0x17,
+    0x18,
+    0x19,
+    0x1A,
+    0x1E,
+    0x8,
+    0x9,
+    0x0A,
+    0x0B,
+    0x46,
+    0x1D,
+    0x3C,
+    0x20,
+    0x21,
+    0x23,
+    0x24,
+    0x25,
+    0x2A,
+    0x3B,
+    0x1B,
+    0x1C,
+    0x42,
+    -1
+};
+
 const int16_t* BitmapInformation::LogoScene_ResourceLinkerPtr = LogoScene_ResourceLinker;
 const int16_t* BitmapInformation::MenuScene_ResourceLinkerPtr = MenuScene_ResourceLinker;
+const int16_t* BitmapInformation::CharacterChoice_ResourceLinkerPtr = CharacterChoice_ResourceLinker;
+const int16_t* BitmapInformation::ScoreboardScene_ResourceLinkerPtr = ScoreboardScene_ResourceLinker;
+const int16_t* BitmapInformation::StageStatusScene_ResourceLinkerPtr = StageStatusScene_ResourceLinker;
+const int16_t* BitmapInformation::AfterGameCreditsScene_ResourceLinkerPtr = AfterGameCreditsScene_ResourceLinker;
+const int16_t* BitmapInformation::IngameStage1_ResourceLinkerPtr = IngameStage1_ResourceLinker;
+const int16_t* BitmapInformation::IngameStage2_ResourceLinkerPtr = IngameStage2_ResourceLinker;
+const int16_t* BitmapInformation::IngameStage3_ResourceLinkerPtr = IngameStage3_ResourceLinker;
+const int16_t* BitmapInformation::IngameStage4_ResourceLinkerPtr = IngameStage4_ResourceLinker;
+const int16_t* BitmapInformation::IngameStage5_ResourceLinkerPtr = IngameStage5_ResourceLinker;
 
 std::string const BitmapInformation::Names[] =
 {

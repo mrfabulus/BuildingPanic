@@ -131,13 +131,14 @@ void GameScene::F3()
 {
 }
 
-void GameScene::F4()
+void GameScene::UpdateLayer(LayerEntity* aLayer, int16_t aLayerEntityCount)
 {
+    // Contains code but I couldn't reverse it for the time being
+    // ???
 }
 
 void GameScene::Update()
 {
-
 }
 // END OF VTABLE
 
@@ -151,7 +152,7 @@ void GameScene::Tick()
         return;
     }
 
-    // GameScene->UpdateEntities();
+    this->UpdateEntities();
 
     if (!this->finished)
     {
@@ -212,4 +213,25 @@ void GameScene::SetFinishedIfFadesDone()
 {
     if (!this->fadeIn_active && !this->fadeAway_active)
         this->finished = true;
+}
+
+void GameScene::UpdateEntities()
+{
+    for (int i = 0; i < 5; i++)
+    {
+        Entity* currentEntity = this->layers[i]->nextAttachedEntity;
+
+        if (currentEntity != nullptr)
+        {
+            // Call once for each layer
+            this->UpdateLayer(this->layers[i], this->layerEntityCounts[i]);
+
+            while (currentEntity != nullptr)
+            {
+                // Call once for each entity
+                currentEntity->Update();
+                currentEntity = currentEntity->nextAttachedEntity;
+            }
+        }
+    }
 }

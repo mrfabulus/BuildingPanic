@@ -44,7 +44,7 @@ class MenuScene : public GameScene
 
         virtual void F3();
 
-        virtual void F4() override;
+        virtual void UpdateLayer(LayerEntity* aLayer, int16_t aLayerEntityCount) override;
 
         virtual void Update() override;
         // END OF VTable

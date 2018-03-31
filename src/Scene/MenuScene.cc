@@ -64,7 +64,7 @@ void MenuScene::F3()
 
 }
 
-void MenuScene::F4()
+void MenuScene::UpdateLayer(LayerEntity* aLayer, int16_t aLayerEntityCount)
 {
 
 }

@@ -192,17 +192,14 @@ bool Entity::GetRenderRectangles(MSRect* aSrcRect, MSRect* aDstRect)
     aDstRect->bottom = this->centerY + this->dimensionRectPtr->bottom;
 }
 
-void Entity::F3()
+void Entity::Update()
 {
-
 }
 
 void Entity::SetupRenderingInformation()
 {
-
 }
 
 void Entity::ReleaseResources()
 {
-    
 }

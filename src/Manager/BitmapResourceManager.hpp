@@ -14,11 +14,11 @@ struct BitmapInformation
     static const int16_t* ScoreboardScene_ResourceLinkerPtr;
     static const int16_t* StageStatusScene_ResourceLinkerPtr;
     static const int16_t* AfterGameCreditsScene_ResourceLinkerPtr;
-    static const int16_t* IngameStage1ResourceLinkerPtr;
-    static const int16_t* IngameStage2ResourceLinkerPtr;
-    static const int16_t* IngameStage3ResourceLinkerPtr;
-    static const int16_t* IngameStage4ResourceLinkerPtr;
-    static const int16_t* IngameStage5ResourceLinkerPtr;
+    static const int16_t* IngameStage1_ResourceLinkerPtr;
+    static const int16_t* IngameStage2_ResourceLinkerPtr;
+    static const int16_t* IngameStage3_ResourceLinkerPtr;
+    static const int16_t* IngameStage4_ResourceLinkerPtr;
+    static const int16_t* IngameStage5_ResourceLinkerPtr;
     static const int16_t* LooksSecretToMePtr;
 };
 
