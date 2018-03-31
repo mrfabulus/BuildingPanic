@@ -7,12 +7,15 @@
 class GameScene;
 class Bitmap;
 
-struct EntityExtraPositionData
+class EntityExtraPositionData
 {
-    Entity* entityPtr;
-    double dCenterX;
-    double dCenterY;
-    double coordinateLikeThingie;
+    public:
+        Entity* entityPtr;
+        double dCenterX;
+        double dCenterY;
+        double coordinateLikeThingie;
+
+        EntityExtraPositionData(Entity* aEntity);
 };
 
 class Entity : public Entity_base
@@ -42,11 +45,12 @@ class Entity : public Entity_base
         Entity(GameScene* aScene, Bitmap* aBitmap, void* dataPtrs);
 
         void ResetRenderRectangleMetadata();
+        void AssignRenderRectangles(uint16_t aRenderDataPtrIndex);
 
         // VTable entries
         virtual void SetLayerIndex(uint16_t aLayerIndex);
         virtual void F3();
-        virtual bool Render();
+        virtual void Render();
         virtual bool AttachWithPosition(int32_t aX, int32_t aY, uint16_t AttachedRenderDataIndex);
         virtual bool AttachWithPosition2(int32_t aX, int32_t aY, int32_t unk, uint16_t AttachedRenderDataIndex);
         virtual bool Detach();

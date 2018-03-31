@@ -7,3 +7,12 @@ StaticPictureEntity::StaticPictureEntity (GameScene* aScene, Bitmap* aBitmap, vo
     this->renderDataPtrIndex = 0;
     this->extraPositionData2 = nullptr;
 }
+
+void StaticPictureEntity::SetupRenderingInformation()
+{
+    EntityExtraPositionData* ptr = new EntityExtraPositionData(this);
+    this->extraPositionData2 = ptr;
+    this->extraPositionData = ptr;
+    this->ResetRenderRectangleMetadata();
+    this->AssignRenderRectangles(this->renderDataPtrIndex);
+}

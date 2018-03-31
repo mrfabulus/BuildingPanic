@@ -16,7 +16,7 @@ LogoScene::LogoScene(SaveManager* aSaveManager)
     }
     else
     {
-        this->init_OK = 0;
+        this->init_OK = false;
     }
 }
 

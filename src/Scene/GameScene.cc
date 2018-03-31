@@ -49,7 +49,7 @@ GameScene::GameScene(void* aPaletteDataBytes)
         // && bpanic_InitDDPaletteFromData(&this->palette2, aPaletteDataBytes)
         /* && bpanic_SetMainDDSurfacePalette(&this->palette1) */ true)
     {
-        this->init_OK = 1;
+        this->init_OK = true;
     }
 }
 
