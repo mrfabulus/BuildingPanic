@@ -108,6 +108,9 @@ void IntroCutSceneEntity::Render()
     srcRect.right = this->srcRectPtr->right;
     srcRect.bottom = this->srcRectPtr->bottom;
 
+    // ugly workaround until src & dst metainfo + clipping is implemented
+    srcRect.bottom += 130;
+
     // Don't ask me why???
     dstRect.left = 80 - this->dword68;
     dstRect.right = this->dword68 + 80;
@@ -123,20 +126,22 @@ void IntroCutSceneEntity::Render()
     // Render one square (current character in cutscene)
     SDL_BlitSurface(this->entityImageBmp->SDL_surface, &srcRectSDL, this->ddSurface, &dstRectSDL);
 
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(gSys.GetRenderer(), this->ddSurface);
+    // SDL_Texture* texture = SDL_CreateTextureFromSurface(gSys.GetRenderer(), this->ddSurface);
 
     // Render some more
     for (int i = 0; i < 13; i++)
     {
         MSRect* partialSrcPtr = (MSRect*) &(IntroCutScene_SrcRectangles[i]);
         MSRect* partialDstPtr = (MSRect*) &(IntroCutScene_DstRectangles[i]);
+
         SDL_Rect partialSrcRect = partialSrcPtr->ToSDLRect();
         SDL_Rect partialDstRect = partialDstPtr->ToSDLRect();
 
-        SDL_RenderCopy(gSys.GetRenderer(), texture, &partialSrcRect, &partialDstRect);
+        // SDL_RenderCopy(gSys.GetRenderer(), texture, &partialSrcRect, &partialDstRect);
+        SDL_BlitSurface(this->ddSurface, &partialSrcRect, gSys.GetMainSurface(), &partialDstRect);
     }
 
-    SDL_DestroyTexture(texture);
+    // SDL_DestroyTexture(texture);
 }
 
 void IntroCutSceneEntity::SetupRenderingInformation()
@@ -153,6 +158,15 @@ void IntroCutSceneEntity::Custom_AssignRenderRectangles(uint16_t aRenderDataPtrI
     this->byte65 = 0;
     this->dword68 = 1;
     this->dword6C = 0;
+}
+
+void IntroCutSceneEntity::F_4146A0(uint16_t aRenderDataPtrIndex)
+{
+    this->AssignRenderRectangles(aRenderDataPtrIndex);
+    this->byte65 = 1;
+    this->byte64 = 0;
+    this->byte66 = 0;
+    this->dword68 = 80;
 }
 
 void IntroCutSceneEntity::F_4146D0()

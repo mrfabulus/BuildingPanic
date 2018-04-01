@@ -25,5 +25,6 @@ class IntroCutSceneEntity : public Entity
         virtual void SetupRenderingInformation() override;
 
         void Custom_AssignRenderRectangles(uint16_t aRenderDataPtrIndex);
+        void F_4146A0(uint16_t aRenderDataPtrIndex);
         void F_4146D0();
 };

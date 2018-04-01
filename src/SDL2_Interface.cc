@@ -79,8 +79,8 @@ namespace sdl2
         }
 
         // Init 8 bit proxy
-        this->proxyRenderSurface = SDL_CreateRGBSurface(0, 640, 480, 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
-        this->proxyRenderTexture = SDL_CreateTexture(gameRenderer.get(), SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, 640, 480);
+        this->proxyRenderSurface = SDL_CreateRGBSurface(0, 640, 480, 32, 0, 0, 0, 0);
+        this->proxyRenderTexture = SDL_CreateTexture(gameRenderer.get(), SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, 640, 480);
 
         // Init SDL2_Mixer
         // TODO: Check which flags are really needed
@@ -112,9 +112,27 @@ namespace sdl2
             SDL_Delay(nextFrameDrawTime - cTime);
         }
 
-        SDL_UpdateTexture(this->proxyRenderTexture, NULL, this->proxyRenderSurface->pixels, this->proxyRenderSurface->pitch);
+        void *pixels;
+        int pitch;
+
+        // Take the pixels from proxyRenderSurface
+        SDL_LockTexture(proxyRenderTexture, NULL, &pixels, &pitch);
+
+        // Convert them into RGBA8888
+        SDL_ConvertPixels(this->proxyRenderSurface->w, this->proxyRenderSurface->h,
+            this->proxyRenderSurface->format->format,
+            this->proxyRenderSurface->pixels, this->proxyRenderSurface->pitch,
+            SDL_PIXELFORMAT_RGBA8888,
+            pixels, pitch);
+
+        // Store the result of the conversion into proxyRenderTexture
+        SDL_UnlockTexture(this->proxyRenderTexture);
+
+        // Clear the window's backbuffer
         SDL_RenderClear(gameRenderer.get());
+        // Copy the created proxyRenderTexture onto the window's backbuffer
         SDL_RenderCopy(gameRenderer.get(), this->proxyRenderTexture, NULL, NULL);
+        // Flip
         SDL_RenderPresent(gameRenderer.get());
 
         nextFrameDrawTime = cTime + 16;
@@ -122,7 +140,7 @@ namespace sdl2
 
     SDL_Surface* SDL2_Interface::CreateSurface(uint32_t width, uint32_t height)
     {
-        return SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
+        return SDL_CreateRGBSurface(0, width, height, 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
     }
 
     SDL_Surface* SDL2_Interface::GetMainSurface()

@@ -14,7 +14,7 @@ MenuScene::MenuScene(SaveManager* aSaveManager)
     this->cutScenePhase = 1;
     this->menuChoice = 0;
     this->cutSceneRenderDataPtrIndex = 0;
-    this->dword8E0 = 4;
+    this->dword8E0 = 4; // remaining cutScene fast character changes
     this->byte958 = 0;
     this->byte959 = 0;
     this->gap8D8 = 0;
@@ -94,6 +94,7 @@ void MenuScene::Update()
         case 0x10:
             if (this->cutScenePhase != 8 && false /* && Enter pressed */)
             {
+                // If the cutscene is not over and enter is pressed, we'll skip
                 this->PaletteFadeAwayStart(1, 32);
                 this->scenePhaseIndex = 0x11;
             }
@@ -110,15 +111,18 @@ void MenuScene::Update()
                     this->CutSceneObject_F3();
                     break;
                 case 4:
-                    this->CutSceneObject_F5();
+                    this->CutSceneObject_F4();
                     break;
                 case 5:
-                    this->CutSceneObject_F6();
+                    this->CutSceneObject_F5();
                     break;
                 case 6:
-                    this->CutSceneObject_F2();
+                    this->CutSceneObject_F6(); // eval if fast changes are remaining and go to 5 or 7
                     break;
                 case 7:
+                    this->CutSceneObject_F2(); // back to Doka before menu init
+                    break;
+                case 8:
                     this->InitMainMenu();
                     break;
                 default:
@@ -127,10 +131,13 @@ void MenuScene::Update()
 
             break;
         case 0x11:
-            // // cutscene skip (I think ??)
+            // Cutscene skip
             if (!this->fadeIn_active && !this->fadeAway_active)
             {
-                // IntroCutScene_4146A0(this->introCutSceneObject, 0);
+                // Reset back to Doka's head
+                this->introCutSceneObject->F_4146A0(0);
+
+                // Go back to state 0x10 so the menu gets initialized
                 this->scenePhaseIndex = 0x10;
                 this->cutScenePhase = 8;
                 this->ticksLeftUntilReEval = 45;
@@ -178,14 +185,14 @@ void MenuScene::CutSceneObject_F3()
 {
     if (this->ticksLeftUntilReEval <= 0)
     {
-        // TODO: cutSceneObject->something()
+        this->introCutSceneObject->F_4146D0();
         this->cutScenePhase++;
     }
 }
 
 void MenuScene::CutSceneObject_F4()
 {
-    if (this->introCutSceneObject->byte66)
+    if (this->introCutSceneObject->byte66 != 0)
     {
         this->cutSceneRenderDataPtrIndex++;
 
@@ -249,7 +256,11 @@ void MenuScene::InitMainMenu()
         this->menuOptionsEntity->AttachWithPosition(320, 288, 0);
         this->optionLabelEntity->AttachWithPosition(280, 320, 0);
         this->menuCursorEntity->AttachWithPosition(208, 256, 0); // TODO: Y coord by this->menuChoice
+
+        // Go to next phase
         this->ticksLeftUntilReEval = 1800;
         this->scenePhaseIndex = 0x12;
+
+        std::cout << "MenuScene::InitMainMenu" << std::endl;
     }
 }

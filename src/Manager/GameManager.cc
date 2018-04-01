@@ -4,6 +4,7 @@
 #include "../Scene/GameScene.hpp"
 #include "../Scene/LogoScene.hpp"
 #include "../Scene/MenuScene.hpp"
+#include "../Scene/CharacterChoiceScene.hpp"
 
 #include "../Input/InputProcessorBase.hpp"
 
@@ -84,7 +85,7 @@ bool GameManager::LoadNewScene()
 
             break;
         case GameSceneID_CharacterChoice:
-            // newScene = new CharacterChoiceScene(this->saveManager);
+            newScene = new CharacterChoiceScene(this->saveManager);
             break;
         case GameSceneID_Scoreboard:
             // newScene = new ScoreboardScene(this->saveManager);

@@ -78,7 +78,7 @@ void GameScene::AttachEntityToLayer(Entity* aEntity)
     {
         // set the current first element to be the next-> of this entity
         aEntity->nextAttachedEntity = cFirstEntity;
-        cFirstEntity->nextAttachedEntity = aEntity;
+        cFirstEntity->latestEntity = aEntity;
     }
     else
     {
@@ -156,6 +156,7 @@ void GameScene::Update()
 
 void GameScene::Tick()
 {
+    std::cout << "GameScene::Tick" << std::endl;
     this->Update();
 
     if (this->phantomTicksEnabled)
