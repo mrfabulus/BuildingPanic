@@ -20,6 +20,33 @@ LogoScene::LogoScene(SaveManager* aSaveManager)
     }
 }
 
+LogoScene::~LogoScene()
+{
+    if (this->logoEntity != nullptr)
+    {
+        delete this->logoEntity;
+        this->logoEntity = nullptr;
+    }
+
+    if (this->sceneSoundMgr != nullptr)
+    {
+        delete this->sceneSoundMgr;
+        this->sceneSoundMgr = nullptr;
+    }
+
+    if (this->sceneBitmapMgr != nullptr)
+    {
+        delete this->sceneBitmapMgr;
+        this->sceneBitmapMgr = nullptr;
+    }
+
+    if (this->inputProcessor != nullptr)
+    {
+        delete this->inputProcessor;
+        this->inputProcessor = nullptr;
+    }
+}
+
 bool LogoScene::CreateEntities()
 {
     this->inputProcessor = new LogoScene_InputProcessor();
@@ -43,6 +70,7 @@ int LogoScene::GetNextSceneIDReference()
     return 1; // reference to MenuScene
 }
 
+/*
 void LogoScene::F3()
 {
 
@@ -52,6 +80,7 @@ void LogoScene::UpdateLayer(LayerEntity* aLayer, int16_t aLayerEntityCount)
 {
 
 }
+*/
 
 void LogoScene::Update()
 {

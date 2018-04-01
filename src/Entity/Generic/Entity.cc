@@ -48,6 +48,7 @@ void Entity::AssignRenderRectangles(uint16_t aRenderDataPtrIndex)
     if (this->renderDataPtrIndex != aRenderDataPtrIndex)
     {
         // TODO: Implement this fucked up logic for real...
+        // TODO: Also, don't forget this shit is memleaking below
 
         MSRect* phantomSrc = (MSRect*) malloc(sizeof(MSRect));
 

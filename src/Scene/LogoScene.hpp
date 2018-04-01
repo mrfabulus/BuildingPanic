@@ -17,14 +17,17 @@ class LogoScene : public GameScene
         int panicButtonsPressedCount;
 
         LogoScene(SaveManager* aSaveManager);
+        ~LogoScene();
 
         bool CreateEntities();
 
         int GetNextSceneIDReference() override;
         
-        virtual void F3();
+        // Not overridden
+        // virtual void F3();
         
-        virtual void UpdateLayer(LayerEntity* aLayer, int16_t aLayerEntityCount) override;
+        // Not overridden
+        // virtual void UpdateLayer(LayerEntity* aLayer, int16_t aLayerEntityCount) override;
 
         virtual void Update() override;
 };

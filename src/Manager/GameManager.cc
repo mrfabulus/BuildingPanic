@@ -82,22 +82,31 @@ bool GameManager::LoadNewScene()
 
             break;
         case GameSceneID_CharacterChoice:
+            // newScene = new CharacterChoiceScene(this->saveManager);
             break;
         case GameSceneID_Scoreboard:
+            // newScene = new ScoreboardScene(this->saveManager);
             break;
         case GameSceneID_StageStatus:
+            // newScene = new StageStatusScene(this->saveManager);
             break;
         case GameSceneID_AfterGameCredits:
+            // newScene = new AfterGameCreditsScene(this->saveManager);
             break;
         case GameSceneID_Ingame_Stage1:
+            // newScene = new Ingame_Stage1_Scene(this->saveManager);
             break;
         case GameSceneID_Ingame_Stage2:
+            // newScene = new Ingame_Stage2_Scene(this->saveManager);
             break;
         case GameSceneID_Ingame_Stage3:
+            // newScene = new Ingame_Stage3_Scene(this->saveManager);
             break;
         case GameSceneID_Ingame_Stage4:
+            // newScene = new Ingame_Stage4_Scene(this->saveManager);
             break;
         case GameSceneID_Ingame_Stage5:
+            // newScene = new Ingame_Stage5_Scene(this->saveManager);
             break;
     }
 

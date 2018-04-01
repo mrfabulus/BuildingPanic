@@ -39,6 +39,7 @@ class GameScene
         InputProcessorBase* inputProcessor;
 
         GameScene(void* aPaletteDataBytes);
+        ~GameScene();
 
         void PaletteFadeInStart(char, short);
 
@@ -55,7 +56,7 @@ class GameScene
 
         // VTable entries beside sdtor
         virtual int GetNextSceneIDReference();
-        virtual void F3();
+        virtual void MakeSureImagesAreReady();
         virtual void UpdateLayer(LayerEntity* aLayer, int16_t aLayerEntityCount);
         virtual void Update(); // scene specific virtual function
 };

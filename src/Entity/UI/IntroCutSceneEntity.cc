@@ -56,9 +56,47 @@ IntroCutSceneEntity::IntroCutSceneEntity(GameScene* aScene, Bitmap* aBitmap)
         this->layerIndex = 1;
 }
 
+// Disclaimer: I do not understand this logic... :D
+void IntroCutSceneEntity::Update()
+{
+    if (!this->attachedToLayer)
+        return;
+
+    if (this->byte64 == 1)
+    {
+        this->dword68 += this->dword6C;
+
+        if (this->dword68 < 80)
+        {
+            this->dword6C++;
+        }
+        else
+        {
+            this->dword68 = 80;
+            this->byte65 = 1;
+            this->byte64 = 0;
+        }
+    }
+    else if (this->byte64 == 2)
+    {
+        this->dword68 -= this->dword6C;
+
+        if (this->dword68 > 0)
+        {
+            this->dword6C--;
+        }
+        else
+        {
+            this->dword68 = 1;
+            this->byte66 = 1;
+            this->byte64 = 0;
+        }
+    }
+}
+
 void IntroCutSceneEntity::Render()
 {
-    if (this->attachedToLayer)
+    if (!this->attachedToLayer)
         return;
 
     MSRect srcRect;
@@ -80,20 +118,25 @@ void IntroCutSceneEntity::Render()
     SDL_Rect dstRectSDL = dstRect.ToSDLRect();
 
     // Clear surface
-    SDL_FillRect(this->ddSurface, NULL, SDL_MapRGB(this->ddSurface->format, 255, 255, 255));
-    // Render one square onto it
+    SDL_FillRect(this->ddSurface, NULL, SDL_MapRGB(this->ddSurface->format, 0, 0, 0));
+
+    // Render one square (current character in cutscene)
     SDL_BlitSurface(this->entityImageBmp->SDL_surface, &srcRectSDL, this->ddSurface, &dstRectSDL);
+
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(gSys.GetRenderer(), this->ddSurface);
 
     // Render some more
     for (int i = 0; i < 13; i++)
     {
-        MSRect* partialSrcPtr = (MSRect*) &IntroCutScene_SrcRectangles[i];
-        MSRect* partialDstPtr = (MSRect*) &IntroCutScene_DstRectangles[i];
+        MSRect* partialSrcPtr = (MSRect*) &(IntroCutScene_SrcRectangles[i]);
+        MSRect* partialDstPtr = (MSRect*) &(IntroCutScene_DstRectangles[i]);
         SDL_Rect partialSrcRect = partialSrcPtr->ToSDLRect();
         SDL_Rect partialDstRect = partialDstPtr->ToSDLRect();
 
-        // SDL_RenderCopy(gSys.GetRenderer(), this->SDL_texture, &partialSrcRect, &partialDstRect);
+        SDL_RenderCopy(gSys.GetRenderer(), texture, &partialSrcRect, &partialDstRect);
     }
+
+    SDL_DestroyTexture(texture);
 }
 
 void IntroCutSceneEntity::SetupRenderingInformation()

@@ -42,9 +42,9 @@ class MenuScene : public GameScene
         // VTable
         int GetNextSceneIDReference() override;
 
-        virtual void F3();
+        virtual void MakeSureImagesAreReady();
 
-        virtual void UpdateLayer(LayerEntity* aLayer, int16_t aLayerEntityCount) override;
+        // virtual void UpdateLayer(LayerEntity* aLayer, int16_t aLayerEntityCount) override;
 
         virtual void Update() override;
         // END OF VTable

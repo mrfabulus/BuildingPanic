@@ -36,8 +36,7 @@ GameScene::GameScene(void* aPaletteDataBytes)
 
     memset(this->buffer32, 0, sizeof(this->buffer32));
     
-    // if (gNonStandardDimensions)
-    if (true)
+    if (gNonStandardDimensions)
     {
         this->dwStartingEntry = 0;
         this->dwCount = 256;
@@ -55,6 +54,14 @@ GameScene::GameScene(void* aPaletteDataBytes)
     {
         this->init_OK = true;
     }
+}
+
+GameScene::~GameScene()
+{
+    // TODO: Potentially release palettes?
+
+    for (int i = 0; i < 5; i++)
+        delete this->layers[i];
 }
 
 void GameScene::AttachEntityToLayer(Entity* aEntity)
@@ -127,7 +134,7 @@ int GameScene::GetNextSceneIDReference()
 {
 }
 
-void GameScene::F3()
+void GameScene::MakeSureImagesAreReady()
 {
 }
 

@@ -33,6 +33,7 @@ class BitmapResourceManager
         void* ddPalette;
 
         BitmapResourceManager(uint16_t setID, void* ddPalette, uint16_t secondSetID);
+        // TODO: Imlement dtor
 
         void LoadBySetID(uint16_t setID);
         void LoadByID(std::string& aName, int16_t aID);

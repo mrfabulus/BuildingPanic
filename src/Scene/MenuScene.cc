@@ -15,12 +15,13 @@ MenuScene::MenuScene(SaveManager* aSaveManager)
     this->menuChoice = 0;
     this->cutSceneRenderDataPtrIndex = 0;
     this->dword8E0 = 4;
-    this->inputProcessor = nullptr;
     this->byte958 = 0;
     this->byte959 = 0;
-    this->titleEntity = 0;
     this->gap8D8 = 0;
 
+    this->inputProcessor = nullptr;
+
+    this->titleEntity = nullptr;
     this->yamadaCopyrightEntity = nullptr;
     this->menuOptionsEntity = nullptr;
     this->optionLabelEntity = nullptr;
@@ -36,7 +37,6 @@ MenuScene::MenuScene(SaveManager* aSaveManager)
 
     this->ticksLeftUntilReEval = 90;
     // TODO: start playing menu midi (Bpbgm01.mid)
-
 }
 
 void MenuScene::CreateEntities()
@@ -50,8 +50,10 @@ void MenuScene::CreateEntities()
     this->selectCursorEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[37], nullptr, 0);
     this->introCutSceneObject = new IntroCutSceneEntity(this, this->sceneBitmapMgr->bitmapPtrs[71]);
 
-    // TODO: Setup fontCharsetEntity & fontGlyphEntities
+    // TODO: Setup fontCharsetEntity
     // this->fontCharsetEntity->SetLayerIndex(4);
+
+    // TODO: Setup fontGlyphEntities
 }
 
 int MenuScene::GetNextSceneIDReference()
@@ -59,15 +61,16 @@ int MenuScene::GetNextSceneIDReference()
     return (this->menuChoice != 0xFF) + 2;
 }
 
-void MenuScene::F3()
+void MenuScene::MakeSureImagesAreReady()
 {
-
+    // I don't think we need to implement this for SDL
 }
 
+/*
 void MenuScene::UpdateLayer(LayerEntity* aLayer, int16_t aLayerEntityCount)
 {
-
 }
+*/
 
 void MenuScene::Update()
 {
@@ -97,25 +100,25 @@ void MenuScene::Update()
 
             switch (this->cutScenePhase)
             {
-                case 2:
+                case 1:
                     this->InitCutSceneObject();
                     break;
-                case 3:
+                case 2:
                     this->CutSceneObject_F2();
                     break;
-                case 4:
+                case 3:
                     this->CutSceneObject_F3();
                     break;
-                case 5:
+                case 4:
                     this->CutSceneObject_F5();
                     break;
-                case 6:
+                case 5:
                     this->CutSceneObject_F6();
                     break;
-                case 7:
+                case 6:
                     this->CutSceneObject_F2();
                     break;
-                case 8:
+                case 7:
                     this->InitMainMenu();
                     break;
                 default:
@@ -158,7 +161,7 @@ void MenuScene::Update()
 void MenuScene::InitCutSceneObject()
 {
     this->introCutSceneObject->AttachWithPosition(0, 0, 0);
-    this->introCutSceneObject->AssignRenderRectangles(this->cutSceneRenderDataPtrIndex);
+    this->introCutSceneObject->Custom_AssignRenderRectangles(this->cutSceneRenderDataPtrIndex);
     this->cutScenePhase++;
 }
 

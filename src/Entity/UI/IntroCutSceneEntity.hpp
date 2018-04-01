@@ -18,7 +18,9 @@ class IntroCutSceneEntity : public Entity
         SDL_Surface* ddSurface;
 
         IntroCutSceneEntity(GameScene* aScene, Bitmap* aBitmap);
+        // TODO: Implement dtor and release surface there
 
+        virtual void Update() override;
         virtual void Render() override;
         virtual void SetupRenderingInformation() override;
 

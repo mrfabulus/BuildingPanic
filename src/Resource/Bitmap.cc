@@ -2,6 +2,8 @@
 #include "../SDL2_Interface.hpp"
 #include "../Globals.hpp"
 #include <stdio.h>
+#include <unistd.h>
+#include <iostream>
 
 Bitmap::Bitmap(std::string& aName, void* ddPalette, int16_t aID, bool initialRefCount)
 {
@@ -14,6 +16,15 @@ Bitmap::Bitmap(std::string& aName, void* ddPalette, int16_t aID, bool initialRef
 
     char* path = (char*) malloc(256);
     snprintf(path, 256, "../assets/img/%s.bmp", aName.c_str());
+
+    if( access( path, F_OK ) != -1 )
+    {
+        std::cout << "Bitmap creation OK for " << path << std::endl;
+    }
+    else
+    {
+        std::cout << "Bitmap creation ERROR for " << path << std::endl;
+    }
 
     // TODO: Handle errors gracefully
     this->SDL_handle = SDL_RWFromFile(path, "rb");
@@ -33,6 +44,7 @@ void Bitmap::incRefCount()
 {
     if (this->refCount == 0)
     {
+        std::cout << "Ref count inc, loading " << this->resourceName << std::endl;
         this->SDL_surface = SDL_LoadBMP_RW(this->SDL_handle, 1);
         this->SDL_texture = SDL_CreateTextureFromSurface(gSys.GetRenderer(), this->SDL_surface);
     }
