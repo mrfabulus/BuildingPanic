@@ -8,7 +8,7 @@
 #include <iostream>
 
 MenuScene::MenuScene(SaveManager* aSaveManager)
-    : GameScene(/* misc_PaletteData */ nullptr)
+    : GameScene(gConsts::misc_PaletteDataPtr)
 {
     this->saveManager = aSaveManager;
     this->cutScenePhase = 1;

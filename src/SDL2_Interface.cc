@@ -78,6 +78,10 @@ namespace sdl2
             return false;
         }
 
+        // Init 8 bit proxy
+        this->proxyRenderSurface = SDL_CreateRGBSurface(0, 640, 480, 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
+        this->proxyRenderTexture = SDL_CreateTexture(gameRenderer.get(), SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, 640, 480);
+
         // Init SDL2_Mixer
         // TODO: Check which flags are really needed
         int mixFlags = 0; /* MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_MP3 | MIX_INIT_OGG | MIX_INIT_MID */ ;
@@ -94,7 +98,8 @@ namespace sdl2
 
     void SDL2_Interface::PerformEmptyBackSurfaceBlt()
     {
-        SDL_RenderClear(gameRenderer.get());
+        // SDL_RenderClear(gameRenderer.get());
+        SDL_FillRect(this->proxyRenderSurface, NULL, SDL_MapRGB(this->proxyRenderSurface->format, 0, 0, 0));
     }
 
     void SDL2_Interface::Flip()
@@ -107,13 +112,23 @@ namespace sdl2
             SDL_Delay(nextFrameDrawTime - cTime);
         }
 
+        SDL_UpdateTexture(this->proxyRenderTexture, NULL, this->proxyRenderSurface->pixels, this->proxyRenderSurface->pitch);
+        SDL_RenderClear(gameRenderer.get());
+        SDL_RenderCopy(gameRenderer.get(), this->proxyRenderTexture, NULL, NULL);
         SDL_RenderPresent(gameRenderer.get());
+
         nextFrameDrawTime = cTime + 16;
     }
 
     SDL_Surface* SDL2_Interface::CreateSurface(uint32_t width, uint32_t height)
     {
         return SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
+    }
+
+    SDL_Surface* SDL2_Interface::GetMainSurface()
+    {
+        // return SDL_GetWindowSurface(this->gameWindow.get());
+        return this->proxyRenderSurface;
     }
 
     SDL_Renderer* SDL2_Interface::GetRenderer()

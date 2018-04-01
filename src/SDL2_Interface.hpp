@@ -56,6 +56,9 @@ namespace sdl2
             window_ptr_t gameWindow = window_ptr_t(nullptr, nullptr);
             renderer_ptr_t gameRenderer = renderer_ptr_t(nullptr, nullptr);
 
+            SDL_Surface* proxyRenderSurface = nullptr;
+            SDL_Texture* proxyRenderTexture = nullptr;
+
             int nextFrameDrawTime;
 
         public:
@@ -68,7 +71,10 @@ namespace sdl2
 
             void PerformEmptyBackSurfaceBlt();
             void Flip();
+
             SDL_Surface* CreateSurface(uint32_t width, uint32_t height);
+            SDL_Surface* GetMainSurface();
+
             SDL_Renderer* GetRenderer();
     };
 }

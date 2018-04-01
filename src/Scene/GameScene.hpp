@@ -38,7 +38,7 @@ class GameScene
         // __int16 field_8D2;
         InputProcessorBase* inputProcessor;
 
-        GameScene(void* aPaletteDataBytes);
+        GameScene(SDL_Color* aPaletteDataBytes);
         ~GameScene();
 
         void PaletteFadeInStart(char, short);
@@ -53,6 +53,9 @@ class GameScene
         void Tick(); // generic tick/update (shared between scenes)
         void RenderLayers();
         void UpdateEntities();
+
+        bool InitPaletteFromColors(SDL_Palette** aOutPalette, SDL_Color* aColors);
+        bool InitMainSurfacePalette(SDL_Palette* aPalette);
 
         // VTable entries beside sdtor
         virtual int GetNextSceneIDReference();

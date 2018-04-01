@@ -5,8 +5,9 @@
 #include "../Entity/Generic/Entity.hpp"
 #include "../Input/InputProcessorBase.hpp"
 #include <string.h>
+#include <iostream>
 
-GameScene::GameScene(void* aPaletteDataBytes)
+GameScene::GameScene(SDL_Color* aPaletteDataBytes)
 {
     this->palette1 = nullptr;
     this->palette2 = nullptr;
@@ -47,12 +48,16 @@ GameScene::GameScene(void* aPaletteDataBytes)
         this->dwCount = 236;
     }
 
-    // TODO: Init palettes
-    if ( // bpanic_InitDDPaletteFromData(&this->palette1, aPaletteDataBytes)
-        // && bpanic_InitDDPaletteFromData(&this->palette2, aPaletteDataBytes)
-        /* && bpanic_SetMainDDSurfacePalette(&this->palette1) */ true)
+    if (   this->InitPaletteFromColors(&this->palette1, aPaletteDataBytes)
+        && this->InitPaletteFromColors(&this->palette2, aPaletteDataBytes)
+        && this->InitMainSurfacePalette(this->palette1))
     {
+        std::cout << "GameScene init OK" << std::endl;
         this->init_OK = true;
+    }
+    else
+    {
+        std::cout << "GameScene init failed" << std::endl;
     }
 }
 
@@ -241,4 +246,35 @@ void GameScene::UpdateEntities()
             }
         }
     }
+}
+
+bool GameScene::InitPaletteFromColors(SDL_Palette** aOutPalette, SDL_Color* aColors)
+{
+    // TODO: Error handling
+    SDL_Palette* newPalette = SDL_AllocPalette(256);
+    SDL_PixelFormat format;
+    format.format = SDL_PIXELFORMAT_INDEX8;
+    format.palette = newPalette;
+    format.BitsPerPixel = 8;
+    // format.By
+
+    SDL_SetPixelFormatPalette(&format, newPalette);
+
+    SDL_SetPaletteColors(newPalette, aColors, 0, 256);
+    *aOutPalette = newPalette;
+
+    return true;
+}
+
+bool GameScene::InitMainSurfacePalette(SDL_Palette* aPalette)
+{
+    int result = SDL_SetSurfacePalette(gSys.GetMainSurface(), aPalette);
+    std::cout << "SDL_SetSurfacePalette returned " << result << std::endl;
+
+    if (result < 0)
+    {
+        std::cout << SDL_GetError() << std::endl;
+    }
+
+    return true;
 }

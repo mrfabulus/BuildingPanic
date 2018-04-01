@@ -8,6 +8,7 @@ class GameManager;
 struct gConsts
 {
     static const uint16_t referenceToSceneID_Linker[];
+    static SDL_Color* misc_PaletteDataPtr;
 };
 
 class MSRect

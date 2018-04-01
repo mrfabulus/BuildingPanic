@@ -69,5 +69,6 @@ void Bitmap::Render(MSRect* srcRect, MSRect* dstRect)
     SDL_Rect SDL_srcRect = srcRect->ToSDLRect();
     SDL_Rect SDL_dstRect = dstRect->ToSDLRect();
 
-    SDL_RenderCopy(gSys.GetRenderer(), this->SDL_texture, &SDL_srcRect, &SDL_dstRect);
+    // SDL_RenderCopy(gSys.GetRenderer(), this->SDL_texture, &SDL_srcRect, &SDL_dstRect);
+    SDL_BlitSurface(this->SDL_surface, &SDL_srcRect, gSys.GetMainSurface(), &SDL_dstRect);
 }

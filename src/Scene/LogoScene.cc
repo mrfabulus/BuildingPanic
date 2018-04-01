@@ -5,7 +5,7 @@
 #include "../Input/LogoScene_InputProcessor.hpp"
 
 LogoScene::LogoScene(SaveManager* aSaveManager)
-    : GameScene(/* misc_PaletteData */ nullptr)
+    : GameScene(gConsts::misc_PaletteDataPtr)
 {
     this->saveManagerPtr = aSaveManager;
     this->panicButtonsPressedCount = 0;
