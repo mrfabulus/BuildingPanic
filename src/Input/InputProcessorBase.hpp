@@ -10,6 +10,6 @@ class InputProcessorBase
         int32_t postInputTickMask1;
         int32_t postInputTickMask2;
 
-        virtual void Process();
         InputProcessorBase();
+        virtual void Process();
 };

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Entity.hpp"
-#include <climits>
+#include <cstdint>
 
 class GameScene;
 class Bitmap;

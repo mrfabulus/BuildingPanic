@@ -4,7 +4,7 @@
 #include "SDL2/SDL_mixer.h" 
 #include <memory>
 #include <iostream>
-#include <climits>
+#include <cstdint>
 
 using namespace std;
 

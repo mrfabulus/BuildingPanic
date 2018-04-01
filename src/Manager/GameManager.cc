@@ -5,6 +5,8 @@
 #include "../Scene/LogoScene.hpp"
 #include "../Scene/MenuScene.hpp"
 
+#include "../Input/InputProcessorBase.hpp"
+
 #include <iostream>
 
 GameManager::GameManager()
@@ -130,11 +132,14 @@ bool GameManager::Tick()
 {
     InputProcessorBase* input = this->currentSceneObjectPtr->inputProcessor;
     
+    // Record current inputs and store it in the bitmask
     if (input != nullptr)
         input->Process();
 
+    // Renders frame and updates the scene
     this->currentSceneObjectPtr->Tick();
 
+    // if the scene finished, go to ChangeScene()
     if (this->currentSceneObjectPtr->finished)
         this->sceneState = 2;
 

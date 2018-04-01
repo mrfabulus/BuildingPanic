@@ -1,22 +1,17 @@
 #pragma once
 
+#include <cstdint>
+
 class Save_PlayerObject
 {
     private:
-        char isPlayerControlled;
-        int dword4;
-        short word8;
+        int8_t isPlayerControlled;
+        int32_t dword4;
+        int16_t word8;
     public:
-        Save_PlayerObject()
-        {
-        }
+        Save_PlayerObject();
 
-        void Initialize()
-        {
-            this->isPlayerControlled = -1;
-            this->dword4 = 0;
-            this->word8 = 8;
-        }
+        void Initialize();
 };
 
 class SaveManager
@@ -24,32 +19,17 @@ class SaveManager
     // private:
     public:
         uint16_t nextStage;
-        short nextLevel;
-        short saveFlags;
-        short lastStageStatus;
-        int dwordC;
-        int gap10;
-        int field_14;
+        int16_t nextLevel;
+        int16_t saveFlags;
+        int16_t lastStageStatus;
+        int32_t dwordC;
+        int32_t gap10;
+        int32_t field_14;
         Save_PlayerObject playerObject1;
         Save_PlayerObject playerObject2;
-        char rawSaveData[524];
+        int8_t rawSaveData[524];
     // public:
-        SaveManager()
-        {
-            this->nextStage = 0;
-            this->nextLevel = 0;
-            this->saveFlags = 0;
-            this->lastStageStatus = 0;
-            this->dwordC = 0;
+        SaveManager();
 
-            // TODO: Read save data from file or create it in memory
-
-            this->CreatePlayerObjects();
-        }
-
-        void CreatePlayerObjects()
-        {
-            this->playerObject1.Initialize();
-            this->playerObject2.Initialize();
-        }
+        void CreatePlayerObjects();
 };

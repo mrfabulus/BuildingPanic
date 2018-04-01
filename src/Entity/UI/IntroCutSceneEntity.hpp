@@ -1,6 +1,6 @@
 #pragma once
 
-#include <climits>
+#include <cstdint>
 #include "../Generic/Entity.hpp"
 
 class IntroCutSceneEntity : public Entity

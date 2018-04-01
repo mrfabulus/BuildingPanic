@@ -4,8 +4,5 @@
 
 class MenuScene_InputProcessor : public InputProcessorBase
 {
-    void Process() override
-    {
-        
-    }
+    virtual void Process() override;
 };

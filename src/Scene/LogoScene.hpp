@@ -1,11 +1,11 @@
 #pragma once
 
 #include "GameScene.hpp"
-#include "../Manager/SaveManager.hpp"
-#include "../Manager/BitmapResourceManager.hpp"
-#include "../Manager/SoundResourceManager.hpp"
-#include "../Entity/Generic/StaticPictureEntity.hpp"
-#include "../Input/LogoScene_InputProcessor.hpp"
+
+class SaveManager;
+class BitmapResourceManager;
+class SoundResourceManager;
+class StaticPictureEntity;
 
 class LogoScene : public GameScene
 {
@@ -21,10 +21,10 @@ class LogoScene : public GameScene
 
         bool CreateEntities();
 
-        int GetNextSceneIDReference() override;
+        virtual int GetNextSceneIDReference() override;
         
         // Not overridden
-        // virtual void F3();
+        // virtual void MakeSureImagesAreReady();
         
         // Not overridden
         // virtual void UpdateLayer(LayerEntity* aLayer, int16_t aLayerEntityCount) override;
