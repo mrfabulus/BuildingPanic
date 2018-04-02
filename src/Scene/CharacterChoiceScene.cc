@@ -133,7 +133,9 @@ bool CharacterChoiceScene::CreateEntities()
     this->inputProcessor = new MenuHandler_InputProcessor();
     this->sceneBitmapMgr = new BitmapResourceManager(3, nullptr, 0);
     this->sceneSoundMgr = new SoundResourceManager(3);
+
     // TODO: Create stageSelectTiles
+
     this->selectTextEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[46], nullptr, 0);
     this->selectSubtextsEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[49], nullptr, 0);
     this->selectionCursorEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[67], nullptr, 0);
@@ -142,6 +144,7 @@ bool CharacterChoiceScene::CreateEntities()
     this->unknownStageSymbol3 = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[68], nullptr, 0);
     this->player1PortraitEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[72], nullptr, 0);
     this->player2PortraitEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[72], nullptr, 0);
+
     return true;
 }
 

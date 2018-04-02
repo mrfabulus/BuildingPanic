@@ -2,8 +2,8 @@
 
 Entity_base::Entity_base()
 {
-    this->nextAttachedEntity = 0;
-    this->latestEntity = 0;
+    this->nextAttachedEntity = nullptr;
+    this->previousAttachedEntity = nullptr;
     this->layerIndex = 2;
     this->dword10 = 1;
     this->centerX = 0;

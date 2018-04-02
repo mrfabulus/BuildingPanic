@@ -7,7 +7,7 @@ class Entity_base
 {
     public:
         Entity* nextAttachedEntity;
-        Entity* latestEntity;
+        Entity* previousAttachedEntity;
         uint16_t layerIndex;
         int dword10;
         int centerX;

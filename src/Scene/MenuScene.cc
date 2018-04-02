@@ -42,12 +42,14 @@ MenuScene::MenuScene(SaveManager* aSaveManager)
 void MenuScene::CreateEntities()
 {
     this->inputProcessor = new MenuScene_InputProcessor();
+
     this->titleEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[44], nullptr, 0);
     this->yamadaCopyrightEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[54], nullptr, 0);
     this->menuOptionsEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[53], nullptr, 0);
     this->optionLabelEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[80], nullptr, 0);
     this->menuCursorEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[33], nullptr, 0);
     this->selectCursorEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[37], nullptr, 0);
+
     this->introCutSceneObject = new IntroCutSceneEntity(this, this->sceneBitmapMgr->bitmapPtrs[71]);
 
     // TODO: Setup fontCharsetEntity
@@ -145,6 +147,8 @@ void MenuScene::Update()
             }
             break;
         case 0x12:
+            // Menu fully loaded, handling user input
+
             if (this->ticksLeftUntilReEval <= 0)
             {
                 // Time expired, go into DemoPlay mode

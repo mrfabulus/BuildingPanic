@@ -75,7 +75,7 @@ int LogoScene::GetNextSceneIDReference()
 }
 
 /*
-void LogoScene::F3()
+void LogoScene::MakeSureImagesAreReady()
 {
 
 }
@@ -93,7 +93,7 @@ void LogoScene::Update()
         case 1:
             if (this->ticksLeftUntilReEval > 0)
             {
-                // TODO: Check InputProcessor for PANIC cheat code and add logic
+                // TODO: Check InputProcessor's mask for PANIC cheat code and add logic
             }
             else
             {

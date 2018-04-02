@@ -30,7 +30,7 @@ GameScene::GameScene(SDL_Color* aPaletteDataBytes)
     for (int i = 0; i < 5; i++)
     {
         layers[i] = new LayerEntity();
-        layers[i]->latestEntity = nullptr;
+        layers[i]->previousAttachedEntity = nullptr;
         layers[i]->nextAttachedEntity = nullptr;
         layerEntityCounts[i] = 0;
     }
@@ -78,7 +78,7 @@ void GameScene::AttachEntityToLayer(Entity* aEntity)
     {
         // set the current first element to be the next-> of this entity
         aEntity->nextAttachedEntity = cFirstEntity;
-        cFirstEntity->latestEntity = aEntity;
+        cFirstEntity->previousAttachedEntity = aEntity;
     }
     else
     {
@@ -86,8 +86,8 @@ void GameScene::AttachEntityToLayer(Entity* aEntity)
         aEntity->nextAttachedEntity = nullptr;
     }
 
-    // latestEntity is set to the EntityLayer the entity resides on
-    aEntity->latestEntity = (Entity*) this->layers[aEntity->layerIndex]; // note: pointer conversion was explicitly added later
+    // previousAttachedEntity is set to the EntityLayer the entity resides on
+    aEntity->previousAttachedEntity = (Entity*) this->layers[aEntity->layerIndex]; // note: pointer conversion was explicitly added later
 
     // set this entity to be the first element of the linked list
     this->layers[aEntity->layerIndex]->nextAttachedEntity = aEntity;
@@ -97,7 +97,6 @@ void GameScene::AttachEntityToLayer(Entity* aEntity)
     this->layerEntityCounts[aEntity->layerIndex]++;
 }
 
-// I do not understand this function but looks good! lmao
 void GameScene::DetachEntityFromLayer(Entity* aEntity)
 {
     LayerEntity* cLayer = this->layers[aEntity->layerIndex];
@@ -105,28 +104,30 @@ void GameScene::DetachEntityFromLayer(Entity* aEntity)
     // Check if this entity is the first in the linked list
     if (cLayer->nextAttachedEntity == aEntity)
     {
+        // entity is first in linked list
         // Set the next entity to be the first in the linked list
         Entity* nextEntity = aEntity->nextAttachedEntity;
         cLayer->nextAttachedEntity = nextEntity;
 
+        // if the new first entity exists, set its prev-> to the layer entity
         if (nextEntity != nullptr)
         {
-            // ???
-            this->layers[aEntity->layerIndex]->nextAttachedEntity->latestEntity = (Entity*) this->layers[aEntity->layerIndex];
+            this->layers[aEntity->layerIndex]->nextAttachedEntity->previousAttachedEntity = (Entity*) this->layers[aEntity->layerIndex];
             // note: pointer conversion was explicitly added later                ^
         }
     }
     else
     {
         // entity is not first in linked list
-        aEntity->latestEntity->nextAttachedEntity = aEntity->nextAttachedEntity;
+        // set prev entitys next-> to the entity next to this one
+        aEntity->previousAttachedEntity->nextAttachedEntity = aEntity->nextAttachedEntity;
 
         Entity* nextEntity = aEntity->nextAttachedEntity;
 
+        // if there is a next entity, set its prev-> to the entity before this one
         if (nextEntity != nullptr)
         {
-            // ???
-            nextEntity->latestEntity = aEntity->latestEntity;
+            nextEntity->previousAttachedEntity = aEntity->previousAttachedEntity;
         }
     }
 
