@@ -17,7 +17,7 @@ class LogoScene : public GameScene
         int panicButtonsPressedCount;
 
         LogoScene(SaveManager* aSaveManager);
-        ~LogoScene();
+        virtual ~LogoScene();
 
         bool CreateEntities();
 

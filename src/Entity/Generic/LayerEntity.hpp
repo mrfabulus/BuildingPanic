@@ -6,5 +6,6 @@ class LayerEntity : public Entity_base
 {
     public:
         LayerEntity();
+        virtual ~LayerEntity();
 };
 

@@ -9,6 +9,10 @@ MenuHandler_InputProcessor::MenuHandler_InputProcessor()
     this->dword20 = 0;
 }
 
+MenuHandler_InputProcessor::~MenuHandler_InputProcessor()
+{
+}
+
 void MenuHandler_InputProcessor::Process()
 {
     // TODO: Implement from 00413120

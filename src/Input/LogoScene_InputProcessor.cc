@@ -1,5 +1,13 @@
 #include "LogoScene_InputProcessor.hpp"
 
+LogoScene_InputProcessor::LogoScene_InputProcessor()
+{
+}
+
+LogoScene_InputProcessor::~LogoScene_InputProcessor()
+{
+}
+
 void LogoScene_InputProcessor::Process()
 {
     /*

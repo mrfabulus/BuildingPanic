@@ -10,3 +10,7 @@ Entity_base::Entity_base()
     this->centerY = 0;
     this->dword1C_coordinateLikeThingie = 0;
 }
+
+Entity_base::~Entity_base()
+{
+}

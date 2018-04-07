@@ -15,4 +15,5 @@ class Entity_base
         int dword1C_coordinateLikeThingie;
 
         Entity_base();
+        virtual ~Entity_base();
 };

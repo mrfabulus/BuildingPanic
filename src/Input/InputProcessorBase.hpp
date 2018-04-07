@@ -11,5 +11,7 @@ class InputProcessorBase
         int32_t postInputTickMask2;
 
         InputProcessorBase();
+        virtual ~InputProcessorBase();
+
         virtual void Process();
 };

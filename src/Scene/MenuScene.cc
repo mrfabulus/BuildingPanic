@@ -39,6 +39,10 @@ MenuScene::MenuScene(SaveManager* aSaveManager)
     // TODO: start playing menu midi (Bpbgm01.mid)
 }
 
+MenuScene::~MenuScene()
+{
+}
+
 void MenuScene::CreateEntities()
 {
     this->inputProcessor = new MenuScene_InputProcessor();

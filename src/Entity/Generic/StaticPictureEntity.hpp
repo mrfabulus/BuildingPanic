@@ -14,6 +14,7 @@ class StaticPictureEntity : public Entity
         EntityExtraPositionData* extraPositionData2;
 
         StaticPictureEntity (GameScene* aScene, Bitmap* aBitmap, void* dataPtrs, char a5);
+        ~StaticPictureEntity();
 
         virtual void SetupRenderingInformation() override;
 };

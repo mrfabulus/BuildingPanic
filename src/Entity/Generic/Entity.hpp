@@ -43,6 +43,7 @@ class Entity : public Entity_base
         int32_t dword60;
 
         Entity(GameScene* aScene, Bitmap* aBitmap, void* dataPtrs);
+        virtual ~Entity();
 
         void ResetRenderRectangleMetadata();
         void AssignRenderRectangles(uint16_t aRenderDataPtrIndex);

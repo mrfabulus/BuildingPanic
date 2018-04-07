@@ -35,6 +35,10 @@ Entity::Entity(GameScene* aScene, Bitmap* aBitmap, void* dataPtrs)
     this->ResetRenderRectangleMetadata();
 }
 
+Entity::~Entity()
+{
+}
+
 void Entity::ResetRenderRectangleMetadata()
 {
     this->renderDataPtrIndex = 0xFFFF;

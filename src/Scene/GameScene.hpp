@@ -39,7 +39,7 @@ class GameScene
         InputProcessorBase* inputProcessor;
 
         GameScene(SDL_Color* aPaletteDataBytes);
-        ~GameScene();
+        virtual ~GameScene();
 
         void PaletteFadeInStart(char, short);
 

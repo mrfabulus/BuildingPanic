@@ -36,6 +36,7 @@ class MenuScene : public GameScene
         int8_t byte959;
 
         MenuScene(SaveManager* aSaveManager);
+        virtual ~MenuScene();
 
         void CreateEntities();
 

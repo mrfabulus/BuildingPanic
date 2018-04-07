@@ -8,6 +8,10 @@ StaticPictureEntity::StaticPictureEntity (GameScene* aScene, Bitmap* aBitmap, vo
     this->extraPositionData2 = nullptr;
 }
 
+StaticPictureEntity::~StaticPictureEntity()
+{
+}
+
 void StaticPictureEntity::SetupRenderingInformation()
 {
     EntityExtraPositionData* ptr = new EntityExtraPositionData(this);

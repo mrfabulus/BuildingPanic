@@ -29,7 +29,7 @@ class CharacterChoiceScene : public GameScene
         StaticPictureEntity* player2PortraitEntity;
 
         CharacterChoiceScene(SaveManager* aSaveManager);
-        ~CharacterChoiceScene();
+        virtual ~CharacterChoiceScene();
 
         bool CreateEntities();
         void Init();

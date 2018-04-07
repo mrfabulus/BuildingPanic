@@ -3,5 +3,8 @@
 LayerEntity::LayerEntity()
     : Entity_base()
 {
+}
 
+LayerEntity::~LayerEntity()
+{
 }

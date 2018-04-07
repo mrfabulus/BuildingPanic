@@ -12,5 +12,7 @@ class MenuHandler_InputProcessor : public InputProcessorBase
         int32_t dword20;
 
         MenuHandler_InputProcessor();
+        virtual ~MenuHandler_InputProcessor();
+
         virtual void Process() override;
 };

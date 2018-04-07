@@ -56,6 +56,10 @@ IntroCutSceneEntity::IntroCutSceneEntity(GameScene* aScene, Bitmap* aBitmap)
         this->layerIndex = 1;
 }
 
+IntroCutSceneEntity::~IntroCutSceneEntity()
+{
+}
+
 // Disclaimer: I do not understand this logic... :D
 void IntroCutSceneEntity::Update()
 {

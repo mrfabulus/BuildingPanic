@@ -4,5 +4,9 @@
 
 class LogoScene_InputProcessor : public InputProcessorBase
 {
-    virtual void Process() override;
+    public:
+        LogoScene_InputProcessor();
+        virtual ~LogoScene_InputProcessor();
+
+        virtual void Process() override;
 };
