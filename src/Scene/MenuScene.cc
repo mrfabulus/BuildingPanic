@@ -50,9 +50,9 @@ void MenuScene::CreateEntities()
     this->titleEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[44], MenuScene_RenderMeta::TitleEntity_RenderMetaPtr, 0);
     this->yamadaCopyrightEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[54], MenuScene_RenderMeta::YamadaCopyrightEntity_RenderMetaPtr, 0);
     this->menuOptionsEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[53], MenuScene_RenderMeta::MenuOptionsEntity_RenderMetaPtr, 0);
-    this->optionLabelEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[80], nullptr, 0);
-    this->menuCursorEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[33], nullptr, 0);
-    this->selectCursorEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[37], nullptr, 0);
+    this->optionLabelEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[80], MenuScene_RenderMeta::OptionLabelEntity_RenderMetaPtr, 0);
+    this->menuCursorEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[33], MenuScene_RenderMeta::MenuCursorEntity_RenderMetaPtr, 0);
+    this->selectCursorEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[37], MenuScene_RenderMeta::SelectCursorEntity_RenderMetaPtr, 0);
 
     this->introCutSceneObject = new IntroCutSceneEntity(this, this->sceneBitmapMgr->bitmapPtrs[71]);
 
@@ -263,7 +263,9 @@ void MenuScene::InitMainMenu()
         this->yamadaCopyrightEntity->AttachWithPosition(320, 448, 0);
         this->menuOptionsEntity->AttachWithPosition(320, 288, 0);
         this->optionLabelEntity->AttachWithPosition(280, 320, 0);
-        this->menuCursorEntity->AttachWithPosition(208, 256, 0); // TODO: Y coord by this->menuChoice
+
+        int32_t menuCursorYCoordinates[] = { 0x100, 0x120, 0x140, 0x160 };
+        this->menuCursorEntity->AttachWithPosition(208, menuCursorYCoordinates[this->menuChoice], 0);
 
         // Go to next phase
         this->ticksLeftUntilReEval = 1800;
@@ -414,3 +416,182 @@ static const void* MenuOptionsEntity_RenderMeta[] =
 
 const void** MenuScene_RenderMeta::MenuOptionsEntity_RenderMetaPtr = MenuOptionsEntity_RenderMeta;
 // ------ MenuOptionsEntity RenderMeta END ------
+
+// ------ OptionLabelEntity RenderMeta START ------
+static const uint16_t OptionLabelEntity_RenderMeta_1_1[] =
+{
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+
+static const void* OptionLabelEntity_RenderMeta_1[] =
+{
+    &OptionLabelEntity_RenderMeta_1_1,
+    0
+};
+
+static const MSRect OptionLabelEntity_RenderMeta_2[] =
+{
+    { 0, 0, 1, 1 },
+    { 0, 0, 0x60, 0x10 } // src rectangle
+};
+
+static const MSRect OptionLabelEntity_RenderMeta_3[] =
+{
+    { 0, 0, 1, 1 },
+    { -48, -8, 48, 8 }, // lengths to sides (dimensions)
+};
+
+static const void* OptionLabelEntity_RenderMeta[] =
+{
+    &OptionLabelEntity_RenderMeta_1,
+    &OptionLabelEntity_RenderMeta_2,
+    &OptionLabelEntity_RenderMeta_3,
+    ((void*) gConsts::RenderMetaTerminatorPtr)
+};
+
+const void** MenuScene_RenderMeta::OptionLabelEntity_RenderMetaPtr = OptionLabelEntity_RenderMeta;
+// ------ OptionLabelEntity RenderMeta END ------
+
+// ------ MenuCursorEntity RenderMeta START ------
+static const uint16_t MenuCursorEntity_RenderMeta_1_1[] =
+{
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+
+static const uint16_t MenuCursorEntity_RenderMeta_1_2[] =
+{
+    1,
+    2,
+    2,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+
+static const uint16_t MenuCursorEntity_RenderMeta_1_3[] =
+{
+    1,
+    3,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+
+static const void* MenuCursorEntity_RenderMeta_1[] =
+{
+    &MenuCursorEntity_RenderMeta_1_1,
+    &MenuCursorEntity_RenderMeta_1_2,
+    &MenuCursorEntity_RenderMeta_1_3,
+    0
+};
+
+static const MSRect MenuCursorEntity_RenderMeta_2[] =
+{
+    { 0, 0, 1, 1 },
+    { 0, 0, 0x20, 0x18 }, // src rectangle
+    { 0x20, 0, 0x38, 0x18 },
+    { 0x38, 0, 0x58, 0x18 }
+};
+
+static const MSRect MenuCursorEntity_RenderMeta_3[] =
+{
+    { 0, 0, 1, 1 },
+    { -16, -12, 16, 12 }, // lengths to sides (dimensions)
+    { -12, -12, 12, 12 }
+};
+
+static const void* MenuCursorEntity_RenderMeta[] =
+{
+    &MenuCursorEntity_RenderMeta_1,
+    &MenuCursorEntity_RenderMeta_2,
+    &MenuCursorEntity_RenderMeta_3,
+    ((void*) gConsts::RenderMetaTerminatorPtr)
+};
+
+const void** MenuScene_RenderMeta::MenuCursorEntity_RenderMetaPtr = MenuCursorEntity_RenderMeta;
+// ------ MenuCursorEntity RenderMeta END ------
+
+// ------ SelectCursorEntity RenderMeta START ------
+static const uint16_t SelectCursorEntity_RenderMeta_1_1[] =
+{
+    0x10,
+    1,
+    1,
+    0,
+    0,
+    2,
+    0x10,
+    0,
+    0,
+    0,
+    0,
+    1
+};
+
+static const uint16_t SelectCursorEntity_RenderMeta_1_2[] =
+{
+    0x10,
+    2,
+    2,
+    0,
+    0,
+    2,
+    0x10,
+    0,
+    0,
+    0,
+    0,
+    1
+};
+
+static const void* SelectCursorEntity_RenderMeta_1[] =
+{
+    &SelectCursorEntity_RenderMeta_1_1,
+    &SelectCursorEntity_RenderMeta_1_2,
+    0,
+    0
+};
+
+static const MSRect SelectCursorEntity_RenderMeta_2[] =
+{
+    { 0, 0, 1, 1 },
+    { 0, 0, 0x10, 8 }, // src rectangle
+    { 0x10, 0, 0x40, 8 }
+};
+
+static const MSRect SelectCursorEntity_RenderMeta_3[] =
+{
+    { 0, 0, 1, 1 },
+    { -8, -4, 8, 4 }, // lengths to sides (dimensions)
+    { -24, -4, 24, 4 }
+};
+
+static const void* SelectCursorEntity_RenderMeta[] =
+{
+    &SelectCursorEntity_RenderMeta_1,
+    &SelectCursorEntity_RenderMeta_2,
+    &SelectCursorEntity_RenderMeta_3,
+    ((void*) gConsts::RenderMetaTerminatorPtr)
+};
+
+const void** MenuScene_RenderMeta::SelectCursorEntity_RenderMetaPtr = SelectCursorEntity_RenderMeta;
+// ------ SelectCursorEntity RenderMeta END ------

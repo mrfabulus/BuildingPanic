@@ -47,6 +47,9 @@ void Bitmap::incRefCount()
         std::cout << "Ref count inc, loading " << this->resourceName << std::endl;
         this->SDL_surface = SDL_LoadBMP_RW(this->SDL_handle, 1);
         this->SDL_texture = SDL_CreateTextureFromSurface(gSys.GetRenderer(), this->SDL_surface);
+
+        // Set transparent color key to black
+        SDL_SetColorKey(this->SDL_surface, SDL_TRUE, SDL_MapRGB(this->SDL_surface->format, 0, 0, 0));
     }
 
     this->refCount++;
@@ -63,6 +66,7 @@ void Bitmap::decRefCount()
     }
 }
 
+// TODO: Find out how to "Blit" textures so we can use VRAM
 void Bitmap::Render(MSRect* srcRect, MSRect* dstRect)
 {
     // Manual conversion from MS style rects into SDL style
