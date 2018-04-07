@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Entity_base.hpp"
+#include "GameObject.hpp"
 
-class LayerEntity : public Entity_base
+class LayerEntity : public GameObject
 {
     public:
         LayerEntity();

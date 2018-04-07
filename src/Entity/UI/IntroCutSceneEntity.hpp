@@ -3,6 +3,11 @@
 #include <cstdint>
 #include "../Generic/Entity.hpp"
 
+struct IntroCutSceneEntity_RenderMeta
+{
+    static const void** RenderMetaPtr;
+};
+
 class IntroCutSceneEntity : public Entity
 {
     public:

@@ -1,6 +1,6 @@
 #include "GameScene.hpp"
 #include "../Globals.hpp"
-#include "../Entity/Generic/Entity_base.hpp"
+#include "../Entity/Generic/GameObject.hpp"
 #include "../Entity/Generic/LayerEntity.hpp"
 #include "../Entity/Generic/Entity.hpp"
 #include "../Input/InputProcessorBase.hpp"
@@ -63,16 +63,26 @@ GameScene::GameScene(SDL_Color* aPaletteDataBytes)
 
 GameScene::~GameScene()
 {
-    // TODO: Potentially release palettes?
+    if (this->palette2 != nullptr)
+    {
+        SDL_FreePalette(this->palette2);
+        this->palette2 = nullptr;
+    }
+
+    if (this->palette1 != nullptr)
+    {
+        SDL_FreePalette(this->palette1);
+        this->palette1 = nullptr;
+    }
 
     for (int i = 0; i < 5; i++)
         delete this->layers[i];
 }
 
-void GameScene::AttachEntityToLayer(Entity* aEntity)
+void GameScene::AttachGameObjectToLayer(GameObject* aEntity)
 {
     // push_front() type of logic into the linked list
-    Entity* cFirstEntity = this->layers[aEntity->layerIndex]->nextAttachedEntity;
+    GameObject* cFirstEntity = this->layers[aEntity->layerIndex]->nextAttachedEntity;
 
     if (cFirstEntity)
     {
@@ -87,7 +97,7 @@ void GameScene::AttachEntityToLayer(Entity* aEntity)
     }
 
     // previousAttachedEntity is set to the EntityLayer the entity resides on
-    aEntity->previousAttachedEntity = (Entity*) this->layers[aEntity->layerIndex]; // note: pointer conversion was explicitly added later
+    aEntity->previousAttachedEntity = this->layers[aEntity->layerIndex];
 
     // set this entity to be the first element of the linked list
     this->layers[aEntity->layerIndex]->nextAttachedEntity = aEntity;
@@ -97,7 +107,7 @@ void GameScene::AttachEntityToLayer(Entity* aEntity)
     this->layerEntityCounts[aEntity->layerIndex]++;
 }
 
-void GameScene::DetachEntityFromLayer(Entity* aEntity)
+void GameScene::DetachGameObjectFromLayer(GameObject* aEntity)
 {
     LayerEntity* cLayer = this->layers[aEntity->layerIndex];
 
@@ -106,14 +116,13 @@ void GameScene::DetachEntityFromLayer(Entity* aEntity)
     {
         // entity is first in linked list
         // Set the next entity to be the first in the linked list
-        Entity* nextEntity = aEntity->nextAttachedEntity;
+        GameObject* nextEntity = aEntity->nextAttachedEntity;
         cLayer->nextAttachedEntity = nextEntity;
 
         // if the new first entity exists, set its prev-> to the layer entity
         if (nextEntity != nullptr)
         {
-            this->layers[aEntity->layerIndex]->nextAttachedEntity->previousAttachedEntity = (Entity*) this->layers[aEntity->layerIndex];
-            // note: pointer conversion was explicitly added later                ^
+            this->layers[aEntity->layerIndex]->nextAttachedEntity->previousAttachedEntity = this->layers[aEntity->layerIndex];
         }
     }
     else
@@ -122,7 +131,7 @@ void GameScene::DetachEntityFromLayer(Entity* aEntity)
         // set prev entitys next-> to the entity next to this one
         aEntity->previousAttachedEntity->nextAttachedEntity = aEntity->nextAttachedEntity;
 
-        Entity* nextEntity = aEntity->nextAttachedEntity;
+        GameObject* nextEntity = aEntity->nextAttachedEntity;
 
         // if there is a next entity, set its prev-> to the entity before this one
         if (nextEntity != nullptr)
@@ -203,7 +212,7 @@ void GameScene::RenderLayers()
 {
     for (int i = 0; i < 5; i++)
     {
-        Entity* currentEntity = this->layers[i]->nextAttachedEntity;
+        GameObject* currentEntity = this->layers[i]->nextAttachedEntity;
 
         while (currentEntity != nullptr)
         {
@@ -233,7 +242,7 @@ void GameScene::UpdateEntities()
 {
     for (int i = 0; i < 5; i++)
     {
-        Entity* currentEntity = this->layers[i]->nextAttachedEntity;
+        GameObject* currentEntity = this->layers[i]->nextAttachedEntity;
 
         if (currentEntity != nullptr)
         {
@@ -260,6 +269,7 @@ bool GameScene::InitPaletteFromColors(SDL_Palette** aOutPalette, SDL_Color* aCol
     format.BitsPerPixel = 8;
     // format.By
 
+    // TODO: Solve "SDL_SetPixelFormatPalette() passed a palette that doesn't match the format"
     SDL_SetPixelFormatPalette(&format, newPalette);
 
     SDL_SetPaletteColors(newPalette, aColors, 0, 256);

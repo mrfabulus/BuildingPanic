@@ -7,6 +7,11 @@ class BitmapResourceManager;
 class SoundResourceManager;
 class StaticPictureEntity;
 
+struct LogoScene_RenderMeta
+{
+    static const void** LogoEntity_RenderMetaPtr;
+};
+
 class LogoScene : public GameScene
 {
     public:

@@ -3,6 +3,7 @@
 #include "../Manager/BitmapResourceManager.hpp"
 #include "../Manager/SoundResourceManager.hpp"
 #include "../Input/LogoScene_InputProcessor.hpp"
+#include "../Globals.hpp"
 
 LogoScene::LogoScene(SaveManager* aSaveManager)
     : GameScene(gConsts::misc_PaletteDataPtr)
@@ -58,7 +59,7 @@ bool LogoScene::CreateEntities()
     this->sceneSoundMgr = new SoundResourceManager(0);
 
     // LOGO_BMP for the loading screen
-    this->logoEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[17], nullptr, 0);
+    this->logoEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[17], LogoScene_RenderMeta::LogoEntity_RenderMetaPtr, 0);
 
     if (this->logoEntity != nullptr)
         return true;
@@ -108,3 +109,43 @@ void LogoScene::Update()
             break;
     }
 }
+
+static const uint16_t LogoEntity_RenderMeta_1_1[] =
+{
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+
+static const void* LogoEntity_RenderMeta_1[] =
+{
+    &LogoEntity_RenderMeta_1_1,
+    0
+};
+
+static const MSRect LogoEntity_RenderMeta_2[] =
+{
+    { 0, 0, 1, 1 },
+    { 0, 0, 312, 32 } // src rectangle
+};
+
+static const MSRect LogoEntity_RenderMeta_3[] =
+{
+    { 0, 0, 1, 1 },
+    { -156, -16, 156, 16 } // lengths to sides (dimensions)
+};
+
+static const void* LogoEntity_RenderMeta[] =
+{
+    &LogoEntity_RenderMeta_1,
+    &LogoEntity_RenderMeta_2,
+    &LogoEntity_RenderMeta_3,
+    ((void*) gConsts::RenderMetaTerminatorPtr)
+};
+
+const void** LogoScene_RenderMeta::LogoEntity_RenderMetaPtr = LogoEntity_RenderMeta;

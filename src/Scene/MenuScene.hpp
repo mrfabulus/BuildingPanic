@@ -8,6 +8,16 @@ class SoundResourceManager;
 class StaticPictureEntity;
 class IntroCutSceneEntity;
 
+struct MenuScene_RenderMeta
+{
+    static const void** TitleEntity_RenderMetaPtr;
+    static const void** YamadaCopyrightEntity_RenderMetaPtr;
+    static const void** MenuOptionsEntity_RenderMetaPtr;
+    static const void** OptionLabelEntity_RenderMetaPtr;
+    static const void** MenuCursorEntity_RenderMetaPtr;
+    static const void** SelectCursorEntity_RenderMetaPtr;
+    // static const void** TitleEntity_RenderMetaPtr;
+};
 
 class MenuScene : public GameScene
 {

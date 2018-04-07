@@ -41,7 +41,7 @@ static const MSRect IntroCutScene_SrcRectangles[] =
 };
 
 IntroCutSceneEntity::IntroCutSceneEntity(GameScene* aScene, Bitmap* aBitmap)
-    : Entity(aScene, aBitmap, nullptr)
+    : Entity(aScene, aBitmap, IntroCutSceneEntity_RenderMeta::RenderMetaPtr)
 {
     this->byte64 = 0;
     this->byte65 = 0;
@@ -113,7 +113,7 @@ void IntroCutSceneEntity::Render()
     srcRect.bottom = this->srcRectPtr->bottom;
 
     // ugly workaround until src & dst metainfo + clipping is implemented
-    srcRect.bottom += 130;
+    // srcRect.bottom += 130;
 
     // Don't ask me why???
     dstRect.left = 80 - this->dword68;
@@ -180,3 +180,71 @@ void IntroCutSceneEntity::F_4146D0()
     this->byte65 = 0;
     this->dword68 = 80;
 }
+
+static const uint16_t RenderMeta_1_1[] =
+{
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+
+static const uint16_t RenderMeta_1_2[] =
+{
+    1,
+    2,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+
+static const uint16_t RenderMeta_1_3[] =
+{
+    1,
+    3,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+
+static const void* RenderMeta_1[] =
+{
+    &RenderMeta_1_1,
+    &RenderMeta_1_2,
+    &RenderMeta_1_3,
+    0
+};
+
+static const MSRect RenderMeta_2[] =
+{
+    { 0, 0, 1, 1 },
+    { 0, 0, 0xA0, 0xA0 },
+    { 0xA0, 0, 0x140, 0xA0 },
+    { 0x140, 0, 0x1E0, 0xA0 }
+};
+
+static const MSRect RenderMeta_3[] =
+{
+    { 0, 0, 1, 1 },
+    { -80, -80, 80, 80 } // lengths to sides (dimensions)
+};
+
+static const void* RenderMeta[] =
+{
+    &RenderMeta_1,
+    &RenderMeta_2,
+    &RenderMeta_3,
+    ((void*) gConsts::RenderMetaTerminatorPtr)
+};
+
+const void** IntroCutSceneEntity_RenderMeta::RenderMetaPtr = RenderMeta;

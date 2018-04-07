@@ -47,9 +47,9 @@ void MenuScene::CreateEntities()
 {
     this->inputProcessor = new MenuScene_InputProcessor();
 
-    this->titleEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[44], nullptr, 0);
-    this->yamadaCopyrightEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[54], nullptr, 0);
-    this->menuOptionsEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[53], nullptr, 0);
+    this->titleEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[44], MenuScene_RenderMeta::TitleEntity_RenderMetaPtr, 0);
+    this->yamadaCopyrightEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[54], MenuScene_RenderMeta::YamadaCopyrightEntity_RenderMetaPtr, 0);
+    this->menuOptionsEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[53], MenuScene_RenderMeta::MenuOptionsEntity_RenderMetaPtr, 0);
     this->optionLabelEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[80], nullptr, 0);
     this->menuCursorEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[33], nullptr, 0);
     this->selectCursorEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[37], nullptr, 0);
@@ -272,3 +272,145 @@ void MenuScene::InitMainMenu()
         std::cout << "MenuScene::InitMainMenu" << std::endl;
     }
 }
+
+// ------ TitleEntity RenderMeta START ------
+static const uint16_t TitleEntity_RenderMeta_1_1[] =
+{
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+
+static const void* TitleEntity_RenderMeta_1[] =
+{
+    &TitleEntity_RenderMeta_1_1,
+    0
+};
+
+static const MSRect TitleEntity_RenderMeta_2[] =
+{
+    { 0, 0, 1, 1 },
+    { 0, 0, 560, 160 } // src rectangle
+};
+
+static const MSRect TitleEntity_RenderMeta_3[] =
+{
+    { 0, 0, 1, 1 },
+    { -280, -80, 280, 80 } // lengths to sides (dimensions)
+};
+
+static const void* TitleEntity_RenderMeta[] =
+{
+    &TitleEntity_RenderMeta_1,
+    &TitleEntity_RenderMeta_2,
+    &TitleEntity_RenderMeta_3,
+    ((void*) gConsts::RenderMetaTerminatorPtr)
+};
+
+const void** MenuScene_RenderMeta::TitleEntity_RenderMetaPtr = TitleEntity_RenderMeta;
+// ------ TitleEntity RenderMeta END ------
+
+// ------ YamadaCopyrightEntity RenderMeta START ------
+static const uint16_t YamadaCopyrightEntity_RenderMeta_1_1[] =
+{
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+
+static const void* YamadaCopyrightEntity_RenderMeta_1[] =
+{
+    &YamadaCopyrightEntity_RenderMeta_1_1,
+    0
+};
+
+static const MSRect YamadaCopyrightEntity_RenderMeta_2[] =
+{
+    { 0, 0, 1, 1 },
+    { 0, 0, 0x100, 8 } // src rectangle
+};
+
+static const MSRect YamadaCopyrightEntity_RenderMeta_3[] =
+{
+    { 0, 0, 1, 1 },
+    { -128, -4, 128, 4 } // lengths to sides (dimensions)
+};
+
+static const void* YamadaCopyrightEntity_RenderMeta[] =
+{
+    &YamadaCopyrightEntity_RenderMeta_1,
+    &YamadaCopyrightEntity_RenderMeta_2,
+    &YamadaCopyrightEntity_RenderMeta_3,
+    ((void*) gConsts::RenderMetaTerminatorPtr)
+};
+
+const void** MenuScene_RenderMeta::YamadaCopyrightEntity_RenderMetaPtr = YamadaCopyrightEntity_RenderMeta;
+// ------ YamadaCopyrightEntity RenderMeta END ------
+
+// ------ MenuOptionsEntity RenderMeta START ------
+static const uint16_t MenuOptionsEntity_RenderMeta_1_1[] =
+{
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+
+static const uint16_t MenuOptionsEntity_RenderMeta_1_2[] =
+{
+    1,
+    2,
+    2,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+
+static const void* MenuOptionsEntity_RenderMeta_1[] =
+{
+    &MenuOptionsEntity_RenderMeta_1_1,
+    &MenuOptionsEntity_RenderMeta_1_2,
+    0,
+    0
+};
+
+static const MSRect MenuOptionsEntity_RenderMeta_2[] =
+{
+    { 0, 0, 1, 1 },
+    { 0, 0, 0xB8, 0x30 }, // src rectangle
+    { 0, 0, 0xB8, 0x50 }
+};
+
+static const MSRect MenuOptionsEntity_RenderMeta_3[] =
+{
+    { 0, 0, 1, 1 },
+    { -92, -40, 92, 8 }, // lengths to sides (dimensions)
+    { -92, -40, 92, 40 }
+};
+
+static const void* MenuOptionsEntity_RenderMeta[] =
+{
+    &MenuOptionsEntity_RenderMeta_1,
+    &MenuOptionsEntity_RenderMeta_2,
+    &MenuOptionsEntity_RenderMeta_3,
+    ((void*) gConsts::RenderMetaTerminatorPtr)
+};
+
+const void** MenuScene_RenderMeta::MenuOptionsEntity_RenderMetaPtr = MenuOptionsEntity_RenderMeta;
+// ------ MenuOptionsEntity RenderMeta END ------

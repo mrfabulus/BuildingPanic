@@ -5,12 +5,6 @@
 
 class GameManager;
 
-struct gConsts
-{
-    static const uint16_t referenceToSceneID_Linker[];
-    static SDL_Color* misc_PaletteDataPtr;
-};
-
 class MSRect
 {
     public:
@@ -20,6 +14,13 @@ class MSRect
         int32_t bottom;
 
         SDL_Rect ToSDLRect();
+};
+
+struct gConsts
+{
+    static const uint16_t referenceToSceneID_Linker[];
+    static SDL_Color* misc_PaletteDataPtr;
+    static MSRect* RenderMetaTerminatorPtr;
 };
 
 enum GameSceneID

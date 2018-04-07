@@ -283,6 +283,13 @@ static const SDL_Color misc_PaletteData[] =
 
 SDL_Color* gConsts::misc_PaletteDataPtr = (SDL_Color*) misc_PaletteData;
 
+static const MSRect RenderMetaTerminator
+{
+    0, 0, 0, 0
+};
+
+MSRect* gConsts::RenderMetaTerminatorPtr = (MSRect*) &RenderMetaTerminator;
+
 SDL_Rect MSRect::ToSDLRect()
 {
     SDL_Rect result;

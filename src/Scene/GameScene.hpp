@@ -3,7 +3,7 @@
 #include "../Globals.hpp"
 
 class LayerEntity;
-class Entity_base;
+class GameObject;
 class Entity;
 class InputProcessorBase;
 
@@ -47,8 +47,8 @@ class GameScene
 
         void SetFinishedIfFadesDone();
 
-        void AttachEntityToLayer(Entity* aEntity);
-        void DetachEntityFromLayer(Entity* aEntity);
+        void AttachGameObjectToLayer(GameObject* aEntity);
+        void DetachGameObjectFromLayer(GameObject* aEntity);
 
         void Tick(); // generic tick/update (shared between scenes)
         void RenderLayers();

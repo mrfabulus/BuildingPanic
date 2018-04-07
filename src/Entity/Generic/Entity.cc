@@ -2,6 +2,7 @@
 #include "../../Scene/GameScene.hpp"
 #include "../../Resource/Bitmap.hpp"
 #include <iostream>
+#include <stdlib.h>
 
 EntityExtraPositionData::EntityExtraPositionData(Entity* aEntity)
 {
@@ -11,8 +12,8 @@ EntityExtraPositionData::EntityExtraPositionData(Entity* aEntity)
     this->coordinateLikeThingie = aEntity->dword1C_coordinateLikeThingie;
 }
 
-Entity::Entity(GameScene* aScene, Bitmap* aBitmap, void* dataPtrs)
-    : Entity_base()
+Entity::Entity(GameScene* aScene, Bitmap* aBitmap, const void** dataPtrs)
+    : GameObject()
 {
     this->scene = aScene;
     this->entityImageBmp = aBitmap;
@@ -47,30 +48,42 @@ void Entity::ResetRenderRectangleMetadata()
     this->dword38_assignedZeroFromRenderSetup = 0;
 }
 
+// TODO: Find a cleaner way to implement this
 void Entity::AssignRenderRectangles(uint16_t aRenderDataPtrIndex)
 {
     if (this->renderDataPtrIndex != aRenderDataPtrIndex)
     {
-        // TODO: Implement this fucked up logic for real...
-        // TODO: Also, don't forget this shit is memleaking below
+        this->renderDataPtrIndex = aRenderDataPtrIndex;
+        std::cout << "AssignRenderRectangles for index " << aRenderDataPtrIndex << std::endl;
 
-        MSRect* phantomSrc = (MSRect*) malloc(sizeof(MSRect));
+        if (this->dataPtrs == nullptr)
+            return;
 
-        phantomSrc->left = 0;
-        phantomSrc->top = 0;
-        phantomSrc->right = 0x138;
-        phantomSrc->bottom = 0x20;
+        std::cout << "dataPtrs[0] = " << this->dataPtrs[0] << std::endl;
 
-        this->srcRectPtr = phantomSrc;
+        for (uint32_t i = 0; i < aRenderDataPtrIndex + 1; i++)
+        {
+            std::cout << "Reading from " << (this->dataPtrs[0] + i * 8) << std::endl;
+            uint64_t* debugP = ((uint64_t*) (this->dataPtrs[0] + i * 8));
+            std::cout << "dataPtrs[0][" << i << "] = 0x" << std::hex << *debugP << std::endl;
+        }
 
-        MSRect* phantomDim = (MSRect*) malloc(sizeof(MSRect));
+        uint16_t* p = (uint16_t*) (* ((uint64_t*) (this->dataPtrs[0] + aRenderDataPtrIndex * 8)));
+        std::cout << "Calculated p " << p << std::endl;
 
-        phantomDim->left = -156;
-        phantomDim->top = -16;
-        phantomDim->right = 156;
-        phantomDim->bottom = 16;
+        this->dataPtr1 = p;
+        this->firstWordFromRenderDataPtr1 = p[0];
 
-        this->dimensionRectPtr = phantomDim;
+        MSRect* srcRects = (MSRect*) this->dataPtrs[1];
+        this->srcRectPtr = srcRects + p[1];
+
+        MSRect* dimensionRects = (MSRect*) this->dataPtrs[2];
+        this->dimensionRectPtr = dimensionRects + p[2];
+
+        this->dword38_assignedZeroFromRenderSetup = 0;
+
+        MSRect* unkRects = (MSRect*) this->dataPtrs[3];
+        this->lastDataPtrRectanglePtr = unkRects + p[3];
     }
 }
 
@@ -91,6 +104,10 @@ void Entity::SetLayerIndex(uint16_t aLayerIndex)
             this->layerIndex = aLayerIndex;
         }
     }
+}
+
+void Entity::Update()
+{
 }
 
 void Entity::Render()
@@ -115,6 +132,12 @@ bool Entity::AttachWithPosition(int32_t aX, int32_t aY, uint16_t AttachedRenderD
     if (this->attachedToLayer)
         return false;
 
+    if (this->dataPtrs == nullptr)
+    {
+        std::cout << "WARNING, missing render meta information" << std::endl;
+        return false;
+    }
+
     double doubleX = (double) aX;
     double doubleY = (double) aY;
 
@@ -130,7 +153,7 @@ bool Entity::AttachWithPosition(int32_t aX, int32_t aY, uint16_t AttachedRenderD
 
     this->entityImageBmp->incRefCount();
     this->SetupRenderingInformation();
-    this->scene->AttachEntityToLayer(this);
+    this->scene->AttachGameObjectToLayer(this);
     this->attachedToLayer = true;
 
     return true;
@@ -160,7 +183,7 @@ bool Entity::AttachWithPosition2(int32_t aX, int32_t aY, int32_t unk, uint16_t A
 
     this->entityImageBmp->incRefCount();
     this->SetupRenderingInformation();
-    this->scene->AttachEntityToLayer(this);
+    this->scene->AttachGameObjectToLayer(this);
     this->attachedToLayer = true;
 
     return true;
@@ -171,7 +194,7 @@ bool Entity::Detach()
     if (this->attachedToLayer)
     {
         this->ReleaseResources();
-        this->scene->DetachEntityFromLayer(this);
+        this->scene->DetachGameObjectFromLayer(this);
         this->entityImageBmp->decRefCount();
         this->attachedToLayer = false;
     }
@@ -195,10 +218,6 @@ bool Entity::GetRenderRectangles(MSRect* aSrcRect, MSRect* aDstRect)
 
     aDstRect->top = this->centerY + this->dimensionRectPtr->top;
     aDstRect->bottom = this->centerY + this->dimensionRectPtr->bottom;
-}
-
-void Entity::Update()
-{
 }
 
 void Entity::SetupRenderingInformation()

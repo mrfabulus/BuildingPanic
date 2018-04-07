@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Entity_base.hpp"
+#include "GameObject.hpp"
 #include "../../SDL2_Interface.hpp"
 #include "../../Globals.hpp"
 
@@ -18,7 +18,7 @@ class EntityExtraPositionData
         EntityExtraPositionData(Entity* aEntity);
 };
 
-class Entity : public Entity_base
+class Entity : public GameObject
 {
     public:
         GameScene* scene;
@@ -33,8 +33,8 @@ class Entity : public Entity_base
         int16_t field_42;
         int16_t firstWordFromRenderDataPtr1;
         int16_t field_46;
-        void* dataPtrs;
-        int16_t* dataPtr1;
+        const void** dataPtrs;
+        uint16_t* dataPtr1;
         MSRect* srcRectPtr;
         MSRect* dimensionRectPtr;
         MSRect* lastDataPtrRectanglePtr;
@@ -42,7 +42,7 @@ class Entity : public Entity_base
         int16_t AttachedRenderDataIndex;
         int32_t dword60;
 
-        Entity(GameScene* aScene, Bitmap* aBitmap, void* dataPtrs);
+        Entity(GameScene* aScene, Bitmap* aBitmap, const void** dataPtrs);
         virtual ~Entity();
 
         void ResetRenderRectangleMetadata();
@@ -50,9 +50,9 @@ class Entity : public Entity_base
         void AssignRenderRectanglesAdvanced();
 
         // VTable entries
-        virtual void SetLayerIndex(uint16_t aLayerIndex);
-        virtual void Update();
-        virtual void Render();
+        virtual void SetLayerIndex(uint16_t aLayerIndex) override;
+        virtual void Update() override;
+        virtual void Render() override;
         virtual bool AttachWithPosition(int32_t aX, int32_t aY, uint16_t AttachedRenderDataIndex);
         virtual bool AttachWithPosition2(int32_t aX, int32_t aY, int32_t unk, uint16_t AttachedRenderDataIndex);
         virtual bool Detach();
