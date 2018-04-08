@@ -73,7 +73,13 @@ void Entity::AssignRenderRectangles(uint16_t aRenderDataPtrIndex)
         for (uint32_t i = 0; i < aRenderDataPtrIndex + 1; i++)
         {
             std::cout << "Reading from " << (this->dataPtrs[0] + i * multiplier) << std::endl;
+
+            #ifdef WIN32
+            uint32_t* debugP = ((uint32_t*)(this->dataPtrs[0] + i * multiplier));
+            #else
             uint64_t* debugP = ((uint64_t*) (this->dataPtrs[0] + i * multiplier));
+            #endif
+
             std::cout << "dataPtrs[0][" << i << "] = 0x" << std::hex << *debugP << std::endl;
         }
 
