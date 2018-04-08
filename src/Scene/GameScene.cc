@@ -147,6 +147,7 @@ void GameScene::DetachGameObjectFromLayer(GameObject* aEntity)
 // VTABLE
 int GameScene::GetNextSceneIDReference()
 {
+    return 0;
 }
 
 void GameScene::MakeSureImagesAreReady()

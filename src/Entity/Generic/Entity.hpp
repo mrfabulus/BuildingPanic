@@ -33,7 +33,7 @@ class Entity : public GameObject
         int16_t field_42;
         int16_t firstWordFromRenderDataPtr1;
         int16_t field_46;
-        const void** dataPtrs;
+        const uint32_t** dataPtrs;
         uint16_t* dataPtr1;
         MSRect* srcRectPtr;
         MSRect* dimensionRectPtr;
@@ -42,7 +42,7 @@ class Entity : public GameObject
         int16_t AttachedRenderDataIndex;
         int32_t dword60;
 
-        Entity(GameScene* aScene, Bitmap* aBitmap, const void** dataPtrs);
+        Entity(GameScene* aScene, Bitmap* aBitmap, const uint32_t** dataPtrs);
         virtual ~Entity();
 
         void ResetRenderRectangleMetadata();
@@ -55,9 +55,9 @@ class Entity : public GameObject
         virtual void Render() override;
         virtual bool AttachWithPosition(int32_t aX, int32_t aY, uint16_t AttachedRenderDataIndex);
         virtual bool AttachWithPosition2(int32_t aX, int32_t aY, int32_t unk, uint16_t AttachedRenderDataIndex);
-        virtual bool Detach();
+        virtual void Detach();
         virtual void SetupRenderingInformation();
         virtual void ReleaseResources();
         virtual bool CheckRenderBoundaries(MSRect* aSrcRect, MSRect* aDstRect);
-        virtual bool GetRenderRectangles(MSRect* aSrcRect, MSRect* aDstRect);
+        virtual void GetRenderRectangles(MSRect* aSrcRect, MSRect* aDstRect);
 };

@@ -7,6 +7,15 @@
 #include <stdio.h>
 #include <time.h>
 
+#ifdef WIN32
+#include "Windows.h"
+
+long getTimeMS()
+{
+	// return timeGetTime();
+	return 0;
+}
+#else
 long getTimeMS()
 {
     long            ms; // Milliseconds
@@ -26,6 +35,7 @@ long getTimeMS()
 
     return ms;
 }
+#endif
 
 namespace sdl2
 {
@@ -83,6 +93,7 @@ namespace sdl2
         this->proxyRenderSurface = SDL_CreateRGBSurface(0, 640, 480, 32, 0, 0, 0, 0);
         this->proxyRenderTexture = SDL_CreateTexture(gameRenderer.get(), SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, 640, 480);
 
+        #ifndef WIN32
         // Init SDL2_Mixer
         // TODO: Check which flags are really needed
         int mixFlags = 0; /* MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_MP3 | MIX_INIT_OGG | MIX_INIT_MID */ ;
@@ -93,6 +104,7 @@ namespace sdl2
             cout << "Error initializing mixer: " << SDL_GetError() << endl;
             return false;
         }
+        #endif
 
         return true;
     }

@@ -12,7 +12,7 @@ EntityExtraPositionData::EntityExtraPositionData(Entity* aEntity)
     this->coordinateLikeThingie = aEntity->dword1C_coordinateLikeThingie;
 }
 
-Entity::Entity(GameScene* aScene, Bitmap* aBitmap, const void** dataPtrs)
+Entity::Entity(GameScene* aScene, Bitmap* aBitmap, const uint32_t** dataPtrs)
     : GameObject()
 {
     this->scene = aScene;
@@ -59,16 +59,25 @@ void Entity::AssignRenderRectangles(uint16_t aRenderDataPtrIndex)
         if (this->dataPtrs == nullptr)
             return;
 
+        uint32_t multiplier = 0;
+
+        // Since the structure that is used is pretty messed up, pointer calculations have to be made accordingly
+        #ifdef WIN32
+        multiplier = 1;
+        #else
+        multiplier = 2;
+        #endif
+
         std::cout << "dataPtrs[0] = " << this->dataPtrs[0] << std::endl;
 
         for (uint32_t i = 0; i < aRenderDataPtrIndex + 1; i++)
         {
-            std::cout << "Reading from " << (this->dataPtrs[0] + i * 8) << std::endl;
-            uint64_t* debugP = ((uint64_t*) (this->dataPtrs[0] + i * 8));
+            std::cout << "Reading from " << (this->dataPtrs[0] + i * multiplier) << std::endl;
+            uint64_t* debugP = ((uint64_t*) (this->dataPtrs[0] + i * multiplier));
             std::cout << "dataPtrs[0][" << i << "] = 0x" << std::hex << *debugP << std::endl;
         }
 
-        uint16_t* p = (uint16_t*) (* ((uint64_t*) (this->dataPtrs[0] + aRenderDataPtrIndex * 8)));
+        uint16_t* p = (uint16_t*) (* ((uint64_t*) (this->dataPtrs[0] + aRenderDataPtrIndex * multiplier)));
         std::cout << "Calculated p " << p << std::endl;
 
         this->dataPtr1 = p;
@@ -189,7 +198,7 @@ bool Entity::AttachWithPosition2(int32_t aX, int32_t aY, int32_t unk, uint16_t A
     return true;
 }
 
-bool Entity::Detach()
+void Entity::Detach()
 {
     if (this->attachedToLayer)
     {
@@ -205,7 +214,7 @@ bool Entity::CheckRenderBoundaries(MSRect* aSrcRect, MSRect* aDstRect)
     return true;
 }
 
-bool Entity::GetRenderRectangles(MSRect* aSrcRect, MSRect* aDstRect)
+void Entity::GetRenderRectangles(MSRect* aSrcRect, MSRect* aDstRect)
 {
     aSrcRect->left = this->srcRectPtr->left;
     aSrcRect->top = this->srcRectPtr->top;

@@ -2,6 +2,11 @@
 #include "Globals.hpp"
 #include "Manager/GameManager.hpp"
 
+#ifdef WIN32
+// Silly windows doesn't know how linking works lmao
+#undef main
+#endif
+
 int main()
 {
     if (!gSys.IsVideoInitialized())

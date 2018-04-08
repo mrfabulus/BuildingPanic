@@ -13,7 +13,7 @@ class StaticPictureEntity : public Entity
         uint16_t renderDataPtrIndex;
         EntityExtraPositionData* extraPositionData2;
 
-        StaticPictureEntity (GameScene* aScene, Bitmap* aBitmap, const void** dataPtrs, char a5);
+        StaticPictureEntity (GameScene* aScene, Bitmap* aBitmap, const uint32_t** dataPtrs, char a5);
         ~StaticPictureEntity();
 
         virtual void SetupRenderingInformation() override;

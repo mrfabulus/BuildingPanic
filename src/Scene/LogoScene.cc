@@ -164,4 +164,4 @@ static const void* LogoEntity_RenderMeta[] =
     ((void*) gConsts::RenderMetaTerminatorPtr)
 };
 
-const void** LogoScene_RenderMeta::LogoEntity_RenderMetaPtr = LogoEntity_RenderMeta;
+const uint32_t** LogoScene_RenderMeta::LogoEntity_RenderMetaPtr = (const uint32_t**) LogoEntity_RenderMeta;

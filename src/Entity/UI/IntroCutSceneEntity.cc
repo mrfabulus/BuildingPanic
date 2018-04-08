@@ -129,6 +129,7 @@ void IntroCutSceneEntity::Render()
 
     // Render one square (current character in cutscene)
     SDL_BlitSurface(this->entityImageBmp->SDL_surface, &srcRectSDL, this->ddSurface, &dstRectSDL);
+    // SDL_BlitScaled(this->entityImageBmp->SDL_surface, &srcRectSDL, this->ddSurface, &dstRectSDL);
 
     // SDL_Texture* texture = SDL_CreateTextureFromSurface(gSys.GetRenderer(), this->ddSurface);
 
@@ -142,7 +143,8 @@ void IntroCutSceneEntity::Render()
         SDL_Rect partialDstRect = partialDstPtr->ToSDLRect();
 
         // SDL_RenderCopy(gSys.GetRenderer(), texture, &partialSrcRect, &partialDstRect);
-        SDL_BlitSurface(this->ddSurface, &partialSrcRect, gSys.GetMainSurface(), &partialDstRect);
+        // SDL_BlitSurface(this->ddSurface, &partialSrcRect, gSys.GetMainSurface(), &partialDstRect);
+        SDL_BlitScaled(this->ddSurface, &partialSrcRect, gSys.GetMainSurface(), &partialDstRect);
     }
 
     // SDL_DestroyTexture(texture);
@@ -248,5 +250,5 @@ static const void* RenderMeta[] =
     ((void*) gConsts::RenderMetaTerminatorPtr)
 };
 
-const void** IntroCutSceneEntity_RenderMeta::RenderMetaPtr = RenderMeta;
+const uint32_t** IntroCutSceneEntity_RenderMeta::RenderMetaPtr = (const uint32_t**) RenderMeta;
 // ------ IntroCutSceneEntity RenderMeta END ------

@@ -29,9 +29,14 @@ add_executable(${PROJECT_NAME} ${SRC_LIST})
 # C++14
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
-# SDL2, mixer
-include(FindPkgConfig)
-pkg_check_modules(SDL2 REQUIRED sdl2 SDL2_mixer)
+IF (WIN32)
+    find_package(SDL2 REQUIRED)
+ELSE()
+    # SDL2, mixer
+    include(FindPkgConfig)
+    pkg_check_modules(SDL2 REQUIRED sdl2 SDL2_mixer)
+ENDIF()
+
 include_directories(${SDL2_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})

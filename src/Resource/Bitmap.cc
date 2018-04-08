@@ -2,8 +2,11 @@
 #include "../SDL2_Interface.hpp"
 #include "../Globals.hpp"
 #include <stdio.h>
-#include <unistd.h>
 #include <iostream>
+
+#ifndef WIN32
+#include <unistd.h>
+#endif
 
 Bitmap::Bitmap(std::string& aName, void* ddPalette, int16_t aID, bool initialRefCount)
 {
@@ -15,8 +18,14 @@ Bitmap::Bitmap(std::string& aName, void* ddPalette, int16_t aID, bool initialRef
     this->resourceID = aID;
 
     char* path = (char*) malloc(256);
-    snprintf(path, 256, "../assets/img/%s.bmp", aName.c_str());
 
+    #ifdef WIN32
+    snprintf(path, 256, "D:\\Building Panic\\Build\\assets\\img\\%s.bmp", aName.c_str());
+    #else
+    snprintf(path, 256, "../assets/img/%s.bmp", aName.c_str());
+    #endif
+
+    #ifndef WIN32
     if( access( path, F_OK ) != -1 )
     {
         std::cout << "Bitmap creation OK for " << path << std::endl;
@@ -25,6 +34,7 @@ Bitmap::Bitmap(std::string& aName, void* ddPalette, int16_t aID, bool initialRef
     {
         std::cout << "Bitmap creation ERROR for " << path << std::endl;
     }
+    #endif
 
     // TODO: Handle errors gracefully
     this->SDL_handle = SDL_RWFromFile(path, "rb");
