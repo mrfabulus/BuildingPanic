@@ -5,13 +5,14 @@
 class InputProcessorBase
 {
     public:
-        int32_t inputMask;
-        int32_t savedInputMask;
-        int32_t postInputTickMask1;
-        int32_t postInputTickMask2;
+        uint32_t inputMask;
+        uint32_t savedInputMask;
+        uint32_t newButtonPressesMask;
+        uint32_t newButtonReleasesMask;
 
         InputProcessorBase();
         virtual ~InputProcessorBase();
 
+        void Tick();
         virtual void Process();
 };

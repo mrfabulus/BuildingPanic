@@ -1,6 +1,7 @@
 #define _POSIX_C_SOURCE 200809L
 
 #include "SDL2_Interface.hpp"
+#include "Globals.hpp"
 #include <inttypes.h>
 #include <math.h>
 #include <stdio.h>
@@ -152,5 +153,20 @@ namespace sdl2
     SDL_Renderer* SDL2_Interface::GetRenderer()
     {
         return this->gameRenderer.get();
+    }
+
+    void SDL2_Interface::ProcessEvents()
+    {
+        SDL_Event event;
+
+        while (SDL_PollEvent(&event))
+        {
+            switch (event.type)
+            {
+                case SDL_QUIT:
+                    gGameloopRunning = false;
+                    break;
+            }
+        }
     }
 }

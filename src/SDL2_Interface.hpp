@@ -76,5 +76,6 @@ namespace sdl2
             SDL_Surface* GetMainSurface();
 
             SDL_Renderer* GetRenderer();
+            void ProcessEvents();
     };
 }

@@ -135,7 +135,7 @@ bool GameManager::Tick()
     
     // Record current inputs and store it in the bitmask
     if (input != nullptr)
-        input->Process();
+        input->Tick();
 
     // Renders frame and updates the scene
     this->currentSceneObjectPtr->Tick();

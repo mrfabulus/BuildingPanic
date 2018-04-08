@@ -3,6 +3,7 @@
 sdl2::SDL2_Interface gSys;
 GameManager* gGameManager;
 bool gGameloopActive = true;
+bool gGameloopRunning = true;
 bool gNonStandardDimensions = true;
 
 const uint16_t gConsts::referenceToSceneID_Linker[] =

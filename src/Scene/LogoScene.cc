@@ -94,7 +94,23 @@ void LogoScene::Update()
         case 1:
             if (this->ticksLeftUntilReEval > 0)
             {
-                // TODO: Check InputProcessor's mask for PANIC cheat code and add logic
+                // TODO: Check if the cheat has been activated before
+                if (this->panicButtonsPressedCount >= 5)
+                {
+                    // TODO: Set data in savefile
+                    // TODO: Play "SELECT" sound
+                    std::cout << "PANIC cheat activated" << std::endl;
+                }
+                else
+                {
+                    uint32_t buttonOrder[] = { 1, 2, 4, 8, 16 };
+
+                    if (buttonOrder[this->panicButtonsPressedCount] & this->inputProcessor->newButtonPressesMask)
+                    {
+                        std::cout << "PANIC increase: " << this->panicButtonsPressedCount << std::endl;
+                        this->panicButtonsPressedCount++;
+                    }
+                }
             }
             else
             {

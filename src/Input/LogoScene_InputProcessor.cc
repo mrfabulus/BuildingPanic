@@ -1,4 +1,5 @@
 #include "LogoScene_InputProcessor.hpp"
+#include "../SDL2_Interface.hpp"
 
 LogoScene_InputProcessor::LogoScene_InputProcessor()
 {
@@ -10,39 +11,30 @@ LogoScene_InputProcessor::~LogoScene_InputProcessor()
 
 void LogoScene_InputProcessor::Process()
 {
-    /*
-    bpanic_PullInputFromDI();
-    if ( bpanic_IsKeyPressed(DIK_P) )             // "P" "A" "N" "I" "C" code
-                                                    // cheat code for unlocking all stages
+    const Uint8* state = SDL_GetKeyboardState(NULL);
+
+    if (state[SDL_SCANCODE_P])
     {
-        v2 = this->inputMask;
-        LOBYTE(v2) = v2 | 1;
-        this->inputMask = v2;
+        this->inputMask |= 1;
     }
-    if ( bpanic_IsKeyPressed(DIK_A) )
+
+    if (state[SDL_SCANCODE_A])
     {
-        v3 = this->inputMask;
-        LOBYTE(v3) = v3 | 2;
-        this->inputMask = v3;
+        this->inputMask |= 2;
     }
-    if ( bpanic_IsKeyPressed(DIK_N) )
+
+    if (state[SDL_SCANCODE_N])
     {
-        v4 = this->inputMask;
-        LOBYTE(v4) = v4 | 4;
-        this->inputMask = v4;
+        this->inputMask |= 4;
     }
-    if ( bpanic_IsKeyPressed(DIK_I) )
+
+    if (state[SDL_SCANCODE_I])
     {
-        v5 = this->inputMask;
-        LOBYTE(v5) = v5 | 8;
-        this->inputMask = v5;
+        this->inputMask |= 8;
     }
-    result = (void *)bpanic_IsKeyPressed(DIK_C);
-    if ( result )
+
+    if (state[SDL_SCANCODE_C])
     {
-        result = (void *)this->inputMask;
-        LOBYTE(result) = (unsigned __int8)result | 0x10;
-        this->inputMask = result;
+        this->inputMask |= 16;
     }
-    */
 }

@@ -42,4 +42,5 @@ enum GameSceneID
 extern sdl2::SDL2_Interface gSys;
 extern GameManager* gGameManager;
 extern bool gGameloopActive;
+extern bool gGameloopRunning;
 extern bool gNonStandardDimensions;

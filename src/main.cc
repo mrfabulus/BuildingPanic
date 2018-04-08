@@ -19,9 +19,19 @@ int main()
     gGameManager = new GameManager();
 
     // Gameloop
-    while (gGameloopActive)
+    while (gGameloopRunning)
     {
-        gGameManager->Update();
+        gSys.ProcessEvents();
+
+        if (gGameloopActive)
+        {
+            gGameManager->Update();
+        }
+        else
+        {
+            // Wait 100 ms every time in case the gameloop is inactive to avoid busy waiting
+            SDL_Delay(100);
+        }
     }
     
     return 0;

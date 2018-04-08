@@ -166,7 +166,7 @@ void GameScene::Update()
 
 void GameScene::Tick()
 {
-    std::cout << "GameScene::Tick" << std::endl;
+    // std::cout << "GameScene::Tick" << std::endl;
     this->Update();
 
     if (this->phantomTicksEnabled)

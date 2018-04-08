@@ -264,7 +264,7 @@ void MenuScene::InitMainMenu()
         this->menuOptionsEntity->AttachWithPosition(320, 288, 0);
         this->optionLabelEntity->AttachWithPosition(280, 320, 0);
 
-        int32_t menuCursorYCoordinates[] = { 0x100, 0x120, 0x140, 0x160 };
+        uint32_t menuCursorYCoordinates[] = { 0x100, 0x120, 0x140, 0x160 };
         this->menuCursorEntity->AttachWithPosition(208, menuCursorYCoordinates[this->menuChoice], 0);
 
         // Go to next phase

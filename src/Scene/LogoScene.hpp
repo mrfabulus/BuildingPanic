@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameScene.hpp"
+#include <cstdint>
 
 class SaveManager;
 class BitmapResourceManager;
@@ -19,7 +20,7 @@ class LogoScene : public GameScene
         BitmapResourceManager* sceneBitmapMgr;
         SoundResourceManager* sceneSoundMgr;
         StaticPictureEntity* logoEntity;
-        int panicButtonsPressedCount;
+        uint32_t panicButtonsPressedCount;
 
         LogoScene(SaveManager* aSaveManager);
         virtual ~LogoScene();
