@@ -220,8 +220,6 @@ void MenuScene::Update()
 
                 this->menuCursorEntity->centerY = menuCursorYCoordinates[this->menuChoice];
             }
-            else
-                std::cout << "MenuScene nothing, mask: " << mask << std::endl;
 
             break;
         case 0x13:

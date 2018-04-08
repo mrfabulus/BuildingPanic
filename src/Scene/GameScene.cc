@@ -262,6 +262,9 @@ void GameScene::UpdateEntities()
 
 bool GameScene::InitPaletteFromColors(SDL_Palette** aOutPalette, SDL_Color* aColors)
 {
+    if (aColors == nullptr)
+        return true;
+
     // TODO: Error handling
     SDL_Palette* newPalette = SDL_AllocPalette(256);
     SDL_PixelFormat format;

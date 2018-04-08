@@ -1,7 +1,11 @@
 #pragma once
 
 #include <SDL2/SDL.h>
+
+#ifndef WIN32
 #include "SDL2/SDL_mixer.h" 
+#endif
+
 #include <memory>
 #include <iostream>
 #include <cstdint>
