@@ -2,6 +2,7 @@
 #include "../SDL2_Interface.hpp"
 
 LogoScene_InputProcessor::LogoScene_InputProcessor()
+    : InputProcessorBase()
 {
 }
 

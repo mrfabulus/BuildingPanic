@@ -1,4 +1,5 @@
 #include "InputProcessorBase.hpp"
+#include <iostream>
 
 InputProcessorBase::InputProcessorBase()
 {
@@ -10,6 +11,7 @@ InputProcessorBase::~InputProcessorBase()
 
 void InputProcessorBase::Tick()
 {
+    // std::cout << "InputProcessorBase tick" << std::endl;
     this->savedInputMask = this->inputMask;
     this->inputMask = 0;
     this->Process();

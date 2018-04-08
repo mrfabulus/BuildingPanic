@@ -7,6 +7,8 @@
 #include "../Input/MenuScene_InputProcessor.hpp"
 #include <iostream>
 
+uint32_t menuCursorYCoordinates[] = { 0x100, 0x120, 0x140, 0x160 };
+
 MenuScene::MenuScene(SaveManager* aSaveManager)
     : GameScene(gConsts::misc_PaletteDataPtr)
 {
@@ -19,7 +21,7 @@ MenuScene::MenuScene(SaveManager* aSaveManager)
     this->byte959 = 0;
     this->gap8D8 = 0;
 
-    this->inputProcessor = nullptr;
+    this->inputProcessorMenu = nullptr;
 
     this->titleEntity = nullptr;
     this->yamadaCopyrightEntity = nullptr;
@@ -45,7 +47,8 @@ MenuScene::~MenuScene()
 
 void MenuScene::CreateEntities()
 {
-    this->inputProcessor = new MenuScene_InputProcessor();
+    this->inputProcessorMenu = new MenuScene_InputProcessor();
+    this->inputProcessor = this->inputProcessorMenu;
 
     this->titleEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[44], MenuScene_RenderMeta::TitleEntity_RenderMetaPtr, 0);
     this->yamadaCopyrightEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[54], MenuScene_RenderMeta::YamadaCopyrightEntity_RenderMetaPtr, 0);
@@ -81,8 +84,12 @@ void MenuScene::UpdateLayer(LayerEntity* aLayer, int16_t aLayerEntityCount)
 void MenuScene::Update()
 {
     // TODO: hoooly shit, this function..
+    /*
     std::cout << "MenuScene::Update SPI " << this->scenePhaseIndex << " TL " << this->ticksLeftUntilReEval;
     std::cout << " CSP " << (int) this->cutScenePhase << std::endl;
+    */
+
+    uint32_t mask = this->inputProcessor->newButtonPressesMask;
 
     switch (this->scenePhaseIndex)
     {
@@ -98,7 +105,7 @@ void MenuScene::Update()
             }
             break;
         case 0x10:
-            if (this->cutScenePhase != 8 && false /* && Enter pressed */)
+            if (this->cutScenePhase != 8 && this->inputProcessor->newButtonPressesMask & 0x10001 != 0)
             {
                 // If the cutscene is not over and enter is pressed, we'll skip
                 this->PaletteFadeAwayStart(1, 32);
@@ -151,18 +158,70 @@ void MenuScene::Update()
             }
             break;
         case 0x12:
-            // Menu fully loaded, handling user input
-
+            // Time expired, go into DemoPlay mode
             if (this->ticksLeftUntilReEval <= 0)
             {
-                // Time expired, go into DemoPlay mode
                 this->menuChoice = 0xFF;
                 this->PaletteFadeAwayStart(1, 32);
                 this->scenePhaseIndex = 2;
                 return;
             }
 
-            // TODO: Handle inputs from player (UP, DOWN, ENTER)
+            // Menu fully loaded, handling user input
+            if ((mask & 0x10001) != 0)
+            {
+                // ENTER
+                // TODO: Play sound slot 0
+
+                if (this->menuChoice == 2)
+                {
+                    this->cutScenePhase = 1;
+                    this->scenePhaseIndex = 0x13;
+                }
+                else
+                {
+                    // TODO: Set 1Por2P mode in saveManager
+                    this->scenePhaseIndex = 2;
+                }
+            }
+            else if ((mask & 0x400040) != 0)
+            {
+                // UP
+                if (this->menuChoice == 0)
+                    return;
+
+                // TODO: Play sound slot 1
+
+                this->menuChoice--;
+                this->ticksLeftUntilReEval = 1800;
+
+                if (this->menuCursorEntity->extraPositionData != nullptr)
+                {
+                    this->menuCursorEntity->extraPositionData->dCenterY = menuCursorYCoordinates[this->menuChoice];
+                }
+
+                this->menuCursorEntity->centerY = menuCursorYCoordinates[this->menuChoice];
+            }
+            else if ((mask & 0x800080) != 0)
+            {
+                // DOWN
+                if (this->menuChoice == 2)
+                    return;
+
+                // TODO: Play sound slot 1
+
+                this->menuChoice++;
+                this->ticksLeftUntilReEval = 1800;
+
+                if (this->menuCursorEntity->extraPositionData != nullptr)
+                {
+                    this->menuCursorEntity->extraPositionData->dCenterY = menuCursorYCoordinates[this->menuChoice];
+                }
+
+                this->menuCursorEntity->centerY = menuCursorYCoordinates[this->menuChoice];
+            }
+            else
+                std::cout << "MenuScene nothing, mask: " << mask << std::endl;
 
             break;
         case 0x13:
@@ -263,8 +322,6 @@ void MenuScene::InitMainMenu()
         this->yamadaCopyrightEntity->AttachWithPosition(320, 448, 0);
         this->menuOptionsEntity->AttachWithPosition(320, 288, 0);
         this->optionLabelEntity->AttachWithPosition(280, 320, 0);
-
-        uint32_t menuCursorYCoordinates[] = { 0x100, 0x120, 0x140, 0x160 };
         this->menuCursorEntity->AttachWithPosition(208, menuCursorYCoordinates[this->menuChoice], 0);
 
         // Go to next phase

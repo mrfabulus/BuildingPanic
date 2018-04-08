@@ -40,7 +40,7 @@ class MenuScene : public GameScene
         void* fontCharsetEntity;
         BitmapResourceManager* sceneBitmapMgr;
         SoundResourceManager* sceneSoundMgr;
-        InputProcessorBase* inputProcessor;
+        InputProcessorBase* inputProcessorMenu; // I think this is redundant but I'll keep it here
         StaticPictureEntity* fontGlyphEntities[16];
         int8_t byte958;
         int8_t byte959;
