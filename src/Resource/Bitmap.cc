@@ -55,7 +55,15 @@ void Bitmap::incRefCount()
     if (this->refCount == 0)
     {
         std::cout << "Ref count inc, loading " << this->resourceName << std::endl;
-        this->SDL_surface = SDL_LoadBMP_RW(this->SDL_handle, 1);
+
+        // We have to create another surface to convert the image to our own format to satisfy blits
+        SDL_Surface* otherSurf = nullptr;
+        otherSurf = SDL_LoadBMP_RW(this->SDL_handle, 1);
+
+        this->SDL_surface = gSys.CreateSurface(otherSurf->w, otherSurf->h);
+        SDL_BlitSurface(otherSurf, NULL, this->SDL_surface, NULL);
+        SDL_FreeSurface(otherSurf);
+
         this->SDL_texture = SDL_CreateTextureFromSurface(gSys.GetRenderer(), this->SDL_surface);
 
         // Set transparent color key to black

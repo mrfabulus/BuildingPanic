@@ -3,6 +3,7 @@
 #include "../../SDL2_Interface.hpp"
 #include "../../Resource/Bitmap.hpp"
 #include <iostream>
+#include <stdlib.h>
 
 static const MSRect IntroCutScene_DstRectangles[] =
 {
@@ -46,8 +47,8 @@ IntroCutSceneEntity::IntroCutSceneEntity(GameScene* aScene, Bitmap* aBitmap)
     this->byte64 = 0;
     this->byte65 = 0;
     this->byte66 = 0;
-    this->dword68 = 1;
-    this->dword6C = 0;
+    this->stretchOffset = 1;
+    this->stretchAcceleration = 0;
     this->ddSurface = gSys.CreateSurface(160, 160);
 
     // TODO: Set palette of ddSurface using aScene->palette2
@@ -71,30 +72,30 @@ void IntroCutSceneEntity::Update()
 
     if (this->byte64 == 1)
     {
-        this->dword68 += this->dword6C;
+        this->stretchOffset += this->stretchAcceleration;
 
-        if (this->dword68 < 80)
+        if (this->stretchOffset < 80)
         {
-            this->dword6C++;
+            this->stretchAcceleration++;
         }
         else
         {
-            this->dword68 = 80;
+            this->stretchOffset = 80;
             this->byte65 = 1;
             this->byte64 = 0;
         }
     }
     else if (this->byte64 == 2)
     {
-        this->dword68 -= this->dword6C;
+        this->stretchOffset -= this->stretchAcceleration;
 
-        if (this->dword68 > 0)
+        if (this->stretchOffset > 0)
         {
-            this->dword6C--;
+            this->stretchAcceleration--;
         }
         else
         {
-            this->dword68 = 1;
+            this->stretchOffset = 1;
             this->byte66 = 1;
             this->byte64 = 0;
         }
@@ -116,8 +117,8 @@ void IntroCutSceneEntity::Render()
     srcRect.right = this->srcRectPtr->right;
     srcRect.bottom = this->srcRectPtr->bottom;
 
-    dstRect.left = 80 - this->dword68;
-    dstRect.right = this->dword68 + 80;
+    dstRect.left = 80 - this->stretchOffset;
+    dstRect.right = 80 + this->stretchOffset;
     dstRect.top = 0;
     dstRect.bottom = 160;
 
@@ -128,8 +129,21 @@ void IntroCutSceneEntity::Render()
     SDL_FillRect(this->ddSurface, NULL, SDL_MapRGB(this->ddSurface->format, 0, 0, 0));
 
     // Render one square (current character in cutscene)
-    SDL_BlitSurface(this->entityImageBmp->SDL_surface, &srcRectSDL, this->ddSurface, &dstRectSDL);
-    // SDL_BlitScaled(this->entityImageBmp->SDL_surface, &srcRectSDL, this->ddSurface, &dstRectSDL);
+    // SDL_BlitSurface(this->entityImageBmp->SDL_surface, &srcRectSDL, this->ddSurface, &dstRectSDL);
+
+    // TODO: Figure out why scaled blitting does not work (this is why the "rotation" isn't working)
+    int32_t result = SDL_BlitScaled(this->entityImageBmp->SDL_surface, &srcRectSDL, this->ddSurface, &dstRectSDL);
+
+    std::cout << "SDL_BlitScaled: " << result << std::endl;
+    std::cout << "BPP: " << (uint32_t) this->ddSurface->format->BitsPerPixel << std::endl;
+    std::cout << "eIB: " << (uint32_t) this->entityImageBmp->SDL_surface->format->Rloss << std::endl;
+    std::cout << "target: " << (uint32_t) this->ddSurface->format->Rloss << std::endl;
+
+    if (result != 0)
+    {
+        std::cout << std::string(SDL_GetError()) << std::endl;
+        exit(0);
+    }
 
     // SDL_Texture* texture = SDL_CreateTextureFromSurface(gSys.GetRenderer(), this->ddSurface);
 
@@ -143,8 +157,8 @@ void IntroCutSceneEntity::Render()
         SDL_Rect partialDstRect = partialDstPtr->ToSDLRect();
 
         // SDL_RenderCopy(gSys.GetRenderer(), texture, &partialSrcRect, &partialDstRect);
-        // SDL_BlitSurface(this->ddSurface, &partialSrcRect, gSys.GetMainSurface(), &partialDstRect);
-        SDL_BlitScaled(this->ddSurface, &partialSrcRect, gSys.GetMainSurface(), &partialDstRect);
+        SDL_BlitSurface(this->ddSurface, &partialSrcRect, gSys.GetMainSurface(), &partialDstRect);
+        // SDL_BlitScaled(this->ddSurface, &partialSrcRect, gSys.GetMainSurface(), &partialDstRect);
     }
 
     // SDL_DestroyTexture(texture);
@@ -162,8 +176,8 @@ void IntroCutSceneEntity::Custom_AssignRenderRectangles(uint16_t aRenderDataPtrI
     this->byte64 = 1;
     this->byte66 = 0;
     this->byte65 = 0;
-    this->dword68 = 1;
-    this->dword6C = 0;
+    this->stretchOffset = 1;
+    this->stretchAcceleration = 0;
 }
 
 void IntroCutSceneEntity::F_4146A0(uint16_t aRenderDataPtrIndex)
@@ -172,7 +186,7 @@ void IntroCutSceneEntity::F_4146A0(uint16_t aRenderDataPtrIndex)
     this->byte65 = 1;
     this->byte64 = 0;
     this->byte66 = 0;
-    this->dword68 = 80;
+    this->stretchOffset = 80;
 }
 
 void IntroCutSceneEntity::F_4146D0()
@@ -180,7 +194,7 @@ void IntroCutSceneEntity::F_4146D0()
     this->byte64 = 2;
     this->byte66 = 0;
     this->byte65 = 0;
-    this->dword68 = 80;
+    this->stretchOffset = 80;
 }
 
 // ------ IntroCutSceneEntity RenderMeta START ------

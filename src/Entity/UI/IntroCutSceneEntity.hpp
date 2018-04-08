@@ -14,8 +14,8 @@ class IntroCutSceneEntity : public Entity
         int8_t byte64;
         int8_t byte65;
         int8_t byte66;
-        int32_t dword68;
-        int32_t dword6C;
+        int32_t stretchOffset;
+        int32_t stretchAcceleration;
         
         // DDBLTFX cutSceneDDBLTFX;
 
