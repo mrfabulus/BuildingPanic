@@ -50,7 +50,10 @@ IntroCutSceneEntity::IntroCutSceneEntity(GameScene* aScene, Bitmap* aBitmap)
     this->dword6C = 0;
     this->ddSurface = gSys.CreateSurface(160, 160);
 
-    // TODO: Handle palette and color key (?)
+    // TODO: Set palette of ddSurface using aScene->palette2
+
+    // Set transparent color key to black
+    SDL_SetColorKey(this->ddSurface, SDL_TRUE, SDL_MapRGB(this->ddSurface->format, 0, 0, 0));
 
     if (!this->attachedToLayer)
         this->layerIndex = 1;
@@ -98,6 +101,7 @@ void IntroCutSceneEntity::Update()
     }
 }
 
+// TODO: Adept to Texture rendering
 void IntroCutSceneEntity::Render()
 {
     if (!this->attachedToLayer)
@@ -112,10 +116,6 @@ void IntroCutSceneEntity::Render()
     srcRect.right = this->srcRectPtr->right;
     srcRect.bottom = this->srcRectPtr->bottom;
 
-    // ugly workaround until src & dst metainfo + clipping is implemented
-    // srcRect.bottom += 130;
-
-    // Don't ask me why???
     dstRect.left = 80 - this->dword68;
     dstRect.right = this->dword68 + 80;
     dstRect.top = 0;
@@ -181,6 +181,7 @@ void IntroCutSceneEntity::F_4146D0()
     this->dword68 = 80;
 }
 
+// ------ IntroCutSceneEntity RenderMeta START ------
 static const uint16_t RenderMeta_1_1[] =
 {
     1,
@@ -248,3 +249,4 @@ static const void* RenderMeta[] =
 };
 
 const void** IntroCutSceneEntity_RenderMeta::RenderMetaPtr = RenderMeta;
+// ------ IntroCutSceneEntity RenderMeta END ------
