@@ -102,7 +102,7 @@ void IntroCutSceneEntity::Update()
     }
 }
 
-// TODO: Adept to Texture rendering
+// TODO: Adept to Texture rendering to speed things up
 void IntroCutSceneEntity::Render()
 {
     if (!this->attachedToLayer)
@@ -129,21 +129,7 @@ void IntroCutSceneEntity::Render()
     SDL_FillRect(this->ddSurface, NULL, SDL_MapRGB(this->ddSurface->format, 0, 0, 0));
 
     // Render one square (current character in cutscene)
-    // SDL_BlitSurface(this->entityImageBmp->SDL_surface, &srcRectSDL, this->ddSurface, &dstRectSDL);
-
-    // TODO: Figure out why scaled blitting does not work (this is why the "rotation" isn't working)
     int32_t result = SDL_BlitScaled(this->entityImageBmp->SDL_surface, &srcRectSDL, this->ddSurface, &dstRectSDL);
-
-    std::cout << "SDL_BlitScaled: " << result << std::endl;
-    std::cout << "BPP: " << (uint32_t) this->ddSurface->format->BitsPerPixel << std::endl;
-    std::cout << "eIB: " << (uint32_t) this->entityImageBmp->SDL_surface->format->Rloss << std::endl;
-    std::cout << "target: " << (uint32_t) this->ddSurface->format->Rloss << std::endl;
-
-    if (result != 0)
-    {
-        std::cout << std::string(SDL_GetError()) << std::endl;
-        exit(0);
-    }
 
     // SDL_Texture* texture = SDL_CreateTextureFromSurface(gSys.GetRenderer(), this->ddSurface);
 
@@ -158,7 +144,6 @@ void IntroCutSceneEntity::Render()
 
         // SDL_RenderCopy(gSys.GetRenderer(), texture, &partialSrcRect, &partialDstRect);
         SDL_BlitSurface(this->ddSurface, &partialSrcRect, gSys.GetMainSurface(), &partialDstRect);
-        // SDL_BlitScaled(this->ddSurface, &partialSrcRect, gSys.GetMainSurface(), &partialDstRect);
     }
 
     // SDL_DestroyTexture(texture);

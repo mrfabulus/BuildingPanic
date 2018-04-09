@@ -125,7 +125,60 @@ void CharacterChoiceScene::MakeSureImagesAreReady()
 
 void CharacterChoiceScene::Update()
 {
-    // TODO: oh boi
+    switch (this->scenePhaseIndex)
+    {
+        case 0:
+            if (this->ticksLeftUntilReEval <= 0)
+            {
+                this->selectSubtextsEntity->AttachWithPosition(320, 416, 0);
+                this->selectionCursorEntity->AttachWithPosition(this->byte8D8 == 0 ? 0xB0 : 0x1D0, 240, 0);
+
+                /*
+                SaveManager_createPlayerObjects(this->saveMgr);// create human player objects
+                v6 = this->saveMgr;
+                v7 = 0;
+                if ( ((v6->saveFlags & 0x202) != 0) + 1 > 0 )
+                {
+                    v8 = 24;
+                    do
+                    {
+                        *((_BYTE *)&v6->VTable + v8) = v7;
+                        v6 = this->saveMgr;
+                        ++v7;
+                        v8 += 12;
+                    }
+                    while ( v7 < ((v6->saveFlags & 0x202) != 0) + 1 );
+                }
+                inputCodes = (int)this->saveMgr;
+                *(_WORD *)(inputCodes + 4) = this->selectedStageNumber;
+                */
+
+                this->saveMgr->nextLevel = 0;
+                this->scenePhaseIndex = 4097;
+            }
+            break;
+        case 2:
+            this->dword8DC--;
+
+            if (this->dword8DC == 0)
+            {
+                this->PaletteFadeAwayStart(1, 0x40);
+            }
+            else if (this->dword8DC < 0 && !this->fadeIn_active && !this->fadeAway_active)
+            {
+                // TODO: Set 2 values in this->saveMgr->gap10
+                this->finished = true;
+            }
+            break;
+        case 4097:
+            break;
+        case 4098:
+            break;
+        case 4099:
+            break;
+        case 5000:
+            break;
+    }
 }
 
 bool CharacterChoiceScene::CreateEntities()
@@ -136,14 +189,14 @@ bool CharacterChoiceScene::CreateEntities()
 
     // TODO: Create stageSelectTiles
 
-    this->selectTextEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[46], nullptr, 0);
-    this->selectSubtextsEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[49], nullptr, 0);
-    this->selectionCursorEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[67], nullptr, 0);
+    this->selectTextEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[46], CharacterChoiceScene_RenderMeta::SelectTextEntityPtr, 0);
+    this->selectSubtextsEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[49], CharacterChoiceScene_RenderMeta::SelectSubtextsEntityPtr, 0);
+    this->selectionCursorEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[67], CharacterChoiceScene_RenderMeta::SelectionCursorEntityPtr, 0);
     this->unknownStageSymbol1 = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[68], nullptr, 0);
     this->unknownStageSymbol2 = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[68], nullptr, 0);
     this->unknownStageSymbol3 = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[68], nullptr, 0);
-    this->player1PortraitEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[72], nullptr, 0);
-    this->player2PortraitEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[72], nullptr, 0);
+    this->player1PortraitEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[72], CharacterChoiceScene_RenderMeta::PlayerPortraitEntityPtr, 0);
+    this->player2PortraitEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[72], CharacterChoiceScene_RenderMeta::PlayerPortraitEntityPtr, 0);
 
     return true;
 }
@@ -157,7 +210,7 @@ void CharacterChoiceScene::Init()
     this->player1PortraitEntity->renderDataPtrIndex = 0;
     this->player1PortraitEntity->AssignRenderRectangles(0);
 
-    this->player2PortraitEntity->AttachWithPosition(0xD0, 240, 0);
+    this->player2PortraitEntity->AttachWithPosition(0x1D0, 240, 0);
     this->player2PortraitEntity->renderDataPtrIndex = 1;
     this->player2PortraitEntity->AssignRenderRectangles(1);
 
@@ -165,3 +218,290 @@ void CharacterChoiceScene::Init()
     this->PaletteFadeInStart(1, 32);
     // TODO: start bpbgm02.mid
 }
+
+// ------ SelectTextEntity RenderMeta START ------
+static const uint16_t SelectTextEntity_RenderMeta_1_1[] =
+{
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+
+static const uint16_t SelectTextEntity_RenderMeta_1_2[] =
+{
+    1,
+    2,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+
+static const void* SelectTextEntity_RenderMeta_1[] =
+{
+    &SelectTextEntity_RenderMeta_1_1,
+    &SelectTextEntity_RenderMeta_1_2,
+    0,
+    0
+};
+
+static const MSRect SelectTextEntity_RenderMeta_2[] =
+{
+    { 0, 0, 1, 1 },
+    { 0, 0, 0x22C, 0x42 }, // src rectangle
+    { 0, 0x42, 0x22C, 0x84 }
+};
+
+static const MSRect SelectTextEntity_RenderMeta_3[] =
+{
+    { 0, 0, 1, 1 },
+    { -278, -33, 278, 33 } // lengths to sides (dimensions)
+};
+
+static const void* SelectTextEntity_RenderMeta[] =
+{
+    &SelectTextEntity_RenderMeta_1,
+    &SelectTextEntity_RenderMeta_2,
+    &SelectTextEntity_RenderMeta_3,
+    ((void*) gConsts::RenderMetaTerminatorPtr)
+};
+
+const uint32_t** CharacterChoiceScene_RenderMeta::SelectTextEntityPtr = (const uint32_t**) SelectTextEntity_RenderMeta;
+// ------ SelectTextEntity RenderMeta END ------
+
+// ------ SelectSubtextsEntity RenderMeta START ------
+static const uint16_t SelectSubtextsEntity_RenderMeta_1_1[] =
+{
+    0x10,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+
+static const uint16_t SelectSubtextsEntity_RenderMeta_1_2[] =
+{
+    0x10,
+    2,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+
+static const uint16_t SelectSubtextsEntity_RenderMeta_1_3[] =
+{
+    0x10,
+    3,
+    2,
+    0,
+    0,
+    2,
+    0x10,
+    0,
+    0,
+    0,
+    0,
+    1
+};
+
+static const void* SelectSubtextsEntity_RenderMeta_1[] =
+{
+    &SelectSubtextsEntity_RenderMeta_1_1,
+    &SelectSubtextsEntity_RenderMeta_1_2,
+    &SelectSubtextsEntity_RenderMeta_1_3,
+    0
+};
+
+static const MSRect SelectSubtextsEntity_RenderMeta_2[] =
+{
+    { 0, 0, 1, 1 },
+    { 0, 0, 0x140, 0x28 }, // src rectangle
+    { 0, 0x28, 0x140, 0x50 },
+    { 0, 0x50, 0xF0, 0x60 }
+};
+
+static const MSRect SelectSubtextsEntity_RenderMeta_3[] =
+{
+    { 0, 0, 1, 1 },
+    { -160, -20, 160, 20 }, // lengths to sides (dimensions)
+    { -120, -8, 120, 8 }
+};
+
+static const void* SelectSubtextsEntity_RenderMeta[] =
+{
+    &SelectSubtextsEntity_RenderMeta_1,
+    &SelectSubtextsEntity_RenderMeta_2,
+    &SelectSubtextsEntity_RenderMeta_3,
+    ((void*) gConsts::RenderMetaTerminatorPtr)
+};
+
+const uint32_t** CharacterChoiceScene_RenderMeta::SelectSubtextsEntityPtr = (const uint32_t**) SelectSubtextsEntity_RenderMeta;
+// ------ SelectSubtextsEntity RenderMeta END ------
+
+// ------ SelectionCursorEntity RenderMeta START ------
+static const uint16_t SelectionCursorEntity_RenderMeta_1_1[] =
+{
+    0x10,
+    1,
+    1,
+    0,
+    0,
+    2,
+    0x10,
+    0,
+    0,
+    0,
+    0,
+    1
+};
+
+static const uint16_t SelectionCursorEntity_RenderMeta_1_2[] =
+{
+    0x10,
+    2,
+    2,
+    0,
+    0,
+    2,
+    0x10,
+    0,
+    0,
+    0,
+    0,
+    1
+};
+
+static const uint16_t SelectionCursorEntity_RenderMeta_1_3[] =
+{
+    2,
+    1,
+    1,
+    0,
+    0,
+    2,
+    2,
+    0,
+    0,
+    0,
+    0,
+    1
+};
+
+static const uint16_t SelectionCursorEntity_RenderMeta_1_4[] =
+{
+    2,
+    2,
+    2,
+    0,
+    0,
+    2,
+    2,
+    0,
+    0,
+    0,
+    0,
+    1
+};
+
+static const void* SelectionCursorEntity_RenderMeta_1[] =
+{
+    &SelectionCursorEntity_RenderMeta_1_1,
+    &SelectionCursorEntity_RenderMeta_1_2,
+    &SelectionCursorEntity_RenderMeta_1_3,
+    &SelectionCursorEntity_RenderMeta_1_4
+};
+
+static const MSRect SelectionCursorEntity_RenderMeta_2[] =
+{
+    { 0x10, 0x10, 0x11, 0x11 },
+    { 0, 0, 0xE0, 0xE0 }, // src rectangle
+    { 0xE0, 0, 0x140, 0xE0 }
+};
+
+static const MSRect SelectionCursorEntity_RenderMeta_3[] =
+{
+    { 0, 0, 1, 1 },
+    { -112, -112, 112, 112 }, // lengths to sides (dimensions)
+    { -48, -112, 48, 112 }
+};
+
+static const void* SelectionCursorEntity_RenderMeta[] =
+{
+    &SelectionCursorEntity_RenderMeta_1,
+    &SelectionCursorEntity_RenderMeta_2,
+    &SelectionCursorEntity_RenderMeta_3,
+    ((void*) gConsts::RenderMetaTerminatorPtr)
+};
+
+const uint32_t** CharacterChoiceScene_RenderMeta::SelectionCursorEntityPtr = (const uint32_t**) SelectionCursorEntity_RenderMeta;
+// ------ SelectionCursorEntity RenderMeta END ------
+
+// ------ PlayerPortraitEntity RenderMeta START ------
+static const uint16_t PlayerPortraitEntity_RenderMeta_1_1[] =
+{
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+
+static const uint16_t PlayerPortraitEntity_RenderMeta_1_2[] =
+{
+    1,
+    2,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+
+static const void* PlayerPortraitEntity_RenderMeta_1[] =
+{
+    &PlayerPortraitEntity_RenderMeta_1_1,
+    &PlayerPortraitEntity_RenderMeta_1_2,
+    0,
+    0
+};
+
+static const MSRect PlayerPortraitEntity_RenderMeta_2[] =
+{
+    { 0, 0, 1, 1 },
+    { 0, 0, 0xC0, 0xC0 }, // src rectangle
+    { 0xC0, 0, 0x180, 0xC0 }
+};
+
+static const MSRect PlayerPortraitEntity_RenderMeta_3[] =
+{
+    { 0, 0, 1, 1 },
+    { -96, -96, 96, 96 } // lengths to sides (dimensions)
+};
+
+static const void* PlayerPortraitEntity_RenderMeta[] =
+{
+    &PlayerPortraitEntity_RenderMeta_1,
+    &PlayerPortraitEntity_RenderMeta_2,
+    &PlayerPortraitEntity_RenderMeta_3,
+    ((void*) gConsts::RenderMetaTerminatorPtr)
+};
+
+const uint32_t** CharacterChoiceScene_RenderMeta::PlayerPortraitEntityPtr = (const uint32_t**) PlayerPortraitEntity_RenderMeta;
+// ------ PlayerPortraitEntity RenderMeta END ------

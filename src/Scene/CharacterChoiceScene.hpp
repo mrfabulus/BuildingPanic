@@ -8,6 +8,15 @@ class BitmapResourceManager;
 class SoundResourceManager;
 class StaticPictureEntity;
 
+struct CharacterChoiceScene_RenderMeta
+{
+    static const uint32_t** SelectTextEntityPtr;
+    static const uint32_t** SelectSubtextsEntityPtr;
+    static const uint32_t** SelectionCursorEntityPtr;
+    static const uint32_t** UnknownStageSymbolPtr;
+    static const uint32_t** PlayerPortraitEntityPtr;
+};
+
 class CharacterChoiceScene : public GameScene
 {
     public:

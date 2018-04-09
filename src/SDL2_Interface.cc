@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <time.h>
 
+// TODO: Fix these...
 #ifdef WIN32
 #include "Windows.h"
 
@@ -18,6 +19,9 @@ long getTimeMS()
 #else
 long getTimeMS()
 {
+    return 0;
+
+    /*
     long            ms; // Milliseconds
     time_t          s;  // Seconds
     struct timespec spec;
@@ -34,6 +38,7 @@ long getTimeMS()
     }
 
     return ms;
+    */
 }
 #endif
 

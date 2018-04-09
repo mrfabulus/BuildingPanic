@@ -48,6 +48,12 @@ Bitmap::Bitmap(std::string& aName, void* ddPalette, int16_t aID, bool initialRef
 Bitmap::~Bitmap()
 {
     this->SDL_handle->close(this->SDL_handle);
+
+    if (this->refCount != 0)
+    {
+        SDL_DestroyTexture(this->SDL_texture);
+        SDL_FreeSurface(this->SDL_surface);
+    }
 }
 
 void Bitmap::incRefCount()
