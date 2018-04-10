@@ -20,10 +20,12 @@ class TileSetEntity : public TileSetEntity_base
         uint32_t height;
         EntityExtraPositionData* extraPositionData;
 
-        TileSetEntity(GameScene* aScene, Bitmap* aBitmap, uint32_t* aTileMetadataPtr);
+        TileSetEntity(GameScene* aScene, Bitmap* aBitmap, const uint32_t* aTileMetadataPtr);
         ~TileSetEntity();
 
         void Attach();
+        void Detach();
+
         void Blt(MSRect* aSrcRect, MSRect* aDstRect, SDL_Surface* aSurface);
         void GetRenderRectangles(MSRect* aSrcRect, MSRect* aDstRect);
         bool CheckRenderBoundaries(MSRect* aSrcRect, MSRect* aDstRect);

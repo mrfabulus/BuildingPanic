@@ -1,17 +1,24 @@
 #include "TileSetEntity.hpp"
 #include "../../Resource/Bitmap.hpp"
 #include "../../Scene/GameScene.hpp"
+#include <iostream>
 
-TileSetEntity::TileSetEntity(GameScene* aScene, Bitmap* aBitmap, uint32_t* aTileMetadataPtr)
+TileSetEntity::TileSetEntity(GameScene* aScene, Bitmap* aBitmap, const uint32_t* aTileMetadataPtr)
     : TileSetEntity_base(aScene, aBitmap)
 {
     this->composedSurface = nullptr;
-    this->tileMetadata = aTileMetadataPtr;
+    this->tileMetadata = (uint32_t*) aTileMetadataPtr;
     this->horizontalTileCount = 0;
     this->verticalTileCount = 0;
     this->width = 0;
     this->height = 0;
     this->extraPositionData = nullptr;
+
+    if (aTileMetadataPtr == nullptr)
+    {
+        std::cout << "Warning: missing tilemetadata for an entity" << std::endl;
+        return;
+    }
 
     this->centerX = aTileMetadataPtr[3];
     this->centerY = aTileMetadataPtr[4];
@@ -43,6 +50,7 @@ TileSetEntity::~TileSetEntity()
 
 void TileSetEntity::Attach()
 {
+
     if (this->attachedToLayer)
         return;
 
@@ -50,6 +58,17 @@ void TileSetEntity::Attach()
     this->SetupRendering();
     this->scenePtr->AttachGameObjectToLayer(this);
     this->attachedToLayer = true;
+}
+
+void TileSetEntity::Detach()
+{
+    if (this->attachedToLayer)
+    {
+        this->ReleaseResources();
+        this->scenePtr->DetachGameObjectFromLayer(this);
+        this->bitmap->decRefCount();
+        this->attachedToLayer = false;
+    }
 }
 
 void TileSetEntity::Blt(MSRect* aSrcRect, MSRect* aDstRect, SDL_Surface* aSurface)
@@ -93,6 +112,11 @@ void TileSetEntity::Render()
     if (!this->attachedToLayer)
         return;
 
+    if (this->tileMetadata == nullptr)
+    {
+        return;
+    }
+
     MSRect srcRect;
     MSRect dstRect;
 
@@ -102,12 +126,19 @@ void TileSetEntity::Render()
     if (!renderOK)
         return;
 
+    std::cout << "TileSetEntity::Blt incoming" << std::endl;
     this->Blt(&srcRect, &dstRect, this->composedSurface);
 }
 
 
 void TileSetEntity::SetupRendering()
 {
+    if (this->tileMetadata == nullptr)
+    {
+        std::cout << "Warning: missing tilemetadata for an entity, stopped setting up rendering" << std::endl;
+        return;
+    }
+
     this->SetupSurface();
     this->RenderTiles();
 
@@ -149,43 +180,62 @@ void TileSetEntity::SetupSurface()
 
 void TileSetEntity::RenderTiles()
 {
+    std::cout << "TileSetEnity::RenderTiles 1" << std::endl;
+
+/*
     if (this->tileMetadata[7] == 0)
         return;
+        */
+
+    std::cout << "TileSetEnity::RenderTiles 2" << std::endl;
 
     if (this->verticalTileCount <= 0)
         return;
 
-    // TODO: Complicated logic >:(
+    std::cout << "TileSetEnity::RenderTiles 3" << std::endl;
 
-    /*
+    // TODO: Complicated logic >:(
+    uint32_t verticalProgress = 0; // v2
+    uint32_t horizontalProgress; // v3
+    uint32_t v4;
+
     while ( 1 )
     {
-        v3 = this->horizontalTileCount;
+        horizontalProgress = this->horizontalTileCount;
         v4 = 0;
         
-        if ( v3 > 0 )
+        if ( horizontalProgress > 0 )
             break;
         
         LABEL_6:
-        if ( ++v2 >= this->verticalTileCount )
-            return 1;
+        if ( ++verticalProgress >= this->verticalTileCount )
+        {
+            std::cout << "TileSetEnity::RenderTiles finished (?)" << std::endl;
+            return;
+        }
     }
 
     while ( 1 )
     {
-        v5 = this->tileMetadata;
-        v6 = *(_WORD *)(v5[7] + 2 * (v4 + v3 * v2));
-        rect.top = v5[2] * v2;
-        rect.left = v5[2] * v4;
-        rect.bottom = v5[2] + rect.top;
-        rect.right = v5[2] + rect.left;
+        uint32_t* cRef = this->tileMetadata;
+        uint16_t v6 = *(uint16_t *)(cRef[7] + 2 * (v4 + horizontalProgress * verticalProgress));
+        MSRect rect;
+        rect.top = cRef[2] * verticalProgress;
+        rect.left = cRef[2] * v4;
+        rect.bottom = cRef[2] + rect.top;
+        rect.right = cRef[2] + rect.left;
+
+        MSRect* srcRectMS = (*((MSRect**) this->tileMetadata[8])) + v6;
+
+        SDL_Rect srcRect = srcRectMS->ToSDLRect();
+        SDL_Rect dstRect = rect.ToSDLRect();
         
-        if ( !oss_blt(this, v6, &rect) )
-            return 0;
+        std::cout << "TileSetEnity::RenderTiles blitting for " << verticalProgress << " " << horizontalProgress << std::endl;
+        SDL_BlitSurface(this->bitmap->SDL_surface, &srcRect, this->composedSurface, &dstRect);
         
-        v3 = this->horizontalTileCount;
-        if ( ++v4 >= v3 )
+        horizontalProgress = this->horizontalTileCount;
+
+        if ( ++v4 >= horizontalProgress )
             goto LABEL_6;
     }
-    */
 }

@@ -16,12 +16,14 @@ struct CharacterChoiceScene_RenderMeta
     static const uint32_t** SelectionCursorEntityPtr;
     static const uint32_t** UnknownStageSymbolPtr;
     static const uint32_t** PlayerPortraitEntityPtr;
+
+    static const uint32_t* BG_SelectTilePtr;
 };
 
 class CharacterChoiceScene : public GameScene
 {
     public:
-        int8_t byte8D8;
+        int8_t byte8D8; // bool dokaSelected;
         int16_t selectedStageNumber;
         int32_t dword8DC;
         SaveManager* saveMgr;
