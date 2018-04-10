@@ -1,4 +1,5 @@
 #include "SaveManager.hpp"
+#include <string.h>
 
 SaveManager::SaveManager()
 {
@@ -9,6 +10,7 @@ SaveManager::SaveManager()
     this->dwordC = 0;
 
     // TODO: Read save data from file or create it in memory
+    memset(&this->rawSaveData, 0, sizeof(this->rawSaveData));
 
     this->CreatePlayerObjects();
 }

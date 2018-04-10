@@ -203,7 +203,6 @@ void TileSetEntity::RenderTiles()
             SDL_Rect srcRect = srcRectMS->ToSDLRect();
             SDL_Rect dstRect = rect.ToSDLRect();
 
-            std::cout << "TileSetEnity::RenderTiles blitting for " << verticalProgress << " " << horizontalProgress << std::endl;
             SDL_BlitSurface(this->bitmap->SDL_surface, &srcRect, this->composedSurface, &dstRect);
         }
 }

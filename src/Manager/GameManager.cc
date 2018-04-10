@@ -5,6 +5,7 @@
 #include "../Scene/LogoScene.hpp"
 #include "../Scene/MenuScene.hpp"
 #include "../Scene/CharacterChoiceScene.hpp"
+#include "../Scene/Stages/Ingame_Stage1_Scene.hpp"
 
 #include "../Input/InputProcessorBase.hpp"
 
@@ -80,7 +81,7 @@ bool GameManager::LoadNewScene()
                 // TODO: Check the original logic here..
 
                 this->currentSceneID = GameSceneID_Ingame_Stage1;
-                newScene = nullptr; // new Ingame_Stage1_Scene();
+                newScene = new Ingame_Stage1_Scene(this->saveManager);
             }
 
             break;
@@ -97,7 +98,7 @@ bool GameManager::LoadNewScene()
             // newScene = new AfterGameCreditsScene(this->saveManager);
             break;
         case GameSceneID_Ingame_Stage1:
-            // newScene = new Ingame_Stage1_Scene(this->saveManager);
+            newScene = new Ingame_Stage1_Scene(this->saveManager);
             break;
         case GameSceneID_Ingame_Stage2:
             // newScene = new Ingame_Stage2_Scene(this->saveManager);

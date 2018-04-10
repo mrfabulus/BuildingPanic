@@ -11,7 +11,7 @@ aux_source_directory(./src/Input INPUT_SRC)
 aux_source_directory(./src/Manager MANAGER_SRC)
 aux_source_directory(./src/Resource RESOURCE_SRC)
 aux_source_directory(./src/Scene SCENE_SRC)
-
+aux_source_directory(./src/Scene/Stages SCENE_STAGES_SRC)
 
 LIST (APPEND SRC_LIST
     ${MAIN_SRC}
@@ -22,6 +22,7 @@ LIST (APPEND SRC_LIST
     ${MANAGER_SRC}
     ${RESOURCE_SRC}
     ${SCENE_SRC}
+    ${SCENE_STAGES_SRC}
 )
 
 add_executable(${PROJECT_NAME} ${SRC_LIST})

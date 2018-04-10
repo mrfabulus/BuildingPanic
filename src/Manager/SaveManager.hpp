@@ -27,7 +27,7 @@ class SaveManager
         int32_t field_14;
         Save_PlayerObject playerObject1;
         Save_PlayerObject playerObject2;
-        int8_t rawSaveData[524];
+        uint8_t rawSaveData[524];
     // public:
         SaveManager();
 

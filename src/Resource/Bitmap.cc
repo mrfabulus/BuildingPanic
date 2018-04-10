@@ -20,6 +20,8 @@ Bitmap::Bitmap(std::string& aName, void* ddPalette, int16_t aID, bool initialRef
     char* path = (char*) malloc(256);
 
     #ifdef WIN32
+    // TODO: Solve relative paths for winshit users (?)
+    // I was just getting null handles for seemingly correct relative paths
     snprintf(path, 256, "D:\\Building Panic\\BuildingPanic\\assets\\img\\%s.bmp", aName.c_str());
     #else
     snprintf(path, 256, "../assets/img/%s.bmp", aName.c_str());
