@@ -13,14 +13,14 @@ class TileSetEntity : public TileSetEntity_base
 {
     public:
         SDL_Surface* composedSurface;
-        uint32_t* tileMetadata;
+        TileMeta* tileMetadata;
         uint32_t horizontalTileCount;
         uint32_t verticalTileCount;
         uint32_t width;
         uint32_t height;
         EntityExtraPositionData* extraPositionData;
 
-        TileSetEntity(GameScene* aScene, Bitmap* aBitmap, const uint32_t* aTileMetadataPtr);
+        TileSetEntity(GameScene* aScene, Bitmap* aBitmap, const TileMeta* aTileMetadataPtr);
         ~TileSetEntity();
 
         void Attach();

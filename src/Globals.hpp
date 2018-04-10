@@ -16,6 +16,20 @@ class MSRect
         SDL_Rect ToSDLRect();
 };
 
+struct TileMeta
+{
+    uint32_t width; //    0
+    uint32_t height; //   1
+    uint32_t tileSize; // 2
+    uint32_t centerX; //  3
+    uint32_t centerY; //  4
+    uint32_t unk1; //     5
+    uint32_t unk2; //     6
+    const uint16_t* srcRectIndexes; //    7
+    const MSRect* rectangles;       //    8
+    uint32_t terminator;      //    9
+};
+
 struct gConsts
 {
     static const uint16_t referenceToSceneID_Linker[];

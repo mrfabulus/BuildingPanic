@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include "GameScene.hpp"
+#include "../Globals.hpp"
 
 class SaveManager;
 class BitmapResourceManager;
@@ -17,7 +18,7 @@ struct CharacterChoiceScene_RenderMeta
     static const uint32_t** UnknownStageSymbolPtr;
     static const uint32_t** PlayerPortraitEntityPtr;
 
-    static const uint32_t* BG_SelectTilePtr;
+    static const TileMeta* BG_SelectTilePtr;
 };
 
 class CharacterChoiceScene : public GameScene

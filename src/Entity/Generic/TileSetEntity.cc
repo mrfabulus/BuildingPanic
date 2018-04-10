@@ -3,11 +3,11 @@
 #include "../../Scene/GameScene.hpp"
 #include <iostream>
 
-TileSetEntity::TileSetEntity(GameScene* aScene, Bitmap* aBitmap, const uint32_t* aTileMetadataPtr)
+TileSetEntity::TileSetEntity(GameScene* aScene, Bitmap* aBitmap, const TileMeta* aTileMetadataPtr)
     : TileSetEntity_base(aScene, aBitmap)
 {
     this->composedSurface = nullptr;
-    this->tileMetadata = (uint32_t*) aTileMetadataPtr;
+    this->tileMetadata = (TileMeta*) aTileMetadataPtr;
     this->horizontalTileCount = 0;
     this->verticalTileCount = 0;
     this->width = 0;
@@ -20,20 +20,20 @@ TileSetEntity::TileSetEntity(GameScene* aScene, Bitmap* aBitmap, const uint32_t*
         return;
     }
 
-    this->centerX = aTileMetadataPtr[3];
-    this->centerY = aTileMetadataPtr[4];
+    this->centerX = aTileMetadataPtr->centerX;
+    this->centerY = aTileMetadataPtr->centerY;
 
-    this->horizontalTileCount = aTileMetadataPtr[0] / aTileMetadataPtr[2];
-    this->verticalTileCount = aTileMetadataPtr[1] / aTileMetadataPtr[2];
+    this->horizontalTileCount = aTileMetadataPtr->width / aTileMetadataPtr->tileSize;
+    this->verticalTileCount = aTileMetadataPtr->height / aTileMetadataPtr->tileSize;
 
-    uint32_t finalWidth = aTileMetadataPtr[0];
+    uint32_t finalWidth = aTileMetadataPtr->width;
 
     if (finalWidth > 640)
         finalWidth = 640;
 
     this->width = finalWidth;
 
-    uint32_t finalHeight = aTileMetadataPtr[1];
+    uint32_t finalHeight = aTileMetadataPtr->height;
 
     if (finalHeight > 480)
         finalHeight = 480;
@@ -83,8 +83,8 @@ void TileSetEntity::Blt(MSRect* aSrcRect, MSRect* aDstRect, SDL_Surface* aSurfac
 
 void TileSetEntity::GetRenderRectangles(MSRect* aSrcRect, MSRect* aDstRect)
 {
-    aSrcRect->left = this->tileMetadata[5];
-    aSrcRect->top = this->tileMetadata[6];
+    aSrcRect->left = this->tileMetadata->unk1;
+    aSrcRect->top = this->tileMetadata->unk2;
     aSrcRect->right = aSrcRect->left + this->width;
     aSrcRect->bottom = aSrcRect->top + this->height;
 
@@ -126,7 +126,6 @@ void TileSetEntity::Render()
     if (!renderOK)
         return;
 
-    std::cout << "TileSetEntity::Blt incoming" << std::endl;
     this->Blt(&srcRect, &dstRect, this->composedSurface);
 }
 
@@ -169,7 +168,7 @@ void TileSetEntity::MakeSureImageIsReady()
 
 void TileSetEntity::SetupSurface()
 {
-    this->composedSurface = gSys.CreateSurface(this->tileMetadata[0], this->tileMetadata[1]);
+    this->composedSurface = gSys.CreateSurface(this->tileMetadata->width, this->tileMetadata->height);
 
     if (this->composedSurface == nullptr)
         return;
@@ -180,62 +179,31 @@ void TileSetEntity::SetupSurface()
 
 void TileSetEntity::RenderTiles()
 {
-    std::cout << "TileSetEnity::RenderTiles 1" << std::endl;
-
-/*
-    if (this->tileMetadata[7] == 0)
-        return;
-        */
-
-    std::cout << "TileSetEnity::RenderTiles 2" << std::endl;
-
-    if (this->verticalTileCount <= 0)
+    if (this->tileMetadata->srcRectIndexes == nullptr)
         return;
 
-    std::cout << "TileSetEnity::RenderTiles 3" << std::endl;
+    if (this->verticalTileCount == 0)
+        return;
 
-    // TODO: Complicated logic >:(
-    uint32_t verticalProgress = 0; // v2
-    uint32_t horizontalProgress; // v3
-    uint32_t v4;
-
-    while ( 1 )
-    {
-        horizontalProgress = this->horizontalTileCount;
-        v4 = 0;
-        
-        if ( horizontalProgress > 0 )
-            break;
-        
-        LABEL_6:
-        if ( ++verticalProgress >= this->verticalTileCount )
+    // Process the tiles line-by-line (1 horizontal line at a time)
+    for (uint32_t verticalProgress = 0; verticalProgress < this->verticalTileCount; verticalProgress++)
+        for (uint32_t horizontalProgress = 0; horizontalProgress < this->horizontalTileCount; horizontalProgress++)
         {
-            std::cout << "TileSetEnity::RenderTiles finished (?)" << std::endl;
-            return;
+            uint32_t tileIndex = (this->horizontalTileCount * verticalProgress) + horizontalProgress;
+            uint16_t srcRectIndex = this->tileMetadata->srcRectIndexes[tileIndex];
+
+            MSRect rect;
+            rect.top = this->tileMetadata->tileSize * verticalProgress;
+            rect.left = this->tileMetadata->tileSize * horizontalProgress;
+            rect.bottom = this->tileMetadata->tileSize + rect.top;
+            rect.right = this->tileMetadata->tileSize + rect.left;
+
+            MSRect* srcRectMS = (MSRect*) &(this->tileMetadata->rectangles[srcRectIndex]);
+
+            SDL_Rect srcRect = srcRectMS->ToSDLRect();
+            SDL_Rect dstRect = rect.ToSDLRect();
+
+            std::cout << "TileSetEnity::RenderTiles blitting for " << verticalProgress << " " << horizontalProgress << std::endl;
+            SDL_BlitSurface(this->bitmap->SDL_surface, &srcRect, this->composedSurface, &dstRect);
         }
-    }
-
-    while ( 1 )
-    {
-        uint32_t* cRef = this->tileMetadata;
-        uint16_t v6 = *(uint16_t *)(cRef[7] + 2 * (v4 + horizontalProgress * verticalProgress));
-        MSRect rect;
-        rect.top = cRef[2] * verticalProgress;
-        rect.left = cRef[2] * v4;
-        rect.bottom = cRef[2] + rect.top;
-        rect.right = cRef[2] + rect.left;
-
-        MSRect* srcRectMS = (*((MSRect**) this->tileMetadata[8])) + v6;
-
-        SDL_Rect srcRect = srcRectMS->ToSDLRect();
-        SDL_Rect dstRect = rect.ToSDLRect();
-        
-        std::cout << "TileSetEnity::RenderTiles blitting for " << verticalProgress << " " << horizontalProgress << std::endl;
-        SDL_BlitSurface(this->bitmap->SDL_surface, &srcRect, this->composedSurface, &dstRect);
-        
-        horizontalProgress = this->horizontalTileCount;
-
-        if ( ++v4 >= horizontalProgress )
-            goto LABEL_6;
-    }
 }

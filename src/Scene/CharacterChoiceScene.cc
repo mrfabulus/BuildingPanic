@@ -1423,19 +1423,19 @@ static const MSRect BG_SelectTileMeta_2[] =
     { 0x0F0, 0x1F0, 0x100, 0x200 }
 };
 
-static const void* BG_SelectTileMeta[] =
+static const TileMeta BG_SelectTileMeta =
 {
-    (const void*) 640,
-    (const void*) 480,
-    (const void*) 16,
-    (const void*) 0,
-    (const void*) 0,
-    (const void*) 0,
-    (const void*) 0,
-    &BG_SelectTileMeta_1,
-    &BG_SelectTileMeta_2,
-    (const void*) 0
+    640,
+    480,
+    16,
+    0,
+    0,
+    0,
+    0,
+    &BG_SelectTileMeta_1[0],
+    &BG_SelectTileMeta_2[0],
+    0
 };
 
-const uint32_t* CharacterChoiceScene_RenderMeta::BG_SelectTilePtr = (const uint32_t*) BG_SelectTileMeta;
+const TileMeta* CharacterChoiceScene_RenderMeta::BG_SelectTilePtr = &BG_SelectTileMeta;
 // ------ BG_SelectTilePtr RenderMeta END ------
