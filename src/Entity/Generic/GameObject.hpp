@@ -9,10 +9,10 @@ class GameObject
         GameObject* nextAttachedEntity;
         GameObject* previousAttachedEntity;
         uint16_t layerIndex;
-        int dword10;
-        int centerX;
-        int centerY;
-        int dword1C_coordinateLikeThingie;
+        int32_t dword10;
+        int32_t centerX;
+        int32_t centerY;
+        int32_t dword1C_coordinateLikeThingie;
 
         GameObject();
         virtual ~GameObject();

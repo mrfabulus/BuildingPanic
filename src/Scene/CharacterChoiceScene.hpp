@@ -7,6 +7,7 @@ class SaveManager;
 class BitmapResourceManager;
 class SoundResourceManager;
 class StaticPictureEntity;
+class TileSetEntity;
 
 struct CharacterChoiceScene_RenderMeta
 {
@@ -26,8 +27,7 @@ class CharacterChoiceScene : public GameScene
         SaveManager* saveMgr;
         BitmapResourceManager* sceneBitmapMgr;
         SoundResourceManager* sceneSoundMgr;
-        // TileSetEntity *stageSelectTiles;
-        int* stageSelectTiles;
+        TileSetEntity *stageSelectTiles;
         StaticPictureEntity* selectTextEntity;
         StaticPictureEntity* selectSubtextsEntity;
         StaticPictureEntity* selectionCursorEntity;

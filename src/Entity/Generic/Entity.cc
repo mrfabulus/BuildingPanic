@@ -4,12 +4,22 @@
 #include <iostream>
 #include <stdlib.h>
 
-EntityExtraPositionData::EntityExtraPositionData(Entity* aEntity)
+EntityExtraPositionData::EntityExtraPositionData(GameObject* aEntity)
 {
     this->entityPtr = aEntity;
     this->dCenterX = aEntity->centerX;
     this->dCenterY = aEntity->centerY;
     this->coordinateLikeThingie = aEntity->dword1C_coordinateLikeThingie;
+}
+
+EntityExtraPositionData::~EntityExtraPositionData()
+{
+}
+
+void EntityExtraPositionData::ReassignPositionToEntity()
+{
+    this->entityPtr->centerX = (int32_t) this->dCenterX;
+    this->entityPtr->centerY = (int32_t) this->dCenterY;
 }
 
 Entity::Entity(GameScene* aScene, Bitmap* aBitmap, const uint32_t** dataPtrs)

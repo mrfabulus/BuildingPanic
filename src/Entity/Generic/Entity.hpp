@@ -10,12 +10,15 @@ class Bitmap;
 class EntityExtraPositionData
 {
     public:
-        Entity* entityPtr;
+        GameObject* entityPtr;
         double dCenterX;
         double dCenterY;
         double coordinateLikeThingie;
 
-        EntityExtraPositionData(Entity* aEntity);
+        EntityExtraPositionData(GameObject* aEntity);
+        virtual ~EntityExtraPositionData();
+
+        virtual void ReassignPositionToEntity();
 };
 
 class Entity : public GameObject

@@ -1,5 +1,6 @@
 #include "CharacterChoiceScene.hpp"
 #include "../Entity/Generic/StaticPictureEntity.hpp"
+#include "../Entity/Generic/TileSetEntity.hpp"
 #include "../Manager/SaveManager.hpp"
 #include "../Manager/BitmapResourceManager.hpp"
 #include "../Manager/SoundResourceManager.hpp"
@@ -125,6 +126,8 @@ void CharacterChoiceScene::MakeSureImagesAreReady()
 
 void CharacterChoiceScene::Update()
 {
+    uint32_t mask = this->inputProcessor->newButtonPressesMask;
+
     switch (this->scenePhaseIndex)
     {
         case 0:
@@ -171,8 +174,90 @@ void CharacterChoiceScene::Update()
             }
             break;
         case 4097:
+            if ((mask & 0x10001) != 0)
+            {
+                // Enter pressed
+                this->saveMgr->playerObject1.isPlayerControlled = this->byte8D8;
+
+                if (this->saveMgr->saveFlags & 2)
+                    this->saveMgr->playerObject2.isPlayerControlled = this->byte8D8 == 0;
+
+                this->selectionCursorEntity->renderDataPtrIndex = 2;
+                this->selectionCursorEntity->AssignRenderRectangles(2);
+
+                // Check if there is any known progress in the save file (completed at least stage 1)
+                if ( *((uint16_t *)&this->saveMgr->rawSaveData[484]) != 0)
+                {
+                    // Go to building selection
+                    this->scenePhaseIndex = 4098;
+                }
+                else
+                {
+                    // Scene ending shortly
+                    this->scenePhaseIndex = 2;
+                    this->selectSubtextsEntity->renderDataPtrIndex = 2;
+                    this->selectSubtextsEntity->AssignRenderRectangles(2);
+                }
+
+                this->PaletteFadeAwayStart(1, 0x40u);
+                // this->sceneSoundMgr->PlaySoundForDuration(0, 320);
+            }
+            else if ( (mask & 0x100010) != 0 && this->byte8D8 == 1 )
+            {
+                // left arrow pressed
+                this->byte8D8 = 0;
+
+                if ( this->selectionCursorEntity->extraPositionData )
+                {
+                    this->selectionCursorEntity->extraPositionData->dCenterX = 0xB0;
+                }
+
+                this->selectionCursorEntity->centerX = 0xB0;
+                // this->sceneSoundMgr->PlaySoundForDuration(1, 320);
+            }
+            else if ( (mask & 0x200020) != 0 && this->byte8D8 == 0)
+            {
+                // right arrow pressed
+                this->byte8D8 = 1;
+
+                if ( this->selectionCursorEntity->extraPositionData )
+                {
+                    this->selectionCursorEntity->extraPositionData->dCenterX = 0x1D0;
+                }
+
+                this->selectionCursorEntity->centerX = 0x1D0;
+                // this->sceneSoundMgr->PlaySoundForDuration(1, 320);
+            }
             break;
         case 4098:
+            if (!this->fadeIn_active && !this->fadeAway_active)
+            {
+                this->selectSubtextsEntity->Detach();
+                this->player1PortraitEntity->Detach();
+                this->player2PortraitEntity->Detach();
+
+                /*
+                this->stageSelectTiles->Detach();
+
+                if (this->stageSelectTiles != nullptr)
+                {
+                    delete this->stageSelectTiles;
+                }
+
+                // BMP_BG_SELECT
+                this->stageSelectTitles = new TileSetEntity();
+                */
+
+                if (this->stageSelectTiles != nullptr)
+                {
+                    this->stageSelectTiles->Attach();
+
+                    this->selectTextEntity->renderDataPtrIndex = 1;
+                    this->selectTextEntity->AssignRenderRectangles(1);
+
+                    // this->selectionCursorEntity
+                }
+            }
             break;
         case 4099:
             break;

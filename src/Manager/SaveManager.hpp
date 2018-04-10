@@ -4,11 +4,11 @@
 
 class Save_PlayerObject
 {
-    private:
+    public:
         int8_t isPlayerControlled;
         int32_t dword4;
         int16_t word8;
-    public:
+    // public:
         Save_PlayerObject();
 
         void Initialize();
