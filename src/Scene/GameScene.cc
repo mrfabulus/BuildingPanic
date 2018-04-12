@@ -13,7 +13,7 @@ GameScene::GameScene(SDL_Color* aPaletteDataBytes)
     this->palette2 = nullptr;
     this->init_OK = false;
     this->finished = false;
-    this->phantomTicksEnabled = false;
+    this->paused = false;
     this->ticksLeftUntilReEval = 0;
     this->paletteDataPtr = aPaletteDataBytes;
     this->fadeFrameProgressCount = 0;
@@ -170,7 +170,7 @@ void GameScene::Tick()
     // std::cout << "GameScene::Tick" << std::endl;
     this->Update();
 
-    if (this->phantomTicksEnabled)
+    if (this->paused)
     {    
         this->RenderLayers();
         return;

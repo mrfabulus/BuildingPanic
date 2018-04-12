@@ -12,7 +12,7 @@ class GameObject
         int32_t dword10;
         int32_t centerX;
         int32_t centerY;
-        int32_t dword1C_coordinateLikeThingie;
+        int32_t coordinateLikeThingie;
 
         GameObject();
         virtual ~GameObject();

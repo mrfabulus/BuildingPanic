@@ -8,7 +8,7 @@ GameObject::GameObject()
     this->dword10 = 1;
     this->centerX = 0;
     this->centerY = 0;
-    this->dword1C_coordinateLikeThingie = 0;
+    this->coordinateLikeThingie = 0;
 }
 
 GameObject::~GameObject()

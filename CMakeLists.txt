@@ -6,6 +6,7 @@ project(BuildingPanic)
 aux_source_directory(./src/ MAIN_SRC)
 aux_source_directory(./src/Entity ENTITY_SRC)
 aux_source_directory(./src/Entity/Generic ENTITY_GENERIC_SRC)
+aux_source_directory(./src/Entity/Stage ENTITY_STAGE_SRC)
 aux_source_directory(./src/Entity/UI ENTITY_UI_SRC)
 aux_source_directory(./src/Input INPUT_SRC)
 aux_source_directory(./src/Manager MANAGER_SRC)
@@ -17,6 +18,7 @@ LIST (APPEND SRC_LIST
     ${MAIN_SRC}
     ${ENTITY_SRC}
     ${ENTITY_GENERIC_SRC}
+    ${ENTITY_STAGE_SRC}
     ${ENTITY_UI_SRC}
     ${INPUT_SRC}
     ${MANAGER_SRC}

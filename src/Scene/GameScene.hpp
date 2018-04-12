@@ -16,7 +16,7 @@ class GameScene
         SDL_Palette* palette2;
         bool init_OK;
         bool finished;
-        bool phantomTicksEnabled;
+        bool paused;
         int32_t ticksLeftUntilReEval;
         LayerEntity* layers[5];
         int16_t layerEntityCounts[5];

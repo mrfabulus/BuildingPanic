@@ -38,7 +38,7 @@ class Ingame_Stage_Scene : public GameScene
         StaticPictureEntity* pauseTextEntity;
         StaticPictureEntity* gridImageEntity;
         BitmapResourceManager* sceneBitmapMgr;
-        SoundResourceManager* sceneSoundManager;
+        SoundResourceManager* sceneSoundMgr;
 
         Ingame_Stage_Scene(SDL_Color* aPaletteDataBytes, SaveManager* aSaveManager);
         virtual ~Ingame_Stage_Scene();

@@ -83,7 +83,6 @@ void MenuScene::UpdateLayer(LayerEntity* aLayer, int16_t aLayerEntityCount)
 
 void MenuScene::Update()
 {
-    // TODO: hoooly shit, this function..
     /*
     std::cout << "MenuScene::Update SPI " << this->scenePhaseIndex << " TL " << this->ticksLeftUntilReEval;
     std::cout << " CSP " << (int) this->cutScenePhase << std::endl;

@@ -9,7 +9,7 @@ EntityExtraPositionData::EntityExtraPositionData(GameObject* aEntity)
     this->entityPtr = aEntity;
     this->dCenterX = aEntity->centerX;
     this->dCenterY = aEntity->centerY;
-    this->coordinateLikeThingie = aEntity->dword1C_coordinateLikeThingie;
+    this->coordinateLikeThingie = aEntity->coordinateLikeThingie;
 }
 
 EntityExtraPositionData::~EntityExtraPositionData()
@@ -114,6 +114,7 @@ void Entity::AssignRenderRectangles(uint16_t aRenderDataPtrIndex)
 
 void Entity::AssignRenderRectanglesAdvanced()
 {
+    // TODO: implement @ 004016F0
 }
 
 void Entity::SetLayerIndex(uint16_t aLayerIndex)
@@ -202,7 +203,7 @@ bool Entity::AttachWithPosition2(int32_t aX, int32_t aY, int32_t unk, uint16_t A
 
     this->centerX = aX;
     this->centerY = aY;
-    this->dword1C_coordinateLikeThingie = unk;
+    this->coordinateLikeThingie = unk;
 
     this->AttachedRenderDataIndex = AttachedRenderDataIndex;
 
