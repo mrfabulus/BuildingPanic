@@ -3,8 +3,31 @@
 Ingame_BasicStage_Scene::Ingame_BasicStage_Scene(SDL_Color* aPaletteDataBytes, SaveManager* aSaveManager)
     : Ingame_Stage_Scene(aPaletteDataBytes, aSaveManager)
 {
-    this->levelManagerObject = nullptr;
-    // Oh boi, this fucking mess is real @ 0041F610
+    void* managerObject = nullptr;
+
+    // Check demoplay flag
+    if (((this->saveManager->saveFlags >> 8) & 0x10) == 0)
+    {
+        // TODO: Create LevelManager_Demoplay
+    }
+    else if ((this->saveManager->saveFlags & 0x200) != 0)
+    {
+        // TODO: Create LevelManager_Secret
+    }
+    else if (this->saveManager->nextLevel == 2)
+    {
+        // TODO: Create LevelManager_BonusLevel
+    }
+    else if (this->saveManager->nextLevel == 5)
+    {
+        // TODO: Create LevelManager_BossLevel
+    }
+    else
+    {
+        // TODO: Create LevelManager_Normal
+    }
+
+    this->levelManagerObject = managerObject;
 }
 
 Ingame_BasicStage_Scene::~Ingame_BasicStage_Scene()

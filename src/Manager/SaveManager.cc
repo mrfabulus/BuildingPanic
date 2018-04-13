@@ -27,7 +27,7 @@ Save_PlayerObject::Save_PlayerObject()
 
 void Save_PlayerObject::Initialize()
 {
-    this->isPlayerControlled = -1;
+    this->playerID = -1;
     this->dword4 = 0;
     this->word8 = 8;
 }

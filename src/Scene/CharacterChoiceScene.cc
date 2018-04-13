@@ -214,10 +214,11 @@ void CharacterChoiceScene::Update()
             if ((mask & 0x10001) != 0)
             {
                 // Enter pressed
-                this->saveMgr->playerObject1.isPlayerControlled = this->byte8D8;
+                this->saveMgr->playerObject1.playerID = this->byte8D8;
 
+                // If there are 2 players, the other player is Tobi (who did not choose Doka)
                 if (this->saveMgr->saveFlags & 2)
-                    this->saveMgr->playerObject2.isPlayerControlled = this->byte8D8 == 0;
+                    this->saveMgr->playerObject2.playerID = (this->byte8D8 == 0);
 
                 this->selectionCursorEntity->renderDataPtrIndex = 2;
                 this->selectionCursorEntity->AssignRenderRectangles(2);

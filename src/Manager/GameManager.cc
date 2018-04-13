@@ -68,8 +68,9 @@ bool GameManager::LoadNewScene()
             {
                 this->saveManager->saveFlags = 0x1102;
 
-                // TODO: Check the original logic here..
-                
+                this->saveManager->playerObject1.playerID = 0;
+                this->saveManager->playerObject2.playerID = 1;
+
                 this->currentSceneID = GameSceneID_Ingame_Stage2;
                 this->nextDemoplayStage = 0;
                 newScene = nullptr; // new Ingame_Stage2_Scene();
@@ -77,13 +78,11 @@ bool GameManager::LoadNewScene()
             else
             {
                 this->saveManager->saveFlags = 0x1101;
-                
-                // TODO: Check the original logic here..
+                this->saveManager->playerObject1.playerID = 0;
 
                 this->currentSceneID = GameSceneID_Ingame_Stage1;
                 newScene = new Ingame_Stage1_Scene(this->saveManager);
             }
-
             break;
         case GameSceneID_CharacterChoice:
             newScene = new CharacterChoiceScene(this->saveManager);

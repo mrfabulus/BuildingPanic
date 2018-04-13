@@ -10,6 +10,7 @@ aux_source_directory(./src/Entity/Stage ENTITY_STAGE_SRC)
 aux_source_directory(./src/Entity/UI ENTITY_UI_SRC)
 aux_source_directory(./src/Input INPUT_SRC)
 aux_source_directory(./src/Manager MANAGER_SRC)
+aux_source_directory(./src/Manager/Level MANAGER_LEVEL_SRC)
 aux_source_directory(./src/Resource RESOURCE_SRC)
 aux_source_directory(./src/Scene SCENE_SRC)
 aux_source_directory(./src/Scene/Stages SCENE_STAGES_SRC)
@@ -22,6 +23,7 @@ LIST (APPEND SRC_LIST
     ${ENTITY_UI_SRC}
     ${INPUT_SRC}
     ${MANAGER_SRC}
+    ${MANAGER_LEVEL_SRC}
     ${RESOURCE_SRC}
     ${SCENE_SRC}
     ${SCENE_STAGES_SRC}

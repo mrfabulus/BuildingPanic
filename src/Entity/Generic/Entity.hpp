@@ -21,6 +21,25 @@ class EntityExtraPositionData
         virtual void ReassignPositionToEntity();
 };
 
+class EntityExtraPositionData2 : public EntityExtraPositionData
+{
+    public:
+        uint32_t dword28;
+        uint32_t dword2C;
+        uint16_t word30;
+        uint8_t byte32;
+        uint8_t byte33;
+};
+
+class EntityExtraPositionData3 : public EntityExtraPositionData
+{
+    public:
+        double dword28;
+        double dword30;
+        uint8_t byte38;
+        uint8_t byte39;
+};
+
 class Entity : public GameObject
 {
     public:

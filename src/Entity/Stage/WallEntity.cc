@@ -1,6 +1,7 @@
 #include "WallEntity.hpp"
 #include "../Generic/StaticPictureEntity.hpp"
 
+// TODO: finish
 WallEntity::WallEntity(GameScene* aScene, Bitmap* aBitmap, uint32_t aCenterX, uint32_t aCenterY)
     : Entity(aScene, aBitmap, nullptr)
 {

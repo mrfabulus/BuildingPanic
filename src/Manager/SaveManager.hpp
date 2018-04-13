@@ -5,7 +5,7 @@
 class Save_PlayerObject
 {
     public:
-        int8_t isPlayerControlled;
+        int8_t playerID;
         int32_t dword4;
         int16_t word8;
     // public:

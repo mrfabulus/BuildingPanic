@@ -62,6 +62,7 @@ IntroCutSceneEntity::IntroCutSceneEntity(GameScene* aScene, Bitmap* aBitmap)
 
 IntroCutSceneEntity::~IntroCutSceneEntity()
 {
+    // TODO: Check
 }
 
 // Disclaimer: I do not understand this logic... :D
