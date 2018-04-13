@@ -59,7 +59,7 @@ bool LogoScene::CreateEntities()
     this->sceneSoundMgr = new SoundResourceManager(0);
 
     // LOGO_BMP for the loading screen
-    this->logoEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[17], LogoScene_RenderMeta::LogoEntity_RenderMetaPtr, 0);
+    this->logoEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[17], &LogoScene_Meta::LogoEntity_RenderMeta, 0);
 
     if (this->logoEntity != nullptr)
         return true;
@@ -126,6 +126,7 @@ void LogoScene::Update()
     }
 }
 
+// ------ LogoEntity RenderMeta START ------
 static const uint16_t LogoEntity_RenderMeta_1_1[] =
 {
     1,
@@ -156,7 +157,7 @@ static const MSRect LogoEntity_RenderMeta_3[] =
     { -156, -16, 156, 16 } // lengths to sides (dimensions)
 };
 
-static const RenderMeta LogoEntity_RenderMeta =
+const RenderMeta LogoScene_Meta::LogoEntity_RenderMeta =
 {
     &LogoEntity_RenderMeta_1[0],
     &LogoEntity_RenderMeta_2[0],
@@ -164,4 +165,4 @@ static const RenderMeta LogoEntity_RenderMeta =
     gConsts::RenderMetaTerminatorPtr
 };
 
-const RenderMeta* LogoScene_RenderMeta::LogoEntity_RenderMetaPtr = &LogoEntity_RenderMeta;
+// ------ LogoEntity RenderMeta END ------

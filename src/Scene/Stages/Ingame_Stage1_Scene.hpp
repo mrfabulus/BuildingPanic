@@ -4,6 +4,11 @@
 
 class SaveManager;
 
+struct Ingame_Stage1_Scene_Meta
+{
+    static const TileMeta StageBackgroundEntity_TileMeta;
+};
+
 class Ingame_Stage1_Scene : public Ingame_BasicStage_Scene
 {
     public:

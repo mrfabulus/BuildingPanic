@@ -9,7 +9,7 @@ WallEntity::WallEntity(GameScene* aScene, Bitmap* aBitmap, uint32_t aCenterX, ui
     this->byte66 = 0;
     this->dword68 = 0;
     this->dword6C = 0;
-    this->extraPositionData = 0;
+    this->extraPositionData = nullptr;
     this->wallImageEntity = nullptr;
 
     if (!this->attachedToLayer)

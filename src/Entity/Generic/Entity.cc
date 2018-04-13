@@ -22,7 +22,7 @@ void EntityExtraPositionData::ReassignPositionToEntity()
     this->entityPtr->centerY = (int32_t) this->dCenterY;
 }
 
-Entity::Entity(GameScene* aScene, Bitmap* aBitmap, const RenderMeta* dataPtrs)
+Entity::Entity(GameScene* aScene, Bitmap* aBitmap, const RenderMeta* aRenderMeta)
     : GameObject()
 {
     this->scene = aScene;
@@ -33,7 +33,7 @@ Entity::Entity(GameScene* aScene, Bitmap* aBitmap, const RenderMeta* dataPtrs)
     this->dword34 = 0;
     this->dword38_assignedZeroFromRenderSetup = 0;
     this->dword3C = 0;
-    this->dataPtrs = dataPtrs;
+    this->renderMeta = aRenderMeta;
     this->word5C = 0;
     this->AttachedRenderDataIndex = 0;
     this->dword60 = 0;
@@ -52,35 +52,35 @@ Entity::~Entity()
 
 void Entity::ResetRenderRectangleMetadata()
 {
-    this->renderDataPtrIndex = 0xFFFF;
+    this->renderConfigIndex = 0xFFFF;
     this->field_42 = 0;
-    this->firstWordFromRenderDataPtr1 = 0xFFFF;
+    this->firstWordFromRenderConfig = 0xFFFF;
     this->dword38_assignedZeroFromRenderSetup = 0;
 }
 
-// TODO: Find a cleaner way to implement this
-void Entity::AssignRenderRectangles(uint16_t aRenderDataPtrIndex)
+void Entity::AssignRenderRectangles(uint16_t aRenderConfigIndex)
 {
-    if (this->renderDataPtrIndex != aRenderDataPtrIndex)
+    // Check if the new configuration is different than the existing one
+    if (this->renderConfigIndex != aRenderConfigIndex)
     {
-        this->renderDataPtrIndex = aRenderDataPtrIndex;
-        std::cout << "AssignRenderRectangles for index " << aRenderDataPtrIndex << std::endl;
+        this->renderConfigIndex = aRenderConfigIndex;
 
-        if (this->dataPtrs == nullptr)
+        if (this->renderMeta == nullptr)
             return;
 
-        const uint16_t** cfg = this->dataPtrs->configurations;
-        cfg += aRenderDataPtrIndex;
+        // Get the appropriate configuration pointer from the list
+        const uint16_t** cfg = this->renderMeta->configurations;
+        cfg += renderConfigIndex;
 
-        this->dataPtr1 = * ((uint16_t**) cfg);
-        this->firstWordFromRenderDataPtr1 = this->dataPtr1[0];
+        this->renderConfiguration = * ((uint16_t**) cfg);
+        this->firstWordFromRenderConfig = this->renderConfiguration[0];
 
-        this->srcRectPtr = (MSRect*) (this->dataPtrs->srcRectangles + this->dataPtr1[1]);
-        this->dimensionRectPtr = (MSRect*) (this->dataPtrs->dimRectangles + this->dataPtr1[2]);
+        this->srcRectPtr = (MSRect*) (this->renderMeta->srcRectangles + this->renderConfiguration[1]);
+        this->dimensionRectPtr = (MSRect*) (this->renderMeta->dimRectangles + this->renderConfiguration[2]);
 
         this->dword38_assignedZeroFromRenderSetup = 0;
 
-        this->lastDataPtrRectanglePtr = (MSRect*) (this->dataPtrs->terminator + this->dataPtr1[3]);
+        this->lastDataPtrRectanglePtr = (MSRect*) (this->renderMeta->terminator + this->renderConfiguration[3]);
     }
 }
 
@@ -130,7 +130,7 @@ bool Entity::AttachWithPosition(int32_t aX, int32_t aY, uint16_t AttachedRenderD
     if (this->attachedToLayer)
         return false;
 
-    if (this->dataPtrs == nullptr)
+    if (this->renderMeta == nullptr)
     {
         std::cout << "WARNING, missing render meta information" << std::endl;
         return false;

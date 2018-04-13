@@ -81,6 +81,10 @@ void Ingame_Stage_Scene::AttachEntities()
         for (uint32_t j = 0; j < 9; j++)
         {
             uint32_t barIndex = (i * 9) + j;
+
+            if (this->wallBarEntities[barIndex] == nullptr)
+                continue;
+
             this->wallBarEntities[barIndex]->AttachWithPosition(barXOffsets[j], barYOffsets[i], 0);
             this->wallBarEntities[barIndex]->renderDataPtrIndex = renderIndexes[j];
             this->wallBarEntities[barIndex]->AssignRenderRectangles(renderIndexes[j]);

@@ -10,15 +10,15 @@ class SoundResourceManager;
 class StaticPictureEntity;
 class TileSetEntity;
 
-struct CharacterChoiceScene_RenderMeta
+struct CharacterChoiceScene_Meta
 {
-    static const RenderMeta* SelectTextEntityPtr;
-    static const RenderMeta* SelectSubtextsEntityPtr;
-    static const RenderMeta* SelectionCursorEntityPtr;
-    static const RenderMeta* UnknownStageSymbolPtr;
-    static const RenderMeta* PlayerPortraitEntityPtr;
+    static const RenderMeta SelectTextEntity_RenderMeta;
+    static const RenderMeta SelectSubtextsEntity_RenderMeta;
+    static const RenderMeta SelectionCursorEntity_RenderMeta;
+    static const RenderMeta UnknownStageSymbol_RenderMeta;
+    static const RenderMeta PlayerPortraitEntity_RenderMeta;
 
-    static const TileMeta* BG_SelectTilePtr;
+    static const TileMeta BGSelect_TileMeta;
 };
 
 class CharacterChoiceScene : public GameScene

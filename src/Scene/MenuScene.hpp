@@ -7,15 +7,16 @@ class BitmapResourceManager;
 class SoundResourceManager;
 class StaticPictureEntity;
 class IntroCutSceneEntity;
+class TileSetEntity;
 
-struct MenuScene_RenderMeta
+struct MenuScene_Meta
 {
-    static const RenderMeta* TitleEntity_RenderMetaPtr;
-    static const RenderMeta* YamadaCopyrightEntity_RenderMetaPtr;
-    static const RenderMeta* MenuOptionsEntity_RenderMetaPtr;
-    static const RenderMeta* OptionLabelEntity_RenderMetaPtr;
-    static const RenderMeta* MenuCursorEntity_RenderMetaPtr;
-    static const RenderMeta* SelectCursorEntity_RenderMetaPtr;
+    static const RenderMeta TitleEntity_RenderMeta;
+    static const RenderMeta YamadaCopyrightEntity_RenderMeta;
+    static const RenderMeta MenuOptionsEntity_RenderMeta;
+    static const RenderMeta OptionLabelEntity_RenderMeta;
+    static const RenderMeta MenuCursorEntity_RenderMeta;
+    static const RenderMeta SelectCursorEntity_RenderMeta;
     // static const void** TitleEntity_RenderMetaPtr;
 };
 
@@ -36,8 +37,7 @@ class MenuScene : public GameScene
         StaticPictureEntity* menuCursorEntity;
         StaticPictureEntity* selectCursorEntity;
         IntroCutSceneEntity* introCutSceneObject;
-        // TileSetEntity* fontCharsetEntity;
-        void* fontCharsetEntity;
+        TileSetEntity* fontCharsetEntity;
         BitmapResourceManager* sceneBitmapMgr;
         SoundResourceManager* sceneSoundMgr;
         InputProcessorBase* inputProcessorMenu; // I think this is redundant but I'll keep it here

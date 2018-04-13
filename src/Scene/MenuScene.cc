@@ -50,12 +50,12 @@ void MenuScene::CreateEntities()
     this->inputProcessorMenu = new MenuScene_InputProcessor();
     this->inputProcessor = this->inputProcessorMenu;
 
-    this->titleEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[44], MenuScene_RenderMeta::TitleEntity_RenderMetaPtr, 0);
-    this->yamadaCopyrightEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[54], MenuScene_RenderMeta::YamadaCopyrightEntity_RenderMetaPtr, 0);
-    this->menuOptionsEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[53], MenuScene_RenderMeta::MenuOptionsEntity_RenderMetaPtr, 0);
-    this->optionLabelEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[80], MenuScene_RenderMeta::OptionLabelEntity_RenderMetaPtr, 0);
-    this->menuCursorEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[33], MenuScene_RenderMeta::MenuCursorEntity_RenderMetaPtr, 0);
-    this->selectCursorEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[37], MenuScene_RenderMeta::SelectCursorEntity_RenderMetaPtr, 0);
+    this->titleEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[44], &MenuScene_Meta::TitleEntity_RenderMeta, 0);
+    this->yamadaCopyrightEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[54], &MenuScene_Meta::YamadaCopyrightEntity_RenderMeta, 0);
+    this->menuOptionsEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[53], &MenuScene_Meta::MenuOptionsEntity_RenderMeta, 0);
+    this->optionLabelEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[80], &MenuScene_Meta::OptionLabelEntity_RenderMeta, 0);
+    this->menuCursorEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[33], &MenuScene_Meta::MenuCursorEntity_RenderMeta, 0);
+    this->selectCursorEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[37], &MenuScene_Meta::SelectCursorEntity_RenderMeta, 0);
 
     this->introCutSceneObject = new IntroCutSceneEntity(this, this->sceneBitmapMgr->bitmapPtrs[71]);
 
@@ -360,15 +360,13 @@ static const MSRect TitleEntity_RenderMeta_3[] =
     { -280, -80, 280, 80 } // lengths to sides (dimensions)
 };
 
-static const RenderMeta TitleEntity_RenderMeta =
+const RenderMeta MenuScene_Meta::TitleEntity_RenderMeta =
 {
     &TitleEntity_RenderMeta_1[0],
     &TitleEntity_RenderMeta_2[0],
     &TitleEntity_RenderMeta_3[0],
     gConsts::RenderMetaTerminatorPtr
 };
-
-const RenderMeta* MenuScene_RenderMeta::TitleEntity_RenderMetaPtr = &TitleEntity_RenderMeta;
 // ------ TitleEntity RenderMeta END ------
 
 // ------ YamadaCopyrightEntity RenderMeta START ------
@@ -402,15 +400,13 @@ static const MSRect YamadaCopyrightEntity_RenderMeta_3[] =
     { -128, -4, 128, 4 } // lengths to sides (dimensions)
 };
 
-static const RenderMeta YamadaCopyrightEntity_RenderMeta =
+const RenderMeta MenuScene_Meta::YamadaCopyrightEntity_RenderMeta =
 {
     &YamadaCopyrightEntity_RenderMeta_1[0],
     &YamadaCopyrightEntity_RenderMeta_2[0],
     &YamadaCopyrightEntity_RenderMeta_3[0],
     gConsts::RenderMetaTerminatorPtr
 };
-
-const RenderMeta* MenuScene_RenderMeta::YamadaCopyrightEntity_RenderMetaPtr = &YamadaCopyrightEntity_RenderMeta;
 // ------ YamadaCopyrightEntity RenderMeta END ------
 
 // ------ MenuOptionsEntity RenderMeta START ------
@@ -460,15 +456,13 @@ static const MSRect MenuOptionsEntity_RenderMeta_3[] =
     { -92, -40, 92, 40 }
 };
 
-static const RenderMeta MenuOptionsEntity_RenderMeta =
+const RenderMeta MenuScene_Meta::MenuOptionsEntity_RenderMeta =
 {
     &MenuOptionsEntity_RenderMeta_1[0],
     &MenuOptionsEntity_RenderMeta_2[0],
     &MenuOptionsEntity_RenderMeta_3[0],
     gConsts::RenderMetaTerminatorPtr
 };
-
-const RenderMeta* MenuScene_RenderMeta::MenuOptionsEntity_RenderMetaPtr = &MenuOptionsEntity_RenderMeta;
 // ------ MenuOptionsEntity RenderMeta END ------
 
 // ------ OptionLabelEntity RenderMeta START ------
@@ -502,15 +496,13 @@ static const MSRect OptionLabelEntity_RenderMeta_3[] =
     { -48, -8, 48, 8 }, // lengths to sides (dimensions)
 };
 
-static const RenderMeta OptionLabelEntity_RenderMeta =
+const RenderMeta MenuScene_Meta::OptionLabelEntity_RenderMeta =
 {
     &OptionLabelEntity_RenderMeta_1[0],
     &OptionLabelEntity_RenderMeta_2[0],
     &OptionLabelEntity_RenderMeta_3[0],
     gConsts::RenderMetaTerminatorPtr
 };
-
-const RenderMeta* MenuScene_RenderMeta::OptionLabelEntity_RenderMetaPtr = &OptionLabelEntity_RenderMeta;
 // ------ OptionLabelEntity RenderMeta END ------
 
 // ------ MenuCursorEntity RenderMeta START ------
@@ -573,15 +565,13 @@ static const MSRect MenuCursorEntity_RenderMeta_3[] =
     { -12, -12, 12, 12 }
 };
 
-static const RenderMeta MenuCursorEntity_RenderMeta =
+const RenderMeta MenuScene_Meta::MenuCursorEntity_RenderMeta =
 {
     &MenuCursorEntity_RenderMeta_1[0],
     &MenuCursorEntity_RenderMeta_2[0],
     &MenuCursorEntity_RenderMeta_3[0],
     gConsts::RenderMetaTerminatorPtr
 };
-
-const RenderMeta* MenuScene_RenderMeta::MenuCursorEntity_RenderMetaPtr = &MenuCursorEntity_RenderMeta;
 // ------ MenuCursorEntity RenderMeta END ------
 
 // ------ SelectCursorEntity RenderMeta START ------
@@ -639,13 +629,11 @@ static const MSRect SelectCursorEntity_RenderMeta_3[] =
     { -24, -4, 24, 4 }
 };
 
-static const RenderMeta SelectCursorEntity_RenderMeta =
+const RenderMeta MenuScene_Meta::SelectCursorEntity_RenderMeta =
 {
     &SelectCursorEntity_RenderMeta_1[0],
     &SelectCursorEntity_RenderMeta_2[0],
     &SelectCursorEntity_RenderMeta_3[0],
     gConsts::RenderMetaTerminatorPtr
 };
-
-const RenderMeta* MenuScene_RenderMeta::SelectCursorEntity_RenderMetaPtr = &SelectCursorEntity_RenderMeta;
 // ------ SelectCursorEntity RenderMeta END ------

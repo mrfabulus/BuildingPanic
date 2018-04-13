@@ -8,9 +8,9 @@ class BitmapResourceManager;
 class SoundResourceManager;
 class StaticPictureEntity;
 
-struct LogoScene_RenderMeta
+struct LogoScene_Meta
 {
-    static const RenderMeta* LogoEntity_RenderMetaPtr;
+    static const RenderMeta LogoEntity_RenderMeta;
 };
 
 class LogoScene : public GameScene

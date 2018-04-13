@@ -32,12 +32,12 @@ class Entity : public GameObject
         int32_t dword34;
         int32_t dword38_assignedZeroFromRenderSetup;
         int32_t dword3C;
-        int16_t renderDataPtrIndex;
+        int16_t renderConfigIndex;
         int16_t field_42;
-        int16_t firstWordFromRenderDataPtr1;
+        int16_t firstWordFromRenderConfig;
         int16_t field_46;
-        const RenderMeta* dataPtrs;
-        uint16_t* dataPtr1;
+        const RenderMeta* renderMeta;
+        uint16_t* renderConfiguration;
         MSRect* srcRectPtr;
         MSRect* dimensionRectPtr;
         MSRect* lastDataPtrRectanglePtr;
@@ -45,11 +45,11 @@ class Entity : public GameObject
         int16_t AttachedRenderDataIndex;
         int32_t dword60;
 
-        Entity(GameScene* aScene, Bitmap* aBitmap, const RenderMeta* dataPtrs);
+        Entity(GameScene* aScene, Bitmap* aBitmap, const RenderMeta* aRenderMeta);
         virtual ~Entity();
 
         void ResetRenderRectangleMetadata();
-        void AssignRenderRectangles(uint16_t aRenderDataPtrIndex);
+        void AssignRenderRectangles(uint16_t aRenderConfigIndex);
         void AssignRenderRectanglesAdvanced();
 
         // VTable entries
