@@ -138,9 +138,9 @@ static const uint16_t LogoEntity_RenderMeta_1_1[] =
     0
 };
 
-static const void* LogoEntity_RenderMeta_1[] =
+static const uint16_t* LogoEntity_RenderMeta_1[] =
 {
-    &LogoEntity_RenderMeta_1_1,
+    &LogoEntity_RenderMeta_1_1[0],
     0
 };
 
@@ -156,12 +156,12 @@ static const MSRect LogoEntity_RenderMeta_3[] =
     { -156, -16, 156, 16 } // lengths to sides (dimensions)
 };
 
-static const void* LogoEntity_RenderMeta[] =
+static const RenderMeta LogoEntity_RenderMeta =
 {
-    &LogoEntity_RenderMeta_1,
-    &LogoEntity_RenderMeta_2,
-    &LogoEntity_RenderMeta_3,
-    ((void*) gConsts::RenderMetaTerminatorPtr)
+    &LogoEntity_RenderMeta_1[0],
+    &LogoEntity_RenderMeta_2[0],
+    &LogoEntity_RenderMeta_3[0],
+    gConsts::RenderMetaTerminatorPtr
 };
 
-const uint32_t** LogoScene_RenderMeta::LogoEntity_RenderMetaPtr = (const uint32_t**) LogoEntity_RenderMeta;
+const RenderMeta* LogoScene_RenderMeta::LogoEntity_RenderMetaPtr = &LogoEntity_RenderMeta;

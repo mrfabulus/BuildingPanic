@@ -22,12 +22,12 @@ void EntityExtraPositionData::ReassignPositionToEntity()
     this->entityPtr->centerY = (int32_t) this->dCenterY;
 }
 
-Entity::Entity(GameScene* aScene, Bitmap* aBitmap, const uint32_t** dataPtrs)
+Entity::Entity(GameScene* aScene, Bitmap* aBitmap, const RenderMeta* dataPtrs)
     : GameObject()
 {
     this->scene = aScene;
     this->entityImageBmp = aBitmap;
-    this->extraPositionData = 0;
+    this->extraPositionDataBase = nullptr;
     this->attachedToLayer = 0;
     this->entityFacingLeft = 0;
     this->dword34 = 0;
@@ -69,46 +69,18 @@ void Entity::AssignRenderRectangles(uint16_t aRenderDataPtrIndex)
         if (this->dataPtrs == nullptr)
             return;
 
-        uint32_t multiplier = 0;
+        const uint16_t** cfg = this->dataPtrs->configurations;
+        cfg += aRenderDataPtrIndex;
 
-        // Since the structure that is used is pretty messed up, pointer calculations have to be made accordingly
-        #ifdef WIN32
-        multiplier = 1;
-        #else
-        multiplier = 2;
-        #endif
+        this->dataPtr1 = * ((uint16_t**) cfg);
+        this->firstWordFromRenderDataPtr1 = this->dataPtr1[0];
 
-        std::cout << "dataPtrs[0] = " << this->dataPtrs[0] << std::endl;
-
-        for (uint32_t i = 0; i < aRenderDataPtrIndex + 1; i++)
-        {
-            std::cout << "Reading from " << (this->dataPtrs[0] + i * multiplier) << std::endl;
-
-            #ifdef WIN32
-            uint32_t* debugP = ((uint32_t*)(this->dataPtrs[0] + i * multiplier));
-            #else
-            uint64_t* debugP = ((uint64_t*) (this->dataPtrs[0] + i * multiplier));
-            #endif
-
-            std::cout << "dataPtrs[0][" << i << "] = 0x" << std::hex << *debugP << std::endl;
-        }
-
-        uint16_t* p = (uint16_t*) (* ((uint64_t*) (this->dataPtrs[0] + aRenderDataPtrIndex * multiplier)));
-        std::cout << "Calculated p " << p << std::endl;
-
-        this->dataPtr1 = p;
-        this->firstWordFromRenderDataPtr1 = p[0];
-
-        MSRect* srcRects = (MSRect*) this->dataPtrs[1];
-        this->srcRectPtr = srcRects + p[1];
-
-        MSRect* dimensionRects = (MSRect*) this->dataPtrs[2];
-        this->dimensionRectPtr = dimensionRects + p[2];
+        this->srcRectPtr = (MSRect*) (this->dataPtrs->srcRectangles + this->dataPtr1[1]);
+        this->dimensionRectPtr = (MSRect*) (this->dataPtrs->dimRectangles + this->dataPtr1[2]);
 
         this->dword38_assignedZeroFromRenderSetup = 0;
 
-        MSRect* unkRects = (MSRect*) this->dataPtrs[3];
-        this->lastDataPtrRectanglePtr = unkRects + p[3];
+        this->lastDataPtrRectanglePtr = (MSRect*) (this->dataPtrs->terminator + this->dataPtr1[3]);
     }
 }
 
@@ -167,10 +139,10 @@ bool Entity::AttachWithPosition(int32_t aX, int32_t aY, uint16_t AttachedRenderD
     double doubleX = (double) aX;
     double doubleY = (double) aY;
 
-    if (this->extraPositionData)
+    if (this->extraPositionDataBase)
     {
-        this->extraPositionData->dCenterX = doubleX;
-        this->extraPositionData->dCenterY = doubleY;
+        this->extraPositionDataBase->dCenterX = doubleX;
+        this->extraPositionDataBase->dCenterY = doubleY;
     }
 
     this->centerX = aX;
@@ -194,11 +166,11 @@ bool Entity::AttachWithPosition2(int32_t aX, int32_t aY, int32_t unk, uint16_t A
     double doubleY = (double) aY;
     double dUnk = (double) unk;
 
-    if (this->extraPositionData)
+    if (this->extraPositionDataBase)
     {
-        this->extraPositionData->dCenterX = doubleX;
-        this->extraPositionData->dCenterY = doubleY;
-        this->extraPositionData->coordinateLikeThingie = unk;
+        this->extraPositionDataBase->dCenterX = doubleX;
+        this->extraPositionDataBase->dCenterY = doubleY;
+        this->extraPositionDataBase->coordinateLikeThingie = unk;
     }
 
     this->centerX = aX;

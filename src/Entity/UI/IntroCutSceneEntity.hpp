@@ -5,7 +5,7 @@
 
 struct IntroCutSceneEntity_RenderMeta
 {
-    static const uint32_t** RenderMetaPtr;
+    static const RenderMeta* RenderMetaPtr;
 };
 
 class IntroCutSceneEntity : public Entity

@@ -15,7 +15,7 @@ class WallEntity : public Entity
         uint8_t byte66;
         uint32_t dword68;
         uint32_t dword6C;
-        EntityExtraPositionData* dword70;
+        EntityExtraPositionData* extraPositionData;
         StaticPictureEntity* wallImageEntity;
 
         WallEntity(GameScene* aScene, Bitmap* aBitmap, uint32_t aCenterX, uint32_t aCenterY);

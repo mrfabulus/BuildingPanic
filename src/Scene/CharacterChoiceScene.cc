@@ -244,9 +244,9 @@ void CharacterChoiceScene::Update()
                 // left arrow pressed
                 this->byte8D8 = 0;
 
-                if ( this->selectionCursorEntity->extraPositionData )
+                if ( this->selectionCursorEntity->extraPositionDataBase )
                 {
-                    this->selectionCursorEntity->extraPositionData->dCenterX = 0xB0;
+                    this->selectionCursorEntity->extraPositionDataBase->dCenterX = 0xB0;
                 }
 
                 this->selectionCursorEntity->centerX = 0xB0;
@@ -257,9 +257,9 @@ void CharacterChoiceScene::Update()
                 // right arrow pressed
                 this->byte8D8 = 1;
 
-                if ( this->selectionCursorEntity->extraPositionData )
+                if ( this->selectionCursorEntity->extraPositionDataBase )
                 {
-                    this->selectionCursorEntity->extraPositionData->dCenterX = 0x1D0;
+                    this->selectionCursorEntity->extraPositionDataBase->dCenterX = 0x1D0;
                 }
 
                 this->selectionCursorEntity->centerX = 0x1D0;
@@ -293,9 +293,9 @@ void CharacterChoiceScene::Update()
                     this->selectionCursorEntity->renderDataPtrIndex = 1;
                     this->selectionCursorEntity->AssignRenderRectangles(1);
 
-                    if (this->selectionCursorEntity->extraPositionData != nullptr)
+                    if (this->selectionCursorEntity->extraPositionDataBase != nullptr)
                     {
-                        this->selectionCursorEntity->extraPositionData->dCenterX = 0x80;
+                        this->selectionCursorEntity->extraPositionDataBase->dCenterX = 0x80;
                     }
 
                     this->selectionCursorEntity->centerX = 0x80;
@@ -340,10 +340,10 @@ static const uint16_t SelectTextEntity_RenderMeta_1_2[] =
     0
 };
 
-static const void* SelectTextEntity_RenderMeta_1[] =
+static const uint16_t* SelectTextEntity_RenderMeta_1[] =
 {
-    &SelectTextEntity_RenderMeta_1_1,
-    &SelectTextEntity_RenderMeta_1_2,
+    &SelectTextEntity_RenderMeta_1_1[0],
+    &SelectTextEntity_RenderMeta_1_2[0],
     0,
     0
 };
@@ -361,15 +361,15 @@ static const MSRect SelectTextEntity_RenderMeta_3[] =
     { -278, -33, 278, 33 } // lengths to sides (dimensions)
 };
 
-static const void* SelectTextEntity_RenderMeta[] =
+static const RenderMeta SelectTextEntity_RenderMeta =
 {
-    &SelectTextEntity_RenderMeta_1,
-    &SelectTextEntity_RenderMeta_2,
-    &SelectTextEntity_RenderMeta_3,
-    ((void*) gConsts::RenderMetaTerminatorPtr)
+    &SelectTextEntity_RenderMeta_1[0],
+    &SelectTextEntity_RenderMeta_2[0],
+    &SelectTextEntity_RenderMeta_3[0],
+    gConsts::RenderMetaTerminatorPtr
 };
 
-const uint32_t** CharacterChoiceScene_RenderMeta::SelectTextEntityPtr = (const uint32_t**) SelectTextEntity_RenderMeta;
+const RenderMeta* CharacterChoiceScene_RenderMeta::SelectTextEntityPtr = &SelectTextEntity_RenderMeta;
 // ------ SelectTextEntity RenderMeta END ------
 
 // ------ SelectSubtextsEntity RenderMeta START ------
@@ -413,11 +413,11 @@ static const uint16_t SelectSubtextsEntity_RenderMeta_1_3[] =
     1
 };
 
-static const void* SelectSubtextsEntity_RenderMeta_1[] =
+static const uint16_t* SelectSubtextsEntity_RenderMeta_1[] =
 {
-    &SelectSubtextsEntity_RenderMeta_1_1,
-    &SelectSubtextsEntity_RenderMeta_1_2,
-    &SelectSubtextsEntity_RenderMeta_1_3,
+    &SelectSubtextsEntity_RenderMeta_1_1[0],
+    &SelectSubtextsEntity_RenderMeta_1_2[0],
+    &SelectSubtextsEntity_RenderMeta_1_3[0],
     0
 };
 
@@ -436,15 +436,15 @@ static const MSRect SelectSubtextsEntity_RenderMeta_3[] =
     { -120, -8, 120, 8 }
 };
 
-static const void* SelectSubtextsEntity_RenderMeta[] =
+static const RenderMeta SelectSubtextsEntity_RenderMeta =
 {
-    &SelectSubtextsEntity_RenderMeta_1,
-    &SelectSubtextsEntity_RenderMeta_2,
-    &SelectSubtextsEntity_RenderMeta_3,
-    ((void*) gConsts::RenderMetaTerminatorPtr)
+    &SelectSubtextsEntity_RenderMeta_1[0],
+    &SelectSubtextsEntity_RenderMeta_2[0],
+    &SelectSubtextsEntity_RenderMeta_3[0],
+    gConsts::RenderMetaTerminatorPtr
 };
 
-const uint32_t** CharacterChoiceScene_RenderMeta::SelectSubtextsEntityPtr = (const uint32_t**) SelectSubtextsEntity_RenderMeta;
+const RenderMeta* CharacterChoiceScene_RenderMeta::SelectSubtextsEntityPtr = &SelectSubtextsEntity_RenderMeta;
 // ------ SelectSubtextsEntity RenderMeta END ------
 
 // ------ SelectionCursorEntity RenderMeta START ------
@@ -512,12 +512,12 @@ static const uint16_t SelectionCursorEntity_RenderMeta_1_4[] =
     1
 };
 
-static const void* SelectionCursorEntity_RenderMeta_1[] =
+static const uint16_t* SelectionCursorEntity_RenderMeta_1[] =
 {
-    &SelectionCursorEntity_RenderMeta_1_1,
-    &SelectionCursorEntity_RenderMeta_1_2,
-    &SelectionCursorEntity_RenderMeta_1_3,
-    &SelectionCursorEntity_RenderMeta_1_4
+    &SelectionCursorEntity_RenderMeta_1_1[0],
+    &SelectionCursorEntity_RenderMeta_1_2[0],
+    &SelectionCursorEntity_RenderMeta_1_3[0],
+    &SelectionCursorEntity_RenderMeta_1_4[0]
 };
 
 static const MSRect SelectionCursorEntity_RenderMeta_2[] =
@@ -534,15 +534,15 @@ static const MSRect SelectionCursorEntity_RenderMeta_3[] =
     { -48, -112, 48, 112 }
 };
 
-static const void* SelectionCursorEntity_RenderMeta[] =
+static const RenderMeta SelectionCursorEntity_RenderMeta =
 {
-    &SelectionCursorEntity_RenderMeta_1,
-    &SelectionCursorEntity_RenderMeta_2,
-    &SelectionCursorEntity_RenderMeta_3,
-    ((void*) gConsts::RenderMetaTerminatorPtr)
+    &SelectionCursorEntity_RenderMeta_1[0],
+    &SelectionCursorEntity_RenderMeta_2[0],
+    &SelectionCursorEntity_RenderMeta_3[0],
+    gConsts::RenderMetaTerminatorPtr
 };
 
-const uint32_t** CharacterChoiceScene_RenderMeta::SelectionCursorEntityPtr = (const uint32_t**) SelectionCursorEntity_RenderMeta;
+const RenderMeta* CharacterChoiceScene_RenderMeta::SelectionCursorEntityPtr = &SelectionCursorEntity_RenderMeta;
 // ------ SelectionCursorEntity RenderMeta END ------
 
 // ------ PlayerPortraitEntity RenderMeta START ------
@@ -570,10 +570,10 @@ static const uint16_t PlayerPortraitEntity_RenderMeta_1_2[] =
     0
 };
 
-static const void* PlayerPortraitEntity_RenderMeta_1[] =
+static const uint16_t* PlayerPortraitEntity_RenderMeta_1[] =
 {
-    &PlayerPortraitEntity_RenderMeta_1_1,
-    &PlayerPortraitEntity_RenderMeta_1_2,
+    &PlayerPortraitEntity_RenderMeta_1_1[0],
+    &PlayerPortraitEntity_RenderMeta_1_2[0],
     0,
     0
 };
@@ -591,15 +591,15 @@ static const MSRect PlayerPortraitEntity_RenderMeta_3[] =
     { -96, -96, 96, 96 } // lengths to sides (dimensions)
 };
 
-static const void* PlayerPortraitEntity_RenderMeta[] =
+static const RenderMeta PlayerPortraitEntity_RenderMeta =
 {
-    &PlayerPortraitEntity_RenderMeta_1,
-    &PlayerPortraitEntity_RenderMeta_2,
-    &PlayerPortraitEntity_RenderMeta_3,
-    ((void*) gConsts::RenderMetaTerminatorPtr)
+    &PlayerPortraitEntity_RenderMeta_1[0],
+    &PlayerPortraitEntity_RenderMeta_2[0],
+    &PlayerPortraitEntity_RenderMeta_3[0],
+    gConsts::RenderMetaTerminatorPtr
 };
 
-const uint32_t** CharacterChoiceScene_RenderMeta::PlayerPortraitEntityPtr = (const uint32_t**) PlayerPortraitEntity_RenderMeta;
+const RenderMeta* CharacterChoiceScene_RenderMeta::PlayerPortraitEntityPtr = &PlayerPortraitEntity_RenderMeta;
 // ------ PlayerPortraitEntity RenderMeta END ------
 
 // ------ BG_SelectTilePtr RenderMeta START ------

@@ -10,12 +10,12 @@ class IntroCutSceneEntity;
 
 struct MenuScene_RenderMeta
 {
-    static const uint32_t** TitleEntity_RenderMetaPtr;
-    static const uint32_t** YamadaCopyrightEntity_RenderMetaPtr;
-    static const uint32_t** MenuOptionsEntity_RenderMetaPtr;
-    static const uint32_t** OptionLabelEntity_RenderMetaPtr;
-    static const uint32_t** MenuCursorEntity_RenderMetaPtr;
-    static const uint32_t** SelectCursorEntity_RenderMetaPtr;
+    static const RenderMeta* TitleEntity_RenderMetaPtr;
+    static const RenderMeta* YamadaCopyrightEntity_RenderMetaPtr;
+    static const RenderMeta* MenuOptionsEntity_RenderMetaPtr;
+    static const RenderMeta* OptionLabelEntity_RenderMetaPtr;
+    static const RenderMeta* MenuCursorEntity_RenderMetaPtr;
+    static const RenderMeta* SelectCursorEntity_RenderMetaPtr;
     // static const void** TitleEntity_RenderMetaPtr;
 };
 

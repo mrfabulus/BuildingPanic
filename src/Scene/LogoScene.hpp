@@ -10,7 +10,7 @@ class StaticPictureEntity;
 
 struct LogoScene_RenderMeta
 {
-    static const uint32_t** LogoEntity_RenderMetaPtr;
+    static const RenderMeta* LogoEntity_RenderMetaPtr;
 };
 
 class LogoScene : public GameScene

@@ -12,11 +12,11 @@ class TileSetEntity;
 
 struct CharacterChoiceScene_RenderMeta
 {
-    static const uint32_t** SelectTextEntityPtr;
-    static const uint32_t** SelectSubtextsEntityPtr;
-    static const uint32_t** SelectionCursorEntityPtr;
-    static const uint32_t** UnknownStageSymbolPtr;
-    static const uint32_t** PlayerPortraitEntityPtr;
+    static const RenderMeta* SelectTextEntityPtr;
+    static const RenderMeta* SelectSubtextsEntityPtr;
+    static const RenderMeta* SelectionCursorEntityPtr;
+    static const RenderMeta* UnknownStageSymbolPtr;
+    static const RenderMeta* PlayerPortraitEntityPtr;
 
     static const TileMeta* BG_SelectTilePtr;
 };

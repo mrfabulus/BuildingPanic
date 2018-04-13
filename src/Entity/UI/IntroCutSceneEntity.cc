@@ -219,11 +219,11 @@ static const uint16_t RenderMeta_1_3[] =
     0
 };
 
-static const void* RenderMeta_1[] =
+static const uint16_t* RenderMeta_1[] =
 {
-    &RenderMeta_1_1,
-    &RenderMeta_1_2,
-    &RenderMeta_1_3,
+    &RenderMeta_1_1[0],
+    &RenderMeta_1_2[0],
+    &RenderMeta_1_3[0],
     0
 };
 
@@ -241,13 +241,13 @@ static const MSRect RenderMeta_3[] =
     { -80, -80, 80, 80 } // lengths to sides (dimensions)
 };
 
-static const void* RenderMeta[] =
+static const RenderMeta cutScene_RenderMeta =
 {
-    &RenderMeta_1,
-    &RenderMeta_2,
-    &RenderMeta_3,
-    ((void*) gConsts::RenderMetaTerminatorPtr)
+    &RenderMeta_1[0],
+    &RenderMeta_2[0],
+    &RenderMeta_3[0],
+    gConsts::RenderMetaTerminatorPtr
 };
 
-const uint32_t** IntroCutSceneEntity_RenderMeta::RenderMetaPtr = (const uint32_t**) RenderMeta;
+const RenderMeta* IntroCutSceneEntity_RenderMeta::RenderMetaPtr = &cutScene_RenderMeta;
 // ------ IntroCutSceneEntity RenderMeta END ------

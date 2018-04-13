@@ -9,7 +9,7 @@ WallEntity::WallEntity(GameScene* aScene, Bitmap* aBitmap, uint32_t aCenterX, ui
     this->byte66 = 0;
     this->dword68 = 0;
     this->dword6C = 0;
-    this->dword70 = 0;
+    this->extraPositionData = 0;
     this->wallImageEntity = nullptr;
 
     if (!this->attachedToLayer)
@@ -31,10 +31,10 @@ WallEntity::WallEntity(GameScene* aScene, Bitmap* aBitmap, uint32_t aCenterX, ui
 
 WallEntity::~WallEntity()
 {
-    if (this->dword70 != nullptr)
+    if (this->extraPositionData != nullptr)
     {
-        delete this->dword70;
-        this->dword70 = nullptr;
+        delete this->extraPositionData;
+        this->extraPositionData = nullptr;
     }
 
     if (this->wallImageEntity != nullptr)
@@ -49,13 +49,12 @@ void WallEntity::Update()
     if (!this->attachedToLayer)
         return;
 
-    if (this->byte66 != 0)
+    if (this->byte66 != 0 && this->dword38_assignedZeroFromRenderSetup != 0)
     {
-        if (this->dword38_assignedZeroFromRenderSetup != 0)
-            this->byte66 = 0;
+        this->byte66 = 0;
     }
 
-    this->dword70->ReassignPositionToEntity();
+    this->extraPositionData->ReassignPositionToEntity();
     this->AssignRenderRectanglesAdvanced();
 }
 
@@ -63,8 +62,8 @@ void WallEntity::SetupRenderingInformation()
 {
     this->byte65 = 0;
     this->dword68 = 1;
-    this->dword70 = new EntityExtraPositionData(this);
-    this->extraPositionData = this->dword70;
+    this->extraPositionData = new EntityExtraPositionData(this);
+    this->extraPositionDataBase = this->extraPositionData;
 
     /*
     v4 = (char)this->byte65;
@@ -76,11 +75,11 @@ void WallEntity::SetupRenderingInformation()
 
 void WallEntity::ReleaseResources()
 {
-    this->extraPositionData = nullptr;
+    this->extraPositionDataBase = nullptr;
 
-    if (this->dword70 != nullptr)
+    if (this->extraPositionData != nullptr)
     {
-        delete this->dword70;
-        this->dword70 = nullptr;
+        delete this->extraPositionData;
+        this->extraPositionData = nullptr;
     }
 }

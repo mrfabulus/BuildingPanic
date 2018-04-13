@@ -26,7 +26,7 @@ class Entity : public GameObject
     public:
         GameScene* scene;
         Bitmap* entityImageBmp;
-        EntityExtraPositionData* extraPositionData;
+        EntityExtraPositionData* extraPositionDataBase;
         bool attachedToLayer;
         int32_t entityFacingLeft;
         int32_t dword34;
@@ -36,7 +36,7 @@ class Entity : public GameObject
         int16_t field_42;
         int16_t firstWordFromRenderDataPtr1;
         int16_t field_46;
-        const uint32_t** dataPtrs;
+        const RenderMeta* dataPtrs;
         uint16_t* dataPtr1;
         MSRect* srcRectPtr;
         MSRect* dimensionRectPtr;
@@ -45,7 +45,7 @@ class Entity : public GameObject
         int16_t AttachedRenderDataIndex;
         int32_t dword60;
 
-        Entity(GameScene* aScene, Bitmap* aBitmap, const uint32_t** dataPtrs);
+        Entity(GameScene* aScene, Bitmap* aBitmap, const RenderMeta* dataPtrs);
         virtual ~Entity();
 
         void ResetRenderRectangleMetadata();

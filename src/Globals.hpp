@@ -16,6 +16,14 @@ class MSRect
         SDL_Rect ToSDLRect();
 };
 
+struct RenderMeta
+{
+    const uint16_t** configurations;
+    const MSRect* srcRectangles;
+    const MSRect* dimRectangles;
+    const MSRect* terminator;
+};
+
 struct TileMeta
 {
     uint32_t width; //    0
