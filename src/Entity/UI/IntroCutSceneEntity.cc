@@ -42,7 +42,7 @@ static const MSRect IntroCutScene_SrcRectangles[] =
 };
 
 IntroCutSceneEntity::IntroCutSceneEntity(GameScene* aScene, Bitmap* aBitmap)
-    : Entity(aScene, aBitmap, IntroCutSceneEntity_RenderMeta::RenderMetaPtr)
+    : Entity(aScene, aBitmap, &IntroCutSceneEntity_Meta::CutScene_RenderMeta)
 {
     this->byte64 = 0;
     this->byte65 = 0;
@@ -241,13 +241,11 @@ static const MSRect RenderMeta_3[] =
     { -80, -80, 80, 80 } // lengths to sides (dimensions)
 };
 
-static const RenderMeta cutScene_RenderMeta =
+const RenderMeta IntroCutSceneEntity_Meta::CutScene_RenderMeta =
 {
     &RenderMeta_1[0],
     &RenderMeta_2[0],
     &RenderMeta_3[0],
     gConsts::RenderMetaTerminatorPtr
 };
-
-const RenderMeta* IntroCutSceneEntity_RenderMeta::RenderMetaPtr = &cutScene_RenderMeta;
 // ------ IntroCutSceneEntity RenderMeta END ------

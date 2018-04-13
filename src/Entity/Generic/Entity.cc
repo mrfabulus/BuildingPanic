@@ -86,7 +86,45 @@ void Entity::AssignRenderRectangles(uint16_t aRenderConfigIndex)
 
 void Entity::AssignRenderRectanglesAdvanced()
 {
-    // TODO: implement @ 004016F0
+    if (this->firstWordFromRenderConfig != 0)
+    {
+        this->dword38_assignedZeroFromRenderSetup = 0;
+        this->firstWordFromRenderConfig--;
+    }
+    else
+    {
+        uint16_t value = this->renderConfiguration[5];
+
+        if (value != 0)
+        {
+            if (value == 2)
+            {
+                this->field_42++;
+                this->dword38_assignedZeroFromRenderSetup = 0;
+            }
+            else
+            {
+                this->field_42 = 0;
+                this->dword38_assignedZeroFromRenderSetup = 1;
+            }
+
+            const uint16_t** cfg = this->renderMeta->configurations;
+            cfg += renderConfigIndex;
+
+            this->renderConfiguration = * ((uint16_t**) cfg);
+            this->renderConfiguration += (3 * this->field_42);
+
+            this->firstWordFromRenderConfig = this->renderConfiguration[0] - 1;
+
+            this->srcRectPtr = (MSRect*) (this->renderMeta->srcRectangles + this->renderConfiguration[1]);
+            this->dimensionRectPtr = (MSRect*) (this->renderMeta->dimRectangles + this->renderConfiguration[2]);
+            this->lastDataPtrRectanglePtr = (MSRect*) (this->renderMeta->terminator + this->renderConfiguration[3]);
+        }
+        else
+        {
+            this->dword38_assignedZeroFromRenderSetup = 1;
+        }
+    }
 }
 
 void Entity::SetLayerIndex(uint16_t aLayerIndex)

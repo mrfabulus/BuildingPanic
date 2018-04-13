@@ -7,6 +7,11 @@ class StaticPictureEntity;
 class GameScene;
 class Bitmap;
 
+struct WallEntity_Meta
+{
+    static const RenderMeta WallEntity_RenderMeta;
+};
+
 class WallEntity : public Entity
 {
     public:

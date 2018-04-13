@@ -3,9 +3,9 @@
 #include <cstdint>
 #include "../Generic/Entity.hpp"
 
-struct IntroCutSceneEntity_RenderMeta
+struct IntroCutSceneEntity_Meta
 {
-    static const RenderMeta* RenderMetaPtr;
+    static const RenderMeta CutScene_RenderMeta;
 };
 
 class IntroCutSceneEntity : public Entity

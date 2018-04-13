@@ -65,10 +65,9 @@ void WallEntity::SetupRenderingInformation()
     this->extraPositionData = new EntityExtraPositionData(this);
     this->extraPositionDataBase = this->extraPositionData;
 
-    /*
-    v4 = (char)this->byte65;
-    Entity_AssignRenderRectangles(&this->base, aRenderDataPtrIndex[v4 + 3 * (char)this->byte64]);
-    */
+    uint32_t indexLinker[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 0, 0, 0x1B, 0x1C, 0x1D };
+    uint16_t renderCfgIndex = indexLinker[this->byte65 + 3 * this->byte64];
+    this->AssignRenderRectangles(renderCfgIndex);
 
     this->byte66 = 1;
 }
@@ -83,3 +82,45 @@ void WallEntity::ReleaseResources()
         this->extraPositionData = nullptr;
     }
 }
+
+// ------ WallEntity RenderMeta START ------
+static const uint16_t WallEntity_RenderMeta_1_1[] =
+{
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+
+static const uint16_t* WallEntity_RenderMeta_1[] =
+{
+    &WallEntity_RenderMeta_1_1[0],
+    0
+};
+
+static const MSRect WallEntity_RenderMeta_2[] =
+{
+    { 0, 0, 1, 1 },
+    { 0, 0, 0xA0, 0xA0 },
+    { 0xA0, 0, 0x140, 0xA0 },
+    { 0x140, 0, 0x1E0, 0xA0 }
+};
+
+static const MSRect WallEntity_RenderMeta_3[] =
+{
+    { 0, 0, 1, 1 },
+    { -80, -80, 80, 80 } // lengths to sides (dimensions)
+};
+
+const RenderMeta WallEntity_Meta::WallEntity_RenderMeta =
+{
+    &WallEntity_RenderMeta_1[0],
+    &WallEntity_RenderMeta_2[0],
+    &WallEntity_RenderMeta_3[0],
+    gConsts::RenderMetaTerminatorPtr
+};
+// ------ WallEntity RenderMeta END ------

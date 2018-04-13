@@ -6,11 +6,16 @@
 
 class StaticPictureEntity;
 class SaveManager;
-class EntityWall;
-class EntityItem;
+class WallEntity;
+class ItemEntity;
 class TileSetEntity;
 class BitmapResourceManager;
 class SoundResourceManager;
+
+struct Ingame_Stage_Scene_Meta
+{
+    static const RenderMeta WallBarEntity_RenderMeta;
+};
 
 class Ingame_Stage_Scene : public GameScene
 {
@@ -24,8 +29,8 @@ class Ingame_Stage_Scene : public GameScene
         SaveManager *saveManager;
         int32_t dword918;
         int32_t dword91C;
-        EntityWall* wallEntities[32];
-        EntityItem* itemEntities[8];
+        WallEntity* wallEntities[32];
+        ItemEntity* itemEntities[8];
         TileSetEntity* stageBackgroundTileSetEntity;
         StaticPictureEntity* wallBarEntities[36];
         StaticPictureEntity* lampEntities[8];
