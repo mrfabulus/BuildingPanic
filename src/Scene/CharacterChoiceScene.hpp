@@ -24,7 +24,7 @@ struct CharacterChoiceScene_Meta
 class CharacterChoiceScene : public GameScene
 {
     public:
-        int8_t byte8D8; // bool dokaSelected;
+        bool tobiSelected;
         int16_t selectedStageNumber;
         int32_t dword8DC;
         SaveManager* saveMgr;

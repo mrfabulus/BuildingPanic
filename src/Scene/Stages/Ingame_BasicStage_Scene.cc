@@ -1,9 +1,10 @@
 #include "Ingame_BasicStage_Scene.hpp"
+#include "../../Manager/SaveManager.hpp"
 
 Ingame_BasicStage_Scene::Ingame_BasicStage_Scene(SDL_Color* aPaletteDataBytes, SaveManager* aSaveManager)
     : Ingame_Stage_Scene(aPaletteDataBytes, aSaveManager)
 {
-    void* managerObject = nullptr;
+    LevelManager_base* managerObject = nullptr;
 
     // Check demoplay flag
     if (((this->saveManager->saveFlags >> 8) & 0x10) == 0)

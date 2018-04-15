@@ -19,9 +19,9 @@ class SaveManager
     // private:
     public:
         uint16_t nextStage;
-        int16_t nextLevel;
-        int16_t saveFlags;
-        int16_t lastStageStatus;
+        uint16_t nextLevel;
+        uint16_t saveFlags;
+        uint16_t lastStageStatus;
         int32_t dwordC;
         int32_t gap10;
         int32_t field_14;

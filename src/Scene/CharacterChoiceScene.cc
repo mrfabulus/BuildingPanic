@@ -9,7 +9,7 @@
 CharacterChoiceScene::CharacterChoiceScene(SaveManager* aSaveManager)
     : GameScene(nullptr)
 {
-    this->byte8D8 = 0;
+    this->tobiSelected = false;
     this->selectedStageNumber = 0;
     this->dword8DC = 60;
     this->saveMgr = aSaveManager;
@@ -164,6 +164,10 @@ void CharacterChoiceScene::MakeSureImagesAreReady()
 void CharacterChoiceScene::Update()
 {
     uint32_t mask = this->inputProcessor->newButtonPressesMask;
+    uint32_t buildingXOffsets[] = { 0x80, 0xE0, 0x140, 0x1A0, 0x200 };
+    
+    // Retrieve how many stages were done according to the save file
+    uint16_t buildingCount = *((uint16_t *)&this->saveMgr->rawSaveData[484]);
 
     switch (this->scenePhaseIndex)
     {
@@ -171,28 +175,15 @@ void CharacterChoiceScene::Update()
             if (this->ticksLeftUntilReEval <= 0)
             {
                 this->selectSubtextsEntity->AttachWithPosition(320, 416, 0);
-                this->selectionCursorEntity->AttachWithPosition(this->byte8D8 == 0 ? 0xB0 : 0x1D0, 240, 0);
+                this->selectionCursorEntity->AttachWithPosition(this->tobiSelected == false ? 0xB0 : 0x1D0, 240, 0);
 
-                /*
-                SaveManager_createPlayerObjects(this->saveMgr);// create human player objects
-                v6 = this->saveMgr;
-                v7 = 0;
-                if ( ((v6->saveFlags & 0x202) != 0) + 1 > 0 )
-                {
-                    v8 = 24;
-                    do
-                    {
-                        *((_BYTE *)&v6->VTable + v8) = v7;
-                        v6 = this->saveMgr;
-                        ++v7;
-                        v8 += 12;
-                    }
-                    while ( v7 < ((v6->saveFlags & 0x202) != 0) + 1 );
-                }
-                inputCodes = (int)this->saveMgr;
-                *(_WORD *)(inputCodes + 4) = this->selectedStageNumber;
-                */
+                this->saveMgr->CreatePlayerObjects();
 
+                // TODO: Take player count into account
+                this->saveMgr->playerObject1.playerID = 0;
+                // this->saveMgr->playerObject2->playerID = 1;
+
+                this->saveMgr->nextStage = this->selectedStageNumber;
                 this->saveMgr->nextLevel = 0;
                 this->scenePhaseIndex = 4097;
             }
@@ -214,11 +205,11 @@ void CharacterChoiceScene::Update()
             if ((mask & 0x10001) != 0)
             {
                 // Enter pressed
-                this->saveMgr->playerObject1.playerID = this->byte8D8;
+                this->saveMgr->playerObject1.playerID = (uint16_t) this->tobiSelected;
 
                 // If there are 2 players, the other player is Tobi (who did not choose Doka)
                 if (this->saveMgr->saveFlags & 2)
-                    this->saveMgr->playerObject2.playerID = (this->byte8D8 == 0);
+                    this->saveMgr->playerObject2.playerID = (uint16_t) (this->tobiSelected == false);
 
                 this->selectionCursorEntity->renderDataPtrIndex = 2;
                 this->selectionCursorEntity->AssignRenderRectangles(2);
@@ -240,10 +231,10 @@ void CharacterChoiceScene::Update()
                 this->PaletteFadeAwayStart(1, 0x40u);
                 // this->sceneSoundMgr->PlaySoundForDuration(0, 320);
             }
-            else if ( (mask & 0x100010) != 0 && this->byte8D8 == 1 )
+            else if ( (mask & 0x100010) != 0 && this->tobiSelected )
             {
                 // left arrow pressed
-                this->byte8D8 = 0;
+                this->tobiSelected = false;
 
                 if ( this->selectionCursorEntity->extraPositionDataBase )
                 {
@@ -253,10 +244,10 @@ void CharacterChoiceScene::Update()
                 this->selectionCursorEntity->centerX = 0xB0;
                 // this->sceneSoundMgr->PlaySoundForDuration(1, 320);
             }
-            else if ( (mask & 0x200020) != 0 && this->byte8D8 == 0)
+            else if ( (mask & 0x200020) != 0 && !this->tobiSelected)
             {
                 // right arrow pressed
-                this->byte8D8 = 1;
+                this->tobiSelected = true;
 
                 if ( this->selectionCursorEntity->extraPositionDataBase )
                 {
@@ -268,7 +259,7 @@ void CharacterChoiceScene::Update()
             }
             break;
         case 4098:
-            // This is the subscene where the player chooses one of the buildings to play on
+            // This is the initialization of the subscene where the player chooses one of the buildings to play on
             if (!this->fadeIn_active && !this->fadeAway_active)
             {
                 this->selectSubtextsEntity->Detach();
@@ -279,18 +270,22 @@ void CharacterChoiceScene::Update()
                 if (this->stageSelectTiles != nullptr)
                 {
                     delete this->stageSelectTiles;
+                    this->stageSelectTiles = nullptr;
                 }
 
                 // BMP_BG_SELECT
+                // TODO: Add tile meta
                 this->stageSelectTiles = new TileSetEntity(this, this->sceneBitmapMgr->bitmapPtrs[58], nullptr);
 
                 if (this->stageSelectTiles != nullptr)
                 {
                     this->stageSelectTiles->Attach();
 
+                    // Switch text to "STAGE SELECT"
                     this->selectTextEntity->renderDataPtrIndex = 1;
                     this->selectTextEntity->AssignRenderRectangles(1);
 
+                    // Switch to other cursor shape that fits the buildings
                     this->selectionCursorEntity->renderDataPtrIndex = 1;
                     this->selectionCursorEntity->AssignRenderRectangles(1);
 
@@ -305,13 +300,72 @@ void CharacterChoiceScene::Update()
                     this->PaletteFadeInStart(1, 32);
 
                     this->scenePhaseIndex = 4099;
-                    // TODO: attach building entities accordingly
+
+                    // Sanity check against count
+                    if ((buildingCount - 1) < 3)
+                    {
+                        // TODO: Clean this up
+                        StaticPictureEntity** cEntity = (&this->unknownStageSymbol1) + (buildingCount - 1);
+
+                        for (uint32_t i = (buildingCount - 1); i < 3; i++)
+                        {
+                            (*cEntity)->AttachWithPosition(buildingXOffsets[2 + (buildingCount - 1) + i], 256, 0);
+                            cEntity++;
+                        }
+                    }
                 }
             }
             break;
         case 4099:
+            if (this->ticksLeftUntilReEval <= 0)
+            {
+                this->selectSubtextsEntity->AttachWithPosition(320, 416, 0);
+                this->selectSubtextsEntity->renderDataPtrIndex = 1;
+                this->selectSubtextsEntity->AssignRenderRectangles(1);
+                this->scenePhaseIndex = 4100;
+            }
             break;
-        case 5000:
+        case 4100:
+            // Choosing building (subscene constructed, receiving input)
+            if ((mask & 0x10001) != 0)
+            {
+                // Enter pressed
+                // this->sceneSoundMgr->PlaySoundForDuration(0, 320);
+                
+                this->selectionCursorEntity->renderDataPtrIndex = 3;
+                this->selectionCursorEntity->AssignRenderRectangles(3);
+
+                this->selectSubtextsEntity->renderDataPtrIndex = 2;
+                this->selectSubtextsEntity->AssignRenderRectangles(2);
+                
+                this->scenePhaseIndex = 2;
+            }
+            else if ( (mask & 0x100010) != 0 && this->selectedStageNumber > 0)
+            {
+                // left arrow pressed
+                this->selectedStageNumber--;
+
+                if (this->selectionCursorEntity->extraPositionDataBase != nullptr)
+                {
+                    this->selectionCursorEntity->extraPositionDataBase->dCenterX = buildingXOffsets[this->selectedStageNumber];
+                }
+
+                this->selectionCursorEntity->centerX = buildingXOffsets[this->selectedStageNumber];
+                // this->sceneSoundMgr->PlaySoundForDuration(1, 320);
+            }
+            else if ( (mask & 0x200020) != 0 && this->selectedStageNumber < buildingCount)
+            {
+                // right arrow pressed
+                this->selectedStageNumber++;
+
+                if (this->selectionCursorEntity->extraPositionDataBase != nullptr)
+                {
+                    this->selectionCursorEntity->extraPositionDataBase->dCenterX = buildingXOffsets[this->selectedStageNumber];
+                }
+
+                this->selectionCursorEntity->centerX = buildingXOffsets[this->selectedStageNumber];
+                // this->sceneSoundMgr->PlaySoundForDuration(1, 320);
+            }
             break;
     }
 }

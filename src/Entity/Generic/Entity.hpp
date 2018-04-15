@@ -69,7 +69,7 @@ class Entity : public GameObject
 
         void ResetRenderRectangleMetadata();
         void AssignRenderRectangles(uint16_t aRenderConfigIndex);
-        void AssignRenderRectanglesAdvanced();
+        bool AssignRenderRectanglesAdvanced();
 
         // VTable entries
         virtual void SetLayerIndex(uint16_t aLayerIndex) override;

@@ -16,5 +16,7 @@ class StaticPictureEntity : public Entity
         StaticPictureEntity (GameScene* aScene, Bitmap* aBitmap, const RenderMeta* dataPtrs, char a5);
         ~StaticPictureEntity();
 
+        virtual void Update() override;
         virtual void SetupRenderingInformation() override;
+        virtual void ReleaseResources() override;
 };

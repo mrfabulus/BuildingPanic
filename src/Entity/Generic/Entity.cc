@@ -84,8 +84,10 @@ void Entity::AssignRenderRectangles(uint16_t aRenderConfigIndex)
     }
 }
 
-void Entity::AssignRenderRectanglesAdvanced()
+bool Entity::AssignRenderRectanglesAdvanced()
 {
+    bool result = false;
+
     if (this->firstWordFromRenderConfig != 0)
     {
         this->dword38_assignedZeroFromRenderSetup = 0;
@@ -106,6 +108,7 @@ void Entity::AssignRenderRectanglesAdvanced()
             {
                 this->field_42 = 0;
                 this->dword38_assignedZeroFromRenderSetup = 1;
+                result = true;
             }
 
             const uint16_t** cfg = this->renderMeta->configurations;
@@ -123,8 +126,11 @@ void Entity::AssignRenderRectanglesAdvanced()
         else
         {
             this->dword38_assignedZeroFromRenderSetup = 1;
+            result = true;
         }
     }
+
+    return result;
 }
 
 void Entity::SetLayerIndex(uint16_t aLayerIndex)
