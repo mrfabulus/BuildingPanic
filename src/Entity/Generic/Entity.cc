@@ -22,6 +22,35 @@ void EntityExtraPositionData::ReassignPositionToEntity()
     this->entityPtr->centerY = (int32_t) this->dCenterY;
 }
 
+EntityExtraPositionData3::EntityExtraPositionData3(GameObject* aEntity)
+    : EntityExtraPositionData(aEntity)
+{
+    this->double1 = 0;
+    this->double2 = 0;
+    this->byte38 = 1;
+    this->byte39 = 1;
+}
+
+EntityExtraPositionData3::~EntityExtraPositionData3()
+{
+}
+
+void EntityExtraPositionData3::ReassignPositionToEntity()
+{
+    this->ReassignPositionXYToEntity(this->double1, this->double2);
+}
+
+void EntityExtraPositionData3::ReassignPositionXYToEntity(double aX, double aY)
+{
+    double newX = (this->byte38 * aX) + this->dCenterX;
+    double newY = (this->byte39 * aY) + this->dCenterY;
+
+    this->dCenterX = newX;
+    this->entityPtr->centerX = newX;
+    this->dCenterY = newY;
+    this->entityPtr->centerY = newY;
+}
+
 Entity::Entity(GameScene* aScene, Bitmap* aBitmap, const RenderMeta* aRenderMeta)
     : GameObject()
 {

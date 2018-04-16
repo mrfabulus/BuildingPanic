@@ -180,8 +180,8 @@ void CharacterChoiceScene::Update()
                 this->saveMgr->CreatePlayerObjects();
 
                 // TODO: Take player count into account
-                this->saveMgr->playerObject1.playerID = 0;
-                // this->saveMgr->playerObject2->playerID = 1;
+                this->saveMgr->playerObject1.characterSelected = 0;
+                // this->saveMgr->playerObject2->characterSelected = 1;
 
                 this->saveMgr->nextStage = this->selectedStageNumber;
                 this->saveMgr->nextLevel = 0;
@@ -205,11 +205,11 @@ void CharacterChoiceScene::Update()
             if ((mask & 0x10001) != 0)
             {
                 // Enter pressed
-                this->saveMgr->playerObject1.playerID = (uint16_t) this->tobiSelected;
+                this->saveMgr->playerObject1.characterSelected = (uint16_t) this->tobiSelected;
 
                 // If there are 2 players, the other player is Tobi (who did not choose Doka)
                 if (this->saveMgr->saveFlags & 2)
-                    this->saveMgr->playerObject2.playerID = (uint16_t) (this->tobiSelected == false);
+                    this->saveMgr->playerObject2.characterSelected = (uint16_t) (this->tobiSelected == false);
 
                 this->selectionCursorEntity->renderDataPtrIndex = 2;
                 this->selectionCursorEntity->AssignRenderRectangles(2);

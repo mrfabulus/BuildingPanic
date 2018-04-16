@@ -5,9 +5,9 @@
 class Save_PlayerObject
 {
     public:
-        int8_t playerID;
+        int8_t characterSelected; // 0 for Doka, 1 for Tobi
         int32_t dword4;
-        int16_t word8;
+        int16_t word8; // hearts left (?)
     // public:
         Save_PlayerObject();
 

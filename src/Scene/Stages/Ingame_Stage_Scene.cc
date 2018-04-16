@@ -6,6 +6,9 @@
 #include "../../Entity/Generic/StaticPictureEntity.hpp"
 #include "../../Entity/Generic/TileSetEntity.hpp"
 #include "../../Entity/Stage/WallEntity.hpp"
+#include "../../Entity/Stage/ItemEntity.hpp"
+#include "../../Entity/Stage/FloatingTextEntity.hpp"
+#include "../../Entity/Stage/FontTileSetEntity.hpp"
 
 Ingame_Stage_Scene::Ingame_Stage_Scene(SDL_Color* aPaletteDataBytes, SaveManager* aSaveManager)
     : GameScene(aPaletteDataBytes)
@@ -36,7 +39,7 @@ Ingame_Stage_Scene::Ingame_Stage_Scene(SDL_Color* aPaletteDataBytes, SaveManager
     memset(this->hundredScoreEntities, 0, sizeof(this->hundredScoreEntities));
     memset(this->itemEntities, 0, sizeof(this->itemEntities));
     this->hudTextEntity = nullptr;
-    this->dwordA88 = 0;
+    this->scoreFontTileEntity = nullptr;
     this->gridImageEntity = nullptr;
     this->stageBackgroundTileSetEntity = nullptr;
     memset(this->wallBarEntities, 0, sizeof(this->wallBarEntities));
@@ -57,9 +60,9 @@ Ingame_Stage_Scene::~Ingame_Stage_Scene()
 
 void Ingame_Stage_Scene::CreateEntities()
 {
-    // TODO: holy fuck, this is a massive shit
+    // TODO: Create player entities based on player count
+    // This includes hudPmarks, hud scores, and hud hearts
 
-    // TODO: check something in save flags??
     uint32_t wallYOffsets[] = { 0x48, 0xB8, 0x128, 0x198 };
     uint32_t wallXOffsets[] = { 0x28, 0x78, 0xC8, 0x118, 0x168, 0x1B8, 0x208, 0x258 };
 
@@ -79,38 +82,42 @@ void Ingame_Stage_Scene::CreateEntities()
 
     for (uint32_t i = 0; i < 8; i++)
     {
-        this->lampEntities[i] = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[27], nullptr, 0);
+        this->lampEntities[i] = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[27], &Ingame_Stage_Scene_Meta::LampEntity_RenderMeta, 0);
     }
 
     for (uint32_t i = 0; i < 8; i++)
     {
-        // this->itemEntities[i] = new ItemEntity(this, this->sceneBitmapMgr->bitmapPtrs[23]);
+        // BMP_ITEM (Powerups + Coins)
+        this->itemEntities[i] = new ItemEntity(this, this->sceneBitmapMgr->bitmapPtrs[23]);
     }
 
-    // TODO: Create 100 score entities
+    for (uint32_t i = 0; i < 10; i++)
+    {
+        // BMP_MINI (100 numbers in blue & green)
+        this->hundredScoreEntities[i] = new FloatingTextEntity(this, this->sceneBitmapMgr->bitmapPtrs[24]);
+    }
 
-    // TODO: Create cockpit texts
+    // BMP_COCKPIT - HUD text ("HI-SCORE", "STAGE TIME")
     this->hudTextEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[32], nullptr, 0);
     this->hudTextEntity->SetLayerIndex(4);
     this->hudTextEntity->dword10 = 0;
 
+    // BMP_WINDOW - Grid image?
     this->gridImageEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[35], nullptr, 0);
     this->gridImageEntity->SetLayerIndex(3);
     this->gridImageEntity->coordinateLikeThingie = 100;
     this->gridImageEntity->dword10 = 0;
 
-    // TODO: Create Score
+    this->scoreFontTileEntity = new FontTileSetEntity(this, this->sceneBitmapMgr->bitmapPtrs[21], 0);
 
     this->pauseTextEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[66], nullptr, 0);
     this->pauseTextEntity->SetLayerIndex(4);
     this->pauseTextEntity->dword10 = 0;
-
-    // TODO: create pmark, hearts, hud??
 }
 
 void Ingame_Stage_Scene::AttachEntities()
 {
-    // TODO: Do something with save data and hudScoreP1 and P2
+    // TODO: Loop over players and setup hudScoreP1 and hudScoreP2
     // TODO: Do something with save data and hudTextEntity
 
     uint32_t barYOffsets[] = { 0x48, 0xB8, 0x128, 0x198 };
@@ -138,7 +145,7 @@ void Ingame_Stage_Scene::AttachEntities()
     this->stageBackgroundTileSetEntity->Attach();
 }
 
-// ------ LogoEntity RenderMeta START ------
+// ------ WallBarEntity RenderMeta START ------
 static const uint16_t WallBarEntity_RenderMeta_1_1[] =
 {
     1,
@@ -207,4 +214,130 @@ const RenderMeta Ingame_Stage_Scene_Meta::WallBarEntity_RenderMeta =
     gConsts::RenderMetaTerminatorPtr
 };
 
-// ------ LogoEntity RenderMeta END ------
+// ------ WallBarEntity RenderMeta END ------
+
+// ------ LampEntity RenderMeta START ------
+static const uint16_t LampEntity_RenderMeta_1_1[] =
+{
+    3,
+    5,
+    1,
+    0,
+    0,
+    2,
+    3,
+    6,
+    1,
+    0,
+    0,
+    2,
+    3,
+    7,
+    1,
+    0,
+    0,
+    2,
+    3,
+    8,
+    1,
+    0,
+    0,
+    1
+};
+
+static const uint16_t LampEntity_RenderMeta_1_2[] =
+{
+    3,
+    9,
+    1,
+    0,
+    0,
+    2,
+    3,
+    10,
+    1,
+    0,
+    0,
+    2,
+    3,
+    11,
+    1,
+    0,
+    0,
+    2,
+    3,
+    12,
+    1,
+    0,
+    0,
+    1
+};
+
+static const uint16_t LampEntity_RenderMeta_1_3[] =
+{
+    3,
+    1,
+    1,
+    0,
+    0,
+    2,
+    3,
+    2,
+    1,
+    0,
+    0,
+    2,
+    3,
+    3,
+    1,
+    0,
+    0,
+    2,
+    3,
+    4,
+    1,
+    0,
+    0,
+    1
+};
+
+static const uint16_t* LampEntity_RenderMeta_1[] =
+{
+    &LampEntity_RenderMeta_1_1[0],
+    &LampEntity_RenderMeta_1_2[0],
+    &LampEntity_RenderMeta_1_3[0],
+    0
+};
+
+static const MSRect LampEntity_RenderMeta_2[] =
+{
+    { 0x00, 0x00, 0x01, 0x01 },
+    { 0x00, 0x10, 0x18, 0x20 },
+    { 0x00, 0x20, 0x18, 0x30 },
+    { 0x00, 0x30, 0x18, 0x40 },
+    { 0x00, 0x40, 0x18, 0x50 },
+    { 0x18, 0x10, 0x30, 0x20 },
+    { 0x18, 0x20, 0x30, 0x30 },
+    { 0x18, 0x30, 0x30, 0x40 },
+    { 0x18, 0x40, 0x30, 0x50 },
+    { 0x30, 0x10, 0x48, 0x20 },
+    { 0x30, 0x20, 0x48, 0x30 },
+    { 0x30, 0x30, 0x48, 0x40 },
+    { 0x30, 0x40, 0x48, 0x50 }
+};
+
+static const MSRect LampEntity_RenderMeta_3[] =
+{
+    { 0, 0, 1, 1 },
+    { -12, -8, 12, 8 } // lengths to sides (dimensions)
+};
+
+const RenderMeta Ingame_Stage_Scene_Meta::LampEntity_RenderMeta =
+{
+    &LampEntity_RenderMeta_1[0],
+    &LampEntity_RenderMeta_2[0],
+    &LampEntity_RenderMeta_3[0],
+    gConsts::RenderMetaTerminatorPtr
+};
+
+// ------ LampEntity RenderMeta END ------

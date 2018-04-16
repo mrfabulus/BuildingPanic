@@ -68,8 +68,8 @@ bool GameManager::LoadNewScene()
             {
                 this->saveManager->saveFlags = 0x1102;
 
-                this->saveManager->playerObject1.playerID = 0;
-                this->saveManager->playerObject2.playerID = 1;
+                this->saveManager->playerObject1.characterSelected = 0; // Doka
+                this->saveManager->playerObject2.characterSelected = 1; // Tobi
 
                 this->currentSceneID = GameSceneID_Ingame_Stage2;
                 this->nextDemoplayStage = 0;
@@ -78,7 +78,7 @@ bool GameManager::LoadNewScene()
             else
             {
                 this->saveManager->saveFlags = 0x1101;
-                this->saveManager->playerObject1.playerID = 0;
+                this->saveManager->playerObject1.characterSelected = 0; // Doka
 
                 this->currentSceneID = GameSceneID_Ingame_Stage1;
                 newScene = new Ingame_Stage1_Scene(this->saveManager);

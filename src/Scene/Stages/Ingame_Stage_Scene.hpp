@@ -9,12 +9,15 @@ class SaveManager;
 class WallEntity;
 class ItemEntity;
 class TileSetEntity;
+class FloatingTextEntity;
+class FontTileSetEntity;
 class BitmapResourceManager;
 class SoundResourceManager;
 
 struct Ingame_Stage_Scene_Meta
 {
     static const RenderMeta WallBarEntity_RenderMeta;
+    static const RenderMeta LampEntity_RenderMeta;
 };
 
 class Ingame_Stage_Scene : public GameScene
@@ -22,13 +25,13 @@ class Ingame_Stage_Scene : public GameScene
     public:
         StaticPictureEntity* hudPMark1;
         StaticPictureEntity* hudPMark2;
-        void* hundredScoreEntities[10];
+        FloatingTextEntity* hundredScoreEntities[10];
         uint32_t dword908;
         uint32_t dword90C;
         uint32_t dword910;
-        SaveManager *saveManager;
-        int32_t dword918;
-        int32_t dword91C;
+        SaveManager* saveManager;
+        int32_t player1Entity;
+        int32_t player2Entity;
         WallEntity* wallEntities[32];
         ItemEntity* itemEntities[8];
         TileSetEntity* stageBackgroundTileSetEntity;
@@ -39,7 +42,7 @@ class Ingame_Stage_Scene : public GameScene
         int32_t hudHeartP1;
         int32_t hudHeartP2;
         StaticPictureEntity* hudTextEntity;
-        uint32_t dwordA88;
+        FontTileSetEntity* scoreFontTileEntity;
         StaticPictureEntity* pauseTextEntity;
         StaticPictureEntity* gridImageEntity;
         BitmapResourceManager* sceneBitmapMgr;
