@@ -53,4 +53,5 @@ class Ingame_Stage_Scene : public GameScene
 
         void CreateEntities();
         void AttachEntities();
+        void AttachLamps();
 };

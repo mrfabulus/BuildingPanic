@@ -145,6 +145,21 @@ void Ingame_Stage_Scene::AttachEntities()
     this->stageBackgroundTileSetEntity->Attach();
 }
 
+void Ingame_Stage_Scene::AttachLamps()
+{
+    uint32_t lampXOffsets[] = { 0x50, 0x230, 0x50, 0x230, 0x50, 0x230, 0x50, 0x230 };
+    uint32_t lampYOffsets[] = { 0x28, 0x28,  0x98, 0x98, 0x108, 0x108, 0x178, 0x178 };
+
+    for (uint32_t i = 0; i < 8; i++)
+    {
+        this->lampEntities[i]->AttachWithPosition(lampXOffsets[i], lampYOffsets[i], 0);
+        this->lampEntities[i]->SetLayerIndex(1);
+        this->lampEntities[i]->coordinateLikeThingie = 3;
+        this->lampEntities[i]->renderDataPtrIndex = 2;
+        this->lampEntities[i]->AssignRenderRectangles(2);
+    }
+}
+
 // ------ WallBarEntity RenderMeta START ------
 static const uint16_t WallBarEntity_RenderMeta_1_1[] =
 {
