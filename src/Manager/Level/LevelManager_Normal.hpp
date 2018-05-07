@@ -1,6 +1,9 @@
 #pragma once
 
 #include "LevelManager_base.hpp"
+#include <cstdint>
+
+class FontTileSetEntity;
 
 class LevelManager_Normal : public LevelManager_base
 {

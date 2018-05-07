@@ -28,8 +28,12 @@ class SaveManager
         Save_PlayerObject playerObject1;
         Save_PlayerObject playerObject2;
         uint8_t rawSaveData[524];
+
+        static const uint8_t defaultSaveData[524];
+
     // public:
         SaveManager();
+        ~SaveManager();
 
         void CreatePlayerObjects();
 };

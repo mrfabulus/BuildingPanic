@@ -24,9 +24,9 @@ class Bitmap
         int resourceID;
 
         // ---- NEW FIELD FOR SDL ----
-        SDL_RWops* SDL_handle;
         SDL_Surface* SDL_surface;
         SDL_Texture* SDL_texture;
+        char* filePath;
 
         // ---- Functions ----
         Bitmap(std::string& aName, void* ddPalette, int16_t aID, bool initialRefCount);

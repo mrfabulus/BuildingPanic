@@ -2,6 +2,7 @@
 #include "../SDL2_Interface.hpp"
 #include "../Globals.hpp"
 #include <stdio.h>
+#include <stdlib.h>
 #include <iostream>
 
 #ifndef WIN32
@@ -17,29 +18,27 @@ Bitmap::Bitmap(std::string& aName, void* ddPalette, int16_t aID, bool initialRef
     this->bufferMeta = nullptr;
     this->resourceID = aID;
 
-    char* path = (char*) malloc(256);
+    this->filePath = (char*) malloc(256);
 
     #ifdef WIN32
     // TODO: Solve relative paths for winshit users (?)
     // I was just getting null handles for seemingly correct relative paths
-    snprintf(path, 256, "D:\\Building Panic\\BuildingPanic\\assets\\img\\%s.bmp", aName.c_str());
+    snprintf(this->filePath, 256, "D:\\Building Panic\\BuildingPanic\\assets\\img\\%s.bmp", aName.c_str());
     #else
-    snprintf(path, 256, "../assets/img/%s.bmp", aName.c_str());
+    snprintf(this->filePath, 256, "../assets/img/%s.bmp", aName.c_str());
     #endif
 
     #ifndef WIN32
-    if( access( path, F_OK ) != -1 )
+    if( access( this->filePath, F_OK ) != -1 )
     {
-        std::cout << "Bitmap creation OK for " << path << std::endl;
+        std::cout << "Bitmap creation OK for " << this->filePath << std::endl;
     }
     else
     {
-        std::cout << "Bitmap creation ERROR for " << path << std::endl;
+        std::cout << "Bitmap creation ERROR for " << this->filePath << std::endl;
+        exit(1);
     }
     #endif
-
-    // TODO: Handle errors gracefully
-    this->SDL_handle = SDL_RWFromFile(path, "rb");
 
     if (initialRefCount)
     {
@@ -49,12 +48,13 @@ Bitmap::Bitmap(std::string& aName, void* ddPalette, int16_t aID, bool initialRef
 
 Bitmap::~Bitmap()
 {
-    this->SDL_handle->close(this->SDL_handle);
-
     if (this->refCount != 0)
     {
         SDL_DestroyTexture(this->SDL_texture);
+        this->SDL_texture = nullptr;
+
         SDL_FreeSurface(this->SDL_surface);
+        this->SDL_surface = nullptr;
     }
 }
 
@@ -64,9 +64,12 @@ void Bitmap::incRefCount()
     {
         std::cout << "Ref count inc, loading " << this->resourceName << std::endl;
 
+        // TODO: Handle errors gracefully
+        SDL_RWops* fileStream = SDL_RWFromFile(this->filePath, "rb");
+
         // We have to create another surface to convert the image to our own format to satisfy blits
         SDL_Surface* otherSurf = nullptr;
-        otherSurf = SDL_LoadBMP_RW(this->SDL_handle, 1);
+        otherSurf = SDL_LoadBMP_RW(fileStream, 1); // The second argument is telling SDL to close "fileStream" after this read
 
         this->SDL_surface = gSys.CreateSurface(otherSurf->w, otherSurf->h);
         SDL_BlitSurface(otherSurf, NULL, this->SDL_surface, NULL);
@@ -88,7 +91,10 @@ void Bitmap::decRefCount()
     if (this->refCount == 0)
     {
         SDL_DestroyTexture(this->SDL_texture);
+        this->SDL_texture = nullptr;
+
         SDL_FreeSurface(this->SDL_surface);
+        this->SDL_surface = nullptr;
     }
 }
 
