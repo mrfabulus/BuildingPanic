@@ -14,6 +14,33 @@ class Save_PlayerObject
         void Initialize();
 };
 
+class ScoreboardEntry
+{
+    public:
+        uint8_t character;
+        uint8_t padding1;
+        uint16_t name[8];
+        uint16_t a3;
+        uint32_t score;
+
+        ScoreboardEntry();
+};
+
+class SaveState
+{
+    public:
+        uint32_t magic;
+        ScoreboardEntry p1Scoreboard[10];
+        ScoreboardEntry p2Scoreboard[10];
+        uint16_t stagesCompleted;
+        uint16_t unk1;
+        uint32_t unk2;
+        uint16_t player1Bindings[8];
+        uint16_t player2Bindings[8];
+
+        SaveState();
+};
+
 class SaveManager
 {
     public:
@@ -26,9 +53,7 @@ class SaveManager
         int32_t field_14;
         Save_PlayerObject playerObject1;
         Save_PlayerObject playerObject2;
-        uint8_t rawSaveData[524];
-
-        static const uint8_t defaultSaveData[524];
+        SaveState saveState;
 
         SaveManager();
         virtual ~SaveManager();

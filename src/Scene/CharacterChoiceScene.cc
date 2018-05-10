@@ -167,7 +167,7 @@ void CharacterChoiceScene::Update()
     uint32_t buildingXOffsets[] = { 0x80, 0xE0, 0x140, 0x1A0, 0x200 };
     
     // Retrieve how many stages were done according to the save file
-    uint16_t buildingCount = *((uint16_t *)&this->saveMgr->rawSaveData[484]);
+    uint16_t buildingCount = this->saveMgr->saveState.stagesCompleted;
 
     switch (this->scenePhaseIndex)
     {
@@ -215,7 +215,7 @@ void CharacterChoiceScene::Update()
                 this->selectionCursorEntity->AssignRenderRectangles(2);
 
                 // Check if there is any known progress in the save file (completed at least stage 1)
-                if ( *((uint16_t *)&this->saveMgr->rawSaveData[484]) != 0)
+                if ( this->saveMgr->saveState.stagesCompleted != 0)
                 {
                     // Go to building selection
                     this->scenePhaseIndex = 4098;
