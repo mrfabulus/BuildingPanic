@@ -11,6 +11,7 @@ class ItemEntity;
 class TileSetEntity;
 class FloatingTextEntity;
 class FontTileSetEntity;
+class PlayerEntity;
 class BitmapResourceManager;
 class SoundResourceManager;
 
@@ -30,15 +31,15 @@ class Ingame_Stage_Scene : public GameScene
         uint32_t dword90C;
         uint32_t dword910;
         SaveManager* saveManager;
-        int32_t player1Entity;
-        int32_t player2Entity;
+        PlayerEntity* player1Entity;
+        PlayerEntity* player2Entity;
         WallEntity* wallEntities[32];
         ItemEntity* itemEntities[8];
         TileSetEntity* stageBackgroundTileSetEntity;
         StaticPictureEntity* wallBarEntities[36];
         StaticPictureEntity* lampEntities[8];
-        int32_t hudScoreP1;
-        int32_t hudScoreP2;
+        StaticPictureEntity* hudScoreP1;
+        StaticPictureEntity* hudScoreP2;
         int32_t hudHeartP1;
         int32_t hudHeartP2;
         StaticPictureEntity* hudTextEntity;
@@ -51,7 +52,13 @@ class Ingame_Stage_Scene : public GameScene
         Ingame_Stage_Scene(SDL_Color* aPaletteDataBytes, SaveManager* aSaveManager);
         virtual ~Ingame_Stage_Scene();
 
-        void CreateEntities();
-        void AttachEntities();
+        virtual int GetNextSceneIDReference() override;
+        // virtual void MakeSureImagesAreReady()
+        // virtual void UpdateLayer(LayerEntity* aLayer, int16_t aLayerEntityCount)
+        virtual void Update() override;
+        virtual void AttachEntities();
+
+        void CreateBaseEntities();
+        void AttachBaseEntities();
         void AttachLamps();
 };

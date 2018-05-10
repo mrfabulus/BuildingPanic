@@ -8,6 +8,7 @@
 #include "Entity/Stage/ItemEntity.hpp"
 #include "Entity/Stage/FloatingTextEntity.hpp"
 #include "Entity/Stage/FontTileSetEntity.hpp"
+#include "Entity/Stage/PlayerEntity.hpp"
 #include "Scene/Stages/Ingame_Stage_Scene.hpp"
 
 Ingame_Stage_Scene::Ingame_Stage_Scene(SDL_Color* aPaletteDataBytes, SaveManager* aSaveManager)
@@ -50,7 +51,7 @@ Ingame_Stage_Scene::Ingame_Stage_Scene(SDL_Color* aPaletteDataBytes, SaveManager
     // TODO: check for save flag
     this->sceneBitmapMgr = new BitmapResourceManager(this->saveManager->nextStage + 7, this->palette2, 0);
     this->sceneSoundMgr = new SoundResourceManager(this->saveManager->nextStage + 7);
-    this->CreateEntities();
+    this->CreateBaseEntities();
     this->inputProcessor = new Ingame_InputProcessor(this->saveManager);
 }
 
@@ -58,10 +59,45 @@ Ingame_Stage_Scene::~Ingame_Stage_Scene()
 {
 }
 
-void Ingame_Stage_Scene::CreateEntities()
+void Ingame_Stage_Scene::CreateBaseEntities()
 {
-    // TODO: Create player entities based on player count
+    // Create player entities based on player count
     // This includes hudPmarks, hud scores, and hud hearts
+
+    this->player1Entity = new PlayerEntity(this, this->sceneBitmapMgr, this->saveManager->playerObject1.characterSelected, this->sceneSoundMgr, 0);
+
+    /*
+          v7 = this->saveManager;
+      if ( v7->saveFlags & 0x200 )
+        v8 = 6;
+      else
+        v8 = v7->nextLevel;
+      if ( v8 == 2 )
+        playerEntity->base.renderMeta = off_43D348[*((char *)&v7->VTable + v2)];
+    */
+
+    this->hudPMark1 = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[33], nullptr, 0);
+    this->hudScoreP1 = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[21], nullptr, 0);
+    // this->hudHeartP1 = new EntityHudHeart(this, this->sceneBitmapMgr->bitmapPtrs[30]);
+    
+    this->hudPMark1->SetLayerIndex(4);
+    this->hudPMark1->dword10 = 0;
+    this->hudPMark1->renderDataPtrIndex = this->saveManager->playerObject1.characterSelected;
+    this->hudPMark1->AssignRenderRectangles(this->saveManager->playerObject1.characterSelected);
+
+    if (this->saveManager->Is2PMode())
+    {
+        this->player2Entity = new PlayerEntity(this, this->sceneBitmapMgr, this->saveManager->playerObject2.characterSelected, this->sceneSoundMgr, 0);
+
+        this->hudPMark2 = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[33], nullptr, 0);
+        this->hudScoreP2 = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[21], nullptr, 0);
+        // this->hudHeartP2 = new EntityHudHeart(this, this->sceneBitmapMgr->bitmapPtrs[30]);
+        
+        this->hudPMark2->SetLayerIndex(4);
+        this->hudPMark2->dword10 = 0;
+        this->hudPMark2->renderDataPtrIndex = this->saveManager->playerObject2.characterSelected;
+        this->hudPMark2->AssignRenderRectangles(this->saveManager->playerObject2.characterSelected);
+    }
 
     uint32_t wallYOffsets[] = { 0x48, 0xB8, 0x128, 0x198 };
     uint32_t wallXOffsets[] = { 0x28, 0x78, 0xC8, 0x118, 0x168, 0x1B8, 0x208, 0x258 };
@@ -115,7 +151,69 @@ void Ingame_Stage_Scene::CreateEntities()
     this->pauseTextEntity->dword10 = 0;
 }
 
+int Ingame_Stage_Scene::GetNextSceneIDReference()
+{
+    if ((this->saveManager->saveFlags & 0x1000) != 0 || (this->saveManager->saveFlags & 0x100) == 0 )
+    {
+        // nani, you drunk Mr Yamada??
+        return ((-1 * ((this->saveManager->saveFlags & 0x200) != 0)) & 0xFD) + 4;
+    }
+    else
+    {
+        if (this->saveManager->lastStageStatus != 0)
+        {
+            uint16_t v4 = 0;
+
+            if ((this->saveManager->saveFlags & 0x200) == 0)
+            {
+                v4 = this->saveManager->nextLevel;
+            }
+            else
+            {
+                v4 = 6;
+            }
+
+            if (this->saveManager->lastStageStatus != 1 || v4 >= 5)
+            {
+                return 5;
+            }
+        }
+
+        // Note: this is originally done via a reference array of numbers [7, 8, 9, 0xA, 0xB][nextStage]
+        return this->saveManager->nextStage + 7;
+    }
+}
+
+void Ingame_Stage_Scene::Update()
+{
+    switch (this->scenePhaseIndex)
+    {
+        case 0:
+            this->AttachEntities();
+            break;
+        case 1:
+            // this->GameplayUpdate();
+            break;
+        case 2:
+            // this->SetFinishedIfFadesDone();
+            break;
+        case 16:
+            // this-> ??? ();
+            break;
+        case 17:
+            // this-> ??? ();
+            break;
+        default:
+            break;
+    }
+}
+
 void Ingame_Stage_Scene::AttachEntities()
+{
+
+}
+
+void Ingame_Stage_Scene::AttachBaseEntities()
 {
     // TODO: Loop over players and setup hudScoreP1 and hudScoreP2
     // TODO: Do something with save data and hudTextEntity

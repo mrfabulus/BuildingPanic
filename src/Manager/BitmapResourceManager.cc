@@ -10,7 +10,7 @@ BitmapResourceManager::BitmapResourceManager(uint16_t setID, void* ddPalette, ui
 {
     this->ddPalette = ddPalette;
     memset(this->bitmapPtrs, 0, sizeof(this->bitmapPtrs));
-    memset(this->bitmapPairObjectPtrs, 0, sizeof(this->bitmapPairObjectPtrs));
+    memset(this->bitmapCachePtrs, 0, sizeof(this->bitmapCachePtrs));
 
     this->LoadBySetID(setID);
 
@@ -30,10 +30,10 @@ BitmapResourceManager::~BitmapResourceManager()
             this->bitmapPtrs[i] = nullptr;
         }
 
-        if (this->bitmapPairObjectPtrs[i] != nullptr)
+        if (this->bitmapCachePtrs[i] != nullptr)
         {
-            delete this->bitmapPairObjectPtrs[i];
-            this->bitmapPairObjectPtrs[i] = nullptr;
+            delete this->bitmapCachePtrs[i];
+            this->bitmapCachePtrs[i] = nullptr;
         }
     }
 }
@@ -114,16 +114,16 @@ void BitmapResourceManager::LoadByID(std::string& aName, int16_t aID)
 
     if (aID >= 0x11)
     {
-        BitmapCacheSurface* cSlot2 = this->bitmapPairObjectPtrs[aID];
+        BitmapCacheSurface* cSlot2 = this->bitmapCachePtrs[aID];
 
         // Check if bitmap pair is loaded at same slot
         if (cSlot2)
         {
             delete cSlot2;
-            this->bitmapPairObjectPtrs[aID] = nullptr;
+            this->bitmapCachePtrs[aID] = nullptr;
         }
 
-        this->bitmapPairObjectPtrs[aID] = new BitmapCacheSurface(this->bitmapPtrs[aID]);
+        this->bitmapCachePtrs[aID] = new BitmapCacheSurface(this->bitmapPtrs[aID]);
     }
 }
 

@@ -28,7 +28,7 @@ class BitmapResourceManager
 {
     public:
         Bitmap* bitmapPtrs[128];
-        BitmapCacheSurface* bitmapPairObjectPtrs[128];
+        BitmapCacheSurface* bitmapCachePtrs[128];
 
         // LPDIRECTDRAWPALETTE ddPalette;
         void* ddPalette;
