@@ -18,10 +18,10 @@ Ingame_InputProcessor::Ingame_InputProcessor(SaveManager* aSaveManager)
     // TODO: Create keyindex association array for SDL
 
     for (int i = 0; i < 8; i++)
-        this->player1keyBindingData[i] = aSaveManager->saveState.player1Bindings[i];
+        this->player1keyBindingData[i] = aSaveManager->saveState.p1Bindings[i];
 
     for (int i = 0; i < 8; i++)
-        this->player2keyBindingData[i] = aSaveManager->saveState.player2Bindings[i];
+        this->player2keyBindingData[i] = aSaveManager->saveState.p2Bindings[i];
 }
 
 Ingame_InputProcessor::~Ingame_InputProcessor()

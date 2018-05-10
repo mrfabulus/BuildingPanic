@@ -19,6 +19,7 @@ struct CharacterChoiceScene_Meta
     static const RenderMeta PlayerPortraitEntity_RenderMeta;
 
     static const TileMeta BGSelect_TileMeta;
+    static const TileMeta BG2Select_TileMeta;
 };
 
 class CharacterChoiceScene : public GameScene
@@ -34,9 +35,7 @@ class CharacterChoiceScene : public GameScene
         StaticPictureEntity* selectTextEntity;
         StaticPictureEntity* selectSubtextsEntity;
         StaticPictureEntity* selectionCursorEntity;
-        StaticPictureEntity* unknownStageSymbol1;
-        StaticPictureEntity* unknownStageSymbol2;
-        StaticPictureEntity* unknownStageSymbol3;
+        StaticPictureEntity* unknownStageSymbols[3];
         StaticPictureEntity* player1PortraitEntity;
         StaticPictureEntity* player2PortraitEntity;
 

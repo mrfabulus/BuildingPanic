@@ -24,6 +24,14 @@ uint32_t menuOptionActivationYCoordinates[] =
     0x94, 0xB4, 0xD4, 0xF4, 0x114, 0x134, 0x154, 0x174
 };
 
+uint32_t menuOptionKeybindCoordinates[] =
+{
+    0x118, 0x88, 0x118, 0x0A8, 0x118, 0x0C8, 0x118, 0x0E8, 0x118, 0x108,
+    0x118, 0x128, 0x118, 0x148, 0x118, 0x168, 0x1E8, 0x88, 0x1E8, 0x0A8,
+    0x1E8, 0x0C8, 0x1E8, 0x0E8, 0x1E8, 0x108, 0x1E8, 0x128, 0x1E8, 0x148,
+    0x1E8, 0x168
+};
+
 MenuScene::MenuScene(SaveManager* aSaveManager)
     : GameScene(gConsts::misc_PaletteDataPtr)
 {
@@ -251,7 +259,20 @@ void MenuScene::Update()
                             menuOptionCursorCoordinates[2 * this->byte959],
                             menuOptionCursorCoordinates[1 + (2 * this->byte959)], 0);
 
-                        // TODO: Setup font glyphs from saved keybindings
+                        // Setup font glyphs from saved keybindings
+                        for (int i = 0; i < 8; i++)
+                        {
+                            this->fontGlyphEntities[i]->AttachWithPosition(menuOptionKeybindCoordinates[i * 2], menuOptionKeybindCoordinates[(i * 2) + 1], 0);
+                            this->fontGlyphEntities[i]->renderDataPtrIndex = this->saveManager->saveState.p1Bindings[i];
+                            this->fontGlyphEntities[i]->AssignRenderRectangles(this->saveManager->saveState.p1Bindings[i]);
+                        }
+
+                        for (int i = 0; i < 8; i++)
+                        {
+                            this->fontGlyphEntities[8 + i]->AttachWithPosition(menuOptionKeybindCoordinates[(8 + i) * 2], menuOptionKeybindCoordinates[((8 + i) * 2) + 1], 0);
+                            this->fontGlyphEntities[8 + i]->renderDataPtrIndex = this->saveManager->saveState.p2Bindings[i];
+                            this->fontGlyphEntities[8 + i]->AssignRenderRectangles(this->saveManager->saveState.p2Bindings[i]);
+                        }
 
                         this->ticksLeftUntilReEval = 32;
                         this->PaletteFadeInStart(1, 32);
@@ -273,7 +294,20 @@ void MenuScene::Update()
                             }
                             else if (this->byte959 == 8)
                             {
-                                // TODO: Reset to default settings
+                                // Reset to default settings
+                                this->saveManager->saveState.LoadDefaultKeyBindings();
+
+                                for (int i = 0; i < 8; i++)
+                                {
+                                    this->fontGlyphEntities[i]->renderDataPtrIndex = this->saveManager->saveState.p1Bindings[i];
+                                    this->fontGlyphEntities[i]->AssignRenderRectangles(this->saveManager->saveState.p1Bindings[i]);
+                                }
+
+                                for (int i = 0; i < 8; i++)
+                                {
+                                    this->fontGlyphEntities[8 + i]->renderDataPtrIndex = this->saveManager->saveState.p2Bindings[i];
+                                    this->fontGlyphEntities[8 + i]->AssignRenderRectangles(this->saveManager->saveState.p2Bindings[i]);
+                                }
                             }
                             else
                             {
@@ -312,7 +346,31 @@ void MenuScene::Update()
                     }
                     break;
                 case 3:
-                    // TODO: Handle key setting
+                    // Handle key setting
+                    if ((mask & 0x10001) != 0)
+                    {
+                        // TODO: Play sound slot 0 for 320
+                        if (this->byte958 != 0)
+                        {
+                            this->cutScenePhase = 2;
+                            this->selectCursorEntity->Detach();
+                        }
+                        else
+                        {
+                            this->byte958 = 1;
+
+                            if (this->selectCursorEntity->extraPositionDataBase != nullptr)
+                            {
+                                this->selectCursorEntity->extraPositionDataBase->dCenterX = 0x1E8;
+                            }
+
+                            this->selectCursorEntity->centerX = 0x1E8;
+                        }
+                    }
+                    else
+                    {
+                        // TODO: Handle this whole case
+                    }
                     break;
                 case 4:
                     if (!this->fadeIn_active && !this->fadeAway_active)

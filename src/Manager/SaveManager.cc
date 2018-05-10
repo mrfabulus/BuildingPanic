@@ -45,6 +45,11 @@ void SaveManager::CreatePlayerObjects()
     this->playerObject2.Initialize();
 }
 
+bool SaveManager::Is2PMode()
+{
+    return ((this->saveFlags & 0x202) != 0);
+}
+
 Save_PlayerObject::Save_PlayerObject()
 {
 }
@@ -89,26 +94,31 @@ SaveState::SaveState()
         this->p2Scoreboard[i].score = 100000 - (10000 * i);
     }
 
-    this->stagesCompleted = 0;
+    this->nextStageIndex = 0;
     this->unk1 = 0;
     this->unk2 = 10;
 
-    // Default keybindings
-    this->player1Bindings[0] = 0x0E;
-    this->player1Bindings[1] = 0x1B;
-    this->player1Bindings[2] = 0x20;
-    this->player1Bindings[3] = 0x1A;
-    this->player1Bindings[4] = 0x0F;
-    this->player1Bindings[5] = 0x1F;
-    this->player1Bindings[6] = 0x0C;
-    this->player1Bindings[7] = 0x0B;
+    this->LoadDefaultKeyBindings();
+}
 
-    this->player2Bindings[0] = 0x28;
-    this->player2Bindings[1] = 0x29;
-    this->player2Bindings[2] = 0x27;
-    this->player2Bindings[3] = 0x15;
-    this->player2Bindings[4] = 0x2E;
-    this->player2Bindings[5] = 0x2F;
-    this->player2Bindings[6] = 0x30;
-    this->player2Bindings[7] = 0x31;
+void SaveState::LoadDefaultKeyBindings()
+{
+    // Default keybindings
+    this->p1Bindings[0] = 0x0E;
+    this->p1Bindings[1] = 0x1B;
+    this->p1Bindings[2] = 0x20;
+    this->p1Bindings[3] = 0x1A;
+    this->p1Bindings[4] = 0x0F;
+    this->p1Bindings[5] = 0x1F;
+    this->p1Bindings[6] = 0x0C;
+    this->p1Bindings[7] = 0x0B;
+
+    this->p2Bindings[0] = 0x28;
+    this->p2Bindings[1] = 0x29;
+    this->p2Bindings[2] = 0x27;
+    this->p2Bindings[3] = 0x15;
+    this->p2Bindings[4] = 0x2E;
+    this->p2Bindings[5] = 0x2F;
+    this->p2Bindings[6] = 0x30;
+    this->p2Bindings[7] = 0x31;
 }

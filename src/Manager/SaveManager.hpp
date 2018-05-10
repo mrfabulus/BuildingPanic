@@ -17,7 +17,7 @@ class Save_PlayerObject
 class ScoreboardEntry
 {
     public:
-        uint8_t character;
+        uint8_t character; // 0 for Doka, 1 for Tobi
         uint8_t padding1;
         uint16_t name[8];
         uint16_t a3;
@@ -32,13 +32,14 @@ class SaveState
         uint32_t magic;
         ScoreboardEntry p1Scoreboard[10];
         ScoreboardEntry p2Scoreboard[10];
-        uint16_t stagesCompleted;
+        uint16_t nextStageIndex;
         uint16_t unk1;
         uint32_t unk2;
-        uint16_t player1Bindings[8];
-        uint16_t player2Bindings[8];
+        uint16_t p1Bindings[8];
+        uint16_t p2Bindings[8];
 
         SaveState();
+        void LoadDefaultKeyBindings();
 };
 
 class SaveManager
@@ -48,9 +49,10 @@ class SaveManager
         uint16_t nextLevel;
         uint16_t saveFlags;
         uint16_t lastStageStatus;
-        int32_t dwordC;
-        int32_t gap10;
-        int32_t field_14;
+        uint32_t dwordC;
+        uint32_t dword10;
+        uint32_t dword14;
+
         Save_PlayerObject playerObject1;
         Save_PlayerObject playerObject2;
         SaveState saveState;
@@ -59,4 +61,5 @@ class SaveManager
         virtual ~SaveManager();
 
         void CreatePlayerObjects();
+        bool Is2PMode();
 };
