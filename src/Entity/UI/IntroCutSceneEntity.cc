@@ -1,9 +1,10 @@
-#include "IntroCutSceneEntity.hpp"
-#include "../../Globals.hpp"
-#include "../../SDL2_Interface.hpp"
-#include "../../Resource/Bitmap.hpp"
 #include <iostream>
 #include <stdlib.h>
+
+#include "Globals.hpp"
+#include "SDL2_Interface.hpp"
+#include "Resource/Bitmap.hpp"
+#include "IntroCutSceneEntity.hpp"
 
 static const MSRect IntroCutScene_DstRectangles[] =
 {

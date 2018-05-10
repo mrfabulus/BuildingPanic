@@ -1,7 +1,7 @@
-#include "TileSetEntity.hpp"
-#include "../../Resource/Bitmap.hpp"
-#include "../../Scene/GameScene.hpp"
 #include <iostream>
+#include "Entity/Generic/TileSetEntity.hpp"
+#include "Resource/Bitmap.hpp"
+#include "Scene/GameScene.hpp"
 
 TileSetEntity::TileSetEntity(GameScene* aScene, Bitmap* aBitmap, const TileMeta* aTileMetadataPtr)
     : TileSetEntity_base(aScene, aBitmap)
@@ -54,7 +54,7 @@ void TileSetEntity::Attach()
     if (this->attachedToLayer)
         return;
 
-    this->bitmap->incRefCount();
+    this->bitmap->IncRefCount();
     this->SetupRendering();
     this->scenePtr->AttachGameObjectToLayer(this);
     this->attachedToLayer = true;
@@ -66,7 +66,7 @@ void TileSetEntity::Detach()
     {
         this->ReleaseResources();
         this->scenePtr->DetachGameObjectFromLayer(this);
-        this->bitmap->decRefCount();
+        this->bitmap->DecRefCount();
         this->attachedToLayer = false;
     }
 }

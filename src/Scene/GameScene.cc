@@ -1,9 +1,9 @@
-#include "GameScene.hpp"
-#include "../Globals.hpp"
-#include "../Entity/Generic/GameObject.hpp"
-#include "../Entity/Generic/LayerEntity.hpp"
-#include "../Entity/Generic/Entity.hpp"
-#include "../Input/InputProcessorBase.hpp"
+#include "Globals.hpp"
+#include "Entity/Generic/GameObject.hpp"
+#include "Entity/Generic/LayerEntity.hpp"
+#include "Entity/Generic/Entity.hpp"
+#include "Input/InputProcessorBase.hpp"
+#include "Scene/GameScene.hpp"
 #include <string.h>
 #include <iostream>
 

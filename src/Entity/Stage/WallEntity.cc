@@ -1,5 +1,5 @@
-#include "WallEntity.hpp"
-#include "../Generic/StaticPictureEntity.hpp"
+#include "Entity/Stage/WallEntity.hpp"
+#include "Entity/Generic/StaticPictureEntity.hpp"
 
 // TODO: finish
 WallEntity::WallEntity(GameScene* aScene, Bitmap* aBitmap, uint32_t aCenterX, uint32_t aCenterY)

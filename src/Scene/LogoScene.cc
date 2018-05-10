@@ -1,9 +1,9 @@
 #include "LogoScene.hpp"
-#include "../Entity/Generic/StaticPictureEntity.hpp"
-#include "../Manager/BitmapResourceManager.hpp"
-#include "../Manager/SoundResourceManager.hpp"
-#include "../Input/LogoScene_InputProcessor.hpp"
-#include "../Globals.hpp"
+#include "Entity/Generic/StaticPictureEntity.hpp"
+#include "Manager/BitmapResourceManager.hpp"
+#include "Manager/SoundResourceManager.hpp"
+#include "Input/LogoScene_InputProcessor.hpp"
+#include "Globals.hpp"
 
 LogoScene::LogoScene(SaveManager* aSaveManager)
     : GameScene(gConsts::misc_PaletteDataPtr)

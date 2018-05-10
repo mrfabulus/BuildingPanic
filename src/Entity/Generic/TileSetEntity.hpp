@@ -1,10 +1,12 @@
 #pragma once
 
 #include <cstdint>
-#include "../../SDL2_Interface.hpp"
-#include "../../Globals.hpp"
-#include "TileSetEntity_base.hpp"
-#include "Entity.hpp"
+
+#include "Globals.hpp"
+#include "SDL2_Interface.hpp"
+
+#include "Entity/Generic/Entity.hpp"
+#include "Entity/Generic/TileSetEntity_base.hpp"
 
 class GameScene;
 class Bitmap;

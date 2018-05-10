@@ -1,15 +1,13 @@
-#include "GameManager.hpp"
-#include "SaveManager.hpp"
-
-#include "../Scene/GameScene.hpp"
-#include "../Scene/LogoScene.hpp"
-#include "../Scene/MenuScene.hpp"
-#include "../Scene/CharacterChoiceScene.hpp"
-#include "../Scene/Stages/Ingame_Stage1_Scene.hpp"
-
-#include "../Input/InputProcessorBase.hpp"
-
 #include <iostream>
+
+#include "Scene/GameScene.hpp"
+#include "Scene/LogoScene.hpp"
+#include "Scene/MenuScene.hpp"
+#include "Scene/CharacterChoiceScene.hpp"
+#include "Scene/Stages/Ingame_Stage1_Scene.hpp"
+#include "Manager/GameManager.hpp"
+#include "Manager/SaveManager.hpp"
+#include "Input/InputProcessorBase.hpp"
 
 GameManager::GameManager()
 {
@@ -24,6 +22,21 @@ GameManager::GameManager()
     // Render an empty frame and flip it
     gSys.PerformEmptyBackSurfaceBlt();
     gSys.Flip();
+}
+
+GameManager::~GameManager()
+{
+    if (this->currentSceneObjectPtr != nullptr)
+    {
+        delete this->currentSceneObjectPtr;
+        this->currentSceneObjectPtr = nullptr;
+    }
+
+    if (this->saveManager != nullptr)
+    {
+        delete this->saveManager;
+        this->saveManager = nullptr;
+    }
 }
 
 bool GameManager::Update()

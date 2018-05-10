@@ -1,8 +1,9 @@
-#include "Entity.hpp"
-#include "../../Scene/GameScene.hpp"
-#include "../../Resource/Bitmap.hpp"
 #include <iostream>
 #include <stdlib.h>
+
+#include "Entity/Generic/Entity.hpp"
+#include "Scene/GameScene.hpp"
+#include "Resource/Bitmap.hpp"
 
 EntityExtraPositionData::EntityExtraPositionData(GameObject* aEntity)
 {
@@ -58,7 +59,7 @@ Entity::Entity(GameScene* aScene, Bitmap* aBitmap, const RenderMeta* aRenderMeta
     this->entityImageBmp = aBitmap;
     this->extraPositionDataBase = nullptr;
     this->attachedToLayer = 0;
-    this->entityFacingLeft = 0;
+    this->renderCacheSurface = 0;
     this->dword34 = 0;
     this->dword38_assignedZeroFromRenderSetup = 0;
     this->dword3C = 0;
@@ -222,7 +223,7 @@ bool Entity::AttachWithPosition(int32_t aX, int32_t aY, uint16_t AttachedRenderD
     this->centerY = aY;
     this->AttachedRenderDataIndex = AttachedRenderDataIndex;
 
-    this->entityImageBmp->incRefCount();
+    this->entityImageBmp->IncRefCount();
     this->SetupRenderingInformation();
     this->scene->AttachGameObjectToLayer(this);
     this->attachedToLayer = true;
@@ -252,7 +253,7 @@ bool Entity::AttachWithPosition2(int32_t aX, int32_t aY, int32_t unk, uint16_t A
 
     this->AttachedRenderDataIndex = AttachedRenderDataIndex;
 
-    this->entityImageBmp->incRefCount();
+    this->entityImageBmp->IncRefCount();
     this->SetupRenderingInformation();
     this->scene->AttachGameObjectToLayer(this);
     this->attachedToLayer = true;
@@ -266,7 +267,7 @@ void Entity::Detach()
     {
         this->ReleaseResources();
         this->scene->DetachGameObjectFromLayer(this);
-        this->entityImageBmp->decRefCount();
+        this->entityImageBmp->DecRefCount();
         this->attachedToLayer = false;
     }
 }

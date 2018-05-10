@@ -1,6 +1,6 @@
-#include "MenuScene_InputProcessor.hpp"
-#include "../SDL2_Interface.hpp"
 #include <iostream>
+#include "SDL2_Interface.hpp"
+#include "Input/MenuScene_InputProcessor.hpp"
 
 MenuScene_InputProcessor::MenuScene_InputProcessor()
     : InputProcessorBase()

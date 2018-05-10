@@ -1,8 +1,8 @@
 #pragma once
 
 #include <string>
-#include "../SDL2_Interface.hpp"
-#include "../Globals.hpp"
+#include "Globals.hpp"
+#include "SDL2_Interface.hpp"
 
 class Bitmap
 {
@@ -23,7 +23,7 @@ class Bitmap
 
         int resourceID;
 
-        // ---- NEW FIELD FOR SDL ----
+        // ---- NEW FIELDS FOR SDL SUPPORT ----
         SDL_Surface* SDL_surface;
         SDL_Texture* SDL_texture;
         char* filePath;
@@ -32,8 +32,8 @@ class Bitmap
         Bitmap(std::string& aName, void* ddPalette, int16_t aID, bool initialRefCount);
         ~Bitmap();
 
-        void incRefCount();
-        void decRefCount();
+        void IncRefCount();
+        void DecRefCount();
 
         void Render(MSRect* srcRect, MSRect* dstRect);
 };

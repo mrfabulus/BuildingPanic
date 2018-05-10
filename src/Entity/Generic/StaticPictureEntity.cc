@@ -1,4 +1,4 @@
-#include "StaticPictureEntity.hpp"
+#include "Entity/Generic/StaticPictureEntity.hpp"
 
 StaticPictureEntity::StaticPictureEntity (GameScene* aScene, Bitmap* aBitmap, const RenderMeta* dataPtrs, char a5)
     : Entity(aScene, aBitmap, dataPtrs)

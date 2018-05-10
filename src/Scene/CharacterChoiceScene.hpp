@@ -1,8 +1,8 @@
 #pragma once
 
 #include <cstdint>
-#include "GameScene.hpp"
-#include "../Globals.hpp"
+#include "Globals.hpp"
+#include "Scene/GameScene.hpp"
 
 class SaveManager;
 class BitmapResourceManager;

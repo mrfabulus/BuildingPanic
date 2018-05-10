@@ -1,18 +1,19 @@
 #pragma once
 
-#include "Entity.hpp"
-#include "../../Globals.hpp"
 #include <cstdint>
+#include "Globals.hpp"
+#include "Entity/Generic/Entity.hpp"
 
 class GameScene;
 class Bitmap;
+class BitmapCacheSurface;
 
 class AnimatedEntity : public Entity
 {
     public:
-        uint32_t associatedBmpPairObject;
+        BitmapCacheSurface* cacheSurface;
 
-        AnimatedEntity(GameScene* aScene, Bitmap* aBitmap, const RenderMeta* aRenderMeta, uint32_t aBmpPair);
+        AnimatedEntity(GameScene* aScene, Bitmap* aBitmap, const RenderMeta* aRenderMeta, BitmapCacheSurface* aCacheSurface);
         ~AnimatedEntity();
 
         virtual void Update() = 0;

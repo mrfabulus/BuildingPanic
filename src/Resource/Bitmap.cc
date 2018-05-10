@@ -1,13 +1,14 @@
-#include "Bitmap.hpp"
-#include "../SDL2_Interface.hpp"
-#include "../Globals.hpp"
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
 
-#ifndef WIN32
+#ifndef WIN32 // WutFace
 #include <unistd.h>
 #endif
+
+#include "Globals.hpp"
+#include "SDL2_Interface.hpp"
+#include "Resource/Bitmap.hpp"
 
 Bitmap::Bitmap(std::string& aName, void* ddPalette, int16_t aID, bool initialRefCount)
 {
@@ -42,7 +43,7 @@ Bitmap::Bitmap(std::string& aName, void* ddPalette, int16_t aID, bool initialRef
 
     if (initialRefCount)
     {
-        this->incRefCount();
+        this->IncRefCount();
     }
 }
 
@@ -58,7 +59,7 @@ Bitmap::~Bitmap()
     }
 }
 
-void Bitmap::incRefCount()
+void Bitmap::IncRefCount()
 {
     if (this->refCount == 0)
     {
@@ -84,7 +85,7 @@ void Bitmap::incRefCount()
     this->refCount++;
 }
 
-void Bitmap::decRefCount()
+void Bitmap::DecRefCount()
 {
     this->refCount--;
 

@@ -43,5 +43,6 @@ ELSE()
 ENDIF()
 
 include_directories(${SDL2_INCLUDE_DIRS})
+include_directories(${CMAKE_SOURCE_DIR}/src/)
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})

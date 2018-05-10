@@ -1,4 +1,4 @@
-#include "Ingame_InputProcessor.hpp"
+#include "Input/Ingame_InputProcessor.hpp"
 
 Ingame_InputProcessor::Ingame_InputProcessor(SaveManager* aSaveManager)
     : InputProcessorBase()

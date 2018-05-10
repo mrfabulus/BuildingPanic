@@ -1,4 +1,4 @@
-#include "GameObject.hpp"
+#include "Entity/Generic/GameObject.hpp"
 
 GameObject::GameObject()
 {

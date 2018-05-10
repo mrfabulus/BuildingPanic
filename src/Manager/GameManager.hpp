@@ -1,14 +1,13 @@
 #pragma once
 
-#include "../SDL2_Interface.hpp"
-#include "../Globals.hpp"
+#include "Globals.hpp"
+#include "SDL2_Interface.hpp"
 
 class GameScene;
 class SaveManager;
 
 class GameManager
 {
-    // private:
     public:
         GameScene* currentSceneObjectPtr;
         SaveManager* saveManager;
@@ -17,14 +16,11 @@ class GameManager
         short word14;
         short nextDemoplayStage;
 
-    // public:
         GameManager();
+        virtual ~GameManager();
 
         bool Update();
-
         bool LoadNewScene();
-
         bool Tick();
-
         bool ChangeScene();
 };

@@ -1,11 +1,11 @@
 #include "MenuScene.hpp"
-#include "../Entity/UI/IntroCutSceneEntity.hpp"
-#include "../Entity/Generic/StaticPictureEntity.hpp"
-#include "../Entity/Generic/TileSetEntity.hpp"
-#include "../Manager/SaveManager.hpp"
-#include "../Manager/BitmapResourceManager.hpp"
-#include "../Manager/SoundResourceManager.hpp"
-#include "../Input/MenuScene_InputProcessor.hpp"
+#include "Entity/UI/IntroCutSceneEntity.hpp"
+#include "Entity/Generic/StaticPictureEntity.hpp"
+#include "Entity/Generic/TileSetEntity.hpp"
+#include "Manager/SaveManager.hpp"
+#include "Manager/BitmapResourceManager.hpp"
+#include "Manager/SoundResourceManager.hpp"
+#include "Input/MenuScene_InputProcessor.hpp"
 #include <iostream>
 
 uint32_t menuCursorYCoordinates[] =

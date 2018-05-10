@@ -1,10 +1,11 @@
-#include "AnimatedEntity.hpp"
-#include "../../Resource/Bitmap.hpp"
+#include "Entity/Generic/AnimatedEntity.hpp"
+#include "Resource/Bitmap.hpp"
+#include "Resource/BitmapCacheSurface.hpp"
 
-AnimatedEntity::AnimatedEntity(GameScene* aScene, Bitmap* aBitmap, const RenderMeta* aRenderMeta, uint32_t aBmpPair)
+AnimatedEntity::AnimatedEntity(GameScene* aScene, Bitmap* aBitmap, const RenderMeta* aRenderMeta, BitmapCacheSurface* aCacheSurface)
     : Entity(aScene, aBitmap, aRenderMeta)
 {
-    this->associatedBmpPairObject = aBmpPair;
+    this->cacheSurface = aCacheSurface;
 }
 
 AnimatedEntity::~AnimatedEntity()
@@ -16,7 +17,7 @@ void AnimatedEntity::Render()
     if (!this->attachedToLayer)
         return;
 
-    if (this->associatedBmpPairObject == 0)
+    if (this->cacheSurface == nullptr)
     {
         Entity::Render();
         return;
@@ -31,9 +32,9 @@ void AnimatedEntity::Render()
     if (!renderOK)
         return;
 
-    if (this->entityFacingLeft)
+    if (this->renderCacheSurface)
     {
-        // TODO: render pair
+        this->cacheSurface->Render(&srcRect, &dstRect);
     }
     else
     {
@@ -43,25 +44,23 @@ void AnimatedEntity::Render()
 
 void AnimatedEntity::SetupRenderingInformation()
 {
-    /*
-    v1 = this->associatedBmpPairObject;
-    if ( v1 )
+    if (this->cacheSurface != nullptr)
     {
-        if ( !v1->dwordC )
-            BitmapPairObject_4050D0(v1);
-        result = v1->dwordC + 1;
-        v1->dwordC = result;
+        if (this->cacheSurface->refCount == 0)
+        {
+            this->cacheSurface->SetupSurface();
+        }
+
+        this->cacheSurface->refCount++;
     }
-    */
 }
 
 void AnimatedEntity::ReleaseResources()
 {
-    /*
-    v1 = (Bitmap *)this->associatedBmpPairObject;
-    if ( v1 )
-        result = Bitmap_decRefCount(v1);
-    */
+    if (this->cacheSurface != nullptr)
+    {
+        this->cacheSurface->DecRefCount();
+    }
 }
 
 bool AnimatedEntity::CheckRenderBoundaries(MSRect* aSrcRect, MSRect* aDstRect)
@@ -72,11 +71,32 @@ bool AnimatedEntity::CheckRenderBoundaries(MSRect* aSrcRect, MSRect* aDstRect)
 
 void AnimatedEntity::GetRenderRectangles(MSRect* aSrcRect, MSRect* aDstRect)
 {
-    if (this->associatedBmpPairObject == 0)
+    if (this->cacheSurface == nullptr)
     {
         Entity::GetRenderRectangles(aSrcRect, aDstRect);
         return;
     }
 
-    // TODO: Implement more 004018C9
+    aSrcRect->top = this->srcRectPtr->top;
+    aSrcRect->bottom = this->srcRectPtr->bottom;
+
+    if (this->renderCacheSurface != 0)
+    {
+        aSrcRect->left = this->cacheSurface->bitmapPtr->SDL_surface->w - this->srcRectPtr->right;
+        aSrcRect->right = this->cacheSurface->bitmapPtr->SDL_surface->w - this->srcRectPtr->left;
+
+        aDstRect->left = this->centerX - this->dimensionRectPtr->right;
+        aDstRect->right = this->centerX - this->dimensionRectPtr->left;
+    }
+    else
+    {
+        aSrcRect->left = this->srcRectPtr->left;
+        aSrcRect->right = this->srcRectPtr->right;
+        
+        aDstRect->left = this->centerX + this->dimensionRectPtr->left;
+        aDstRect->right = this->centerX + this->dimensionRectPtr->right;
+    }
+
+    aDstRect->top = this->centerY + this->dimensionRectPtr->top;
+    aDstRect->bottom = this->centerY + this->dimensionRectPtr->bottom;
 }

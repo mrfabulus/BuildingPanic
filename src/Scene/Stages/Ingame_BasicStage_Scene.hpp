@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Ingame_Stage_Scene.hpp"
-#include "../../Manager/Level/LevelManager_base.hpp"
+#include "Scene/Stages/Ingame_Stage_Scene.hpp"
+#include "Manager/Level/LevelManager_base.hpp"
 
 class Ingame_BasicStage_Scene : public Ingame_Stage_Scene
 {

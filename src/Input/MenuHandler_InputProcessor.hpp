@@ -1,7 +1,7 @@
 #pragma once
 
-#include "InputProcessorBase.hpp"
 #include <cstdint>
+#include "Input/InputProcessorBase.hpp"
 
 class MenuHandler_InputProcessor : public InputProcessorBase
 {

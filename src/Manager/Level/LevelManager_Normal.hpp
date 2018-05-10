@@ -1,7 +1,7 @@
 #pragma once
 
-#include "LevelManager_base.hpp"
 #include <cstdint>
+#include "Manager/Level/LevelManager_base.hpp"
 
 class FontTileSetEntity;
 
@@ -10,7 +10,7 @@ class LevelManager_Normal : public LevelManager_base
     public:
         uint32_t dword88;
         uint8_t buffer8C[56];
-        FontTileSetEntity *dwordC4;
+        FontTileSetEntity* dwordC4;
         uint32_t dwordC8;
         uint32_t dwordCC;
         uint32_t dwordD0;
@@ -22,7 +22,7 @@ class LevelManager_Normal : public LevelManager_base
         uint32_t dwordE4;
         uint32_t dwordE8;
 
-        LevelManager_Normal();
+        LevelManager_Normal(Ingame_BasicStage_Scene* aScene);
         virtual ~LevelManager_Normal();
 
         virtual void F2() override;

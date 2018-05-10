@@ -38,6 +38,9 @@ int main()
             SDL_Delay(100);
         }
     }
-    
+
+    delete gGameManager;
+    gGameManager = nullptr;
+
     return 0;
 }

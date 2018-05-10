@@ -1,5 +1,5 @@
-#include "LogoScene_InputProcessor.hpp"
-#include "../SDL2_Interface.hpp"
+#include "SDL2_Interface.hpp"
+#include "Input/LogoScene_InputProcessor.hpp"
 
 LogoScene_InputProcessor::LogoScene_InputProcessor()
     : InputProcessorBase()

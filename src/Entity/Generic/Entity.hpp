@@ -1,8 +1,8 @@
 #pragma once
 
-#include "GameObject.hpp"
-#include "../../SDL2_Interface.hpp"
-#include "../../Globals.hpp"
+#include "SDL2_Interface.hpp"
+#include "Globals.hpp"
+#include "Entity/Generic/GameObject.hpp"
 
 class GameScene;
 class Bitmap;
@@ -53,7 +53,7 @@ class Entity : public GameObject
         Bitmap* entityImageBmp;
         EntityExtraPositionData* extraPositionDataBase;
         bool attachedToLayer;
-        int32_t entityFacingLeft;
+        int32_t renderCacheSurface;
         int32_t dword34;
         int32_t dword38_assignedZeroFromRenderSetup;
         int32_t dword3C;

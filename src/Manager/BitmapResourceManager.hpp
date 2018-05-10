@@ -1,8 +1,10 @@
 #pragma once
 
-#include "../Resource/Bitmap.hpp"
 #include <cstdint>
 #include <string>
+
+class Bitmap;
+class BitmapCacheSurface;
 
 struct BitmapInformation
 {
@@ -26,14 +28,13 @@ class BitmapResourceManager
 {
     public:
         Bitmap* bitmapPtrs[128];
-        // BitmapPairObject *bitmapPairObjectPtrs[128];
-        void* bitmapPairObjectPtrs[128];
+        BitmapCacheSurface* bitmapPairObjectPtrs[128];
 
         // LPDIRECTDRAWPALETTE ddPalette;
         void* ddPalette;
 
         BitmapResourceManager(uint16_t setID, void* ddPalette, uint16_t secondSetID);
-        // TODO: Imlement dtor
+        virtual ~BitmapResourceManager();
 
         void LoadBySetID(uint16_t setID);
         void LoadByID(std::string& aName, int16_t aID);

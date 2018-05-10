@@ -1,5 +1,5 @@
-#include "TileSetEntity_base.hpp"
-#include "GameObject.hpp"
+#include "Entity/Generic/TileSetEntity_base.hpp"
+#include "Entity/Generic/GameObject.hpp"
 
 TileSetEntity_base::TileSetEntity_base(GameScene* aScene, Bitmap* aBitmap)
     : GameObject()

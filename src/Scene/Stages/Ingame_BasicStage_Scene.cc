@@ -1,5 +1,6 @@
-#include "Ingame_BasicStage_Scene.hpp"
-#include "../../Manager/SaveManager.hpp"
+#include "Scene/Stages/Ingame_BasicStage_Scene.hpp"
+#include "Manager/SaveManager.hpp"
+#include "Manager/Level/LevelManager_Normal.hpp"
 
 Ingame_BasicStage_Scene::Ingame_BasicStage_Scene(SDL_Color* aPaletteDataBytes, SaveManager* aSaveManager)
     : Ingame_Stage_Scene(aPaletteDataBytes, aSaveManager)
@@ -25,7 +26,7 @@ Ingame_BasicStage_Scene::Ingame_BasicStage_Scene(SDL_Color* aPaletteDataBytes, S
     }
     else
     {
-        // TODO: Create LevelManager_Normal
+        managerObject = new LevelManager_Normal(this);
     }
 
     this->levelManagerObject = managerObject;

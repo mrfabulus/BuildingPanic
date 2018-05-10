@@ -1,4 +1,4 @@
-#include "LayerEntity.hpp"
+#include "Entity/Generic/LayerEntity.hpp"
 
 LayerEntity::LayerEntity()
     : GameObject()

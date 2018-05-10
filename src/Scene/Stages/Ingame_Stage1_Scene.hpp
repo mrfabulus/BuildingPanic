@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Ingame_BasicStage_Scene.hpp"
+#include "Scene/Stages/Ingame_BasicStage_Scene.hpp"
 
 class SaveManager;
 

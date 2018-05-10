@@ -1,4 +1,4 @@
-#include "SoundResourceManager.hpp"
+#include "Manager/SoundResourceManager.hpp"
 
 SoundResourceManager::SoundResourceManager(uint16_t aSetIndex)
 {

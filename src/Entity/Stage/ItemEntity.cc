@@ -1,4 +1,4 @@
-#include "ItemEntity.hpp"
+#include "Entity/Stage/ItemEntity.hpp"
 
 ItemEntity::ItemEntity(GameScene* aScene, Bitmap* aBitmap)
     : Entity(aScene, aBitmap, &ItemEntity_Meta::ItemEntity_RenderMeta)

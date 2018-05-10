@@ -1,10 +1,10 @@
-#include "CharacterChoiceScene.hpp"
-#include "../Entity/Generic/StaticPictureEntity.hpp"
-#include "../Entity/Generic/TileSetEntity.hpp"
-#include "../Manager/SaveManager.hpp"
-#include "../Manager/BitmapResourceManager.hpp"
-#include "../Manager/SoundResourceManager.hpp"
-#include "../Input/MenuHandler_InputProcessor.hpp"
+#include "Entity/Generic/StaticPictureEntity.hpp"
+#include "Entity/Generic/TileSetEntity.hpp"
+#include "Manager/SaveManager.hpp"
+#include "Manager/BitmapResourceManager.hpp"
+#include "Manager/SoundResourceManager.hpp"
+#include "Input/MenuHandler_InputProcessor.hpp"
+#include "Scene/CharacterChoiceScene.hpp"
 
 CharacterChoiceScene::CharacterChoiceScene(SaveManager* aSaveManager)
     : GameScene(nullptr)

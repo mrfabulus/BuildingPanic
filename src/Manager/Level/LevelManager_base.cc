@@ -1,5 +1,5 @@
-#include "LevelManager_base.hpp"
 #include <string.h>
+#include "Manager/Level/LevelManager_base.hpp"
 
 LevelManager_base::LevelManager_base(Ingame_BasicStage_Scene *aScene)
 {

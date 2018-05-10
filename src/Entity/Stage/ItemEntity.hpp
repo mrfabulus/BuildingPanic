@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Generic/Entity.hpp"
 #include <cstdint>
+#include "Entity/Generic/Entity.hpp"
 
 class GameScene;
 class Bitmap;

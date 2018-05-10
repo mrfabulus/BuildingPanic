@@ -1,6 +1,6 @@
 #pragma once
 
-#include "InputProcessorBase.hpp"
+#include "Input/InputProcessorBase.hpp"
 
 class LogoScene_InputProcessor : public InputProcessorBase
 {

@@ -7,8 +7,8 @@ class Save_PlayerObject
     public:
         int8_t characterSelected; // 0 for Doka, 1 for Tobi
         int32_t dword4;
-        int16_t word8; // hearts left (?)
-    // public:
+        int16_t heartsLeft;
+
         Save_PlayerObject();
 
         void Initialize();
@@ -16,7 +16,6 @@ class Save_PlayerObject
 
 class SaveManager
 {
-    // private:
     public:
         uint16_t nextStage;
         uint16_t nextLevel;
@@ -31,9 +30,8 @@ class SaveManager
 
         static const uint8_t defaultSaveData[524];
 
-    // public:
         SaveManager();
-        ~SaveManager();
+        virtual ~SaveManager();
 
         void CreatePlayerObjects();
 };

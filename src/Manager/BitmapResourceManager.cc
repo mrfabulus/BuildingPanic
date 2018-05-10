@@ -1,7 +1,10 @@
-#include "BitmapResourceManager.hpp"
 #include <string.h>
 #include <string>
 #include <iostream>
+
+#include "Manager/BitmapResourceManager.hpp"
+#include "Resource/Bitmap.hpp"
+#include "Resource/BitmapCacheSurface.hpp"
 
 BitmapResourceManager::BitmapResourceManager(uint16_t setID, void* ddPalette, uint16_t secondSetID)
 {
@@ -14,6 +17,24 @@ BitmapResourceManager::BitmapResourceManager(uint16_t setID, void* ddPalette, ui
     if (secondSetID != 0)
     {
         this->LoadBySetID(secondSetID);
+    }
+}
+
+BitmapResourceManager::~BitmapResourceManager()
+{
+    for (int i = 0; i < 128; i++)
+    {
+        if (this->bitmapPtrs[i] != nullptr)
+        {
+            delete this->bitmapPtrs[i];
+            this->bitmapPtrs[i] = nullptr;
+        }
+
+        if (this->bitmapPairObjectPtrs[i] != nullptr)
+        {
+            delete this->bitmapPairObjectPtrs[i];
+            this->bitmapPairObjectPtrs[i] = nullptr;
+        }
     }
 }
 
@@ -82,6 +103,7 @@ void BitmapResourceManager::LoadByID(std::string& aName, int16_t aID)
 
     Bitmap* cSlot = this->bitmapPtrs[aID];
 
+    // Check if bitmap is loaded at same slot
     if (cSlot)
     {
         delete cSlot;
@@ -92,7 +114,16 @@ void BitmapResourceManager::LoadByID(std::string& aName, int16_t aID)
 
     if (aID >= 0x11)
     {
-        // TODO: Implement pair setup
+        BitmapCacheSurface* cSlot2 = this->bitmapPairObjectPtrs[aID];
+
+        // Check if bitmap pair is loaded at same slot
+        if (cSlot2)
+        {
+            delete cSlot2;
+            this->bitmapPairObjectPtrs[aID] = nullptr;
+        }
+
+        this->bitmapPairObjectPtrs[aID] = new BitmapCacheSurface(this->bitmapPtrs[aID]);
     }
 }
 

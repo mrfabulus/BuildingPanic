@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstdint>
-#include "../Generic/Entity.hpp"
+#include "Entity/Generic/Entity.hpp"
 
 struct IntroCutSceneEntity_Meta
 {

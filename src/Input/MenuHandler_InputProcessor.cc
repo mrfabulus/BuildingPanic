@@ -1,5 +1,5 @@
+#include "SDL2_Interface.hpp"
 #include "MenuHandler_InputProcessor.hpp"
-#include "../SDL2_Interface.hpp"
 
 MenuHandler_InputProcessor::MenuHandler_InputProcessor()
     : InputProcessorBase()

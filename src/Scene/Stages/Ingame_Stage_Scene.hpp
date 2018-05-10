@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../GameScene.hpp"
-#include "../../SDL2_Interface.hpp"
 #include <cstdint>
+#include "SDL2_Interface.hpp"
+#include "Scene/GameScene.hpp"
 
 class StaticPictureEntity;
 class SaveManager;

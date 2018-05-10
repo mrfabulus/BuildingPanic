@@ -33,7 +33,7 @@ class LogoScene : public GameScene
         // virtual void MakeSureImagesAreReady();
         
         // Not overridden
-        // virtual void UpdateLayer(LayerEntity* aLayer, int16_t aLayerEntityCount) override;
+        // virtual void UpdateLayer(LayerEntity* aLayer, int16_t aLayerEntityCount);
 
         virtual void Update() override;
 };

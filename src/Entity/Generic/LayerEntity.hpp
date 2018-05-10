@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameObject.hpp"
+#include "Entity/Generic/GameObject.hpp"
 
 class LayerEntity : public GameObject
 {
