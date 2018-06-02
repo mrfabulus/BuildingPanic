@@ -206,7 +206,7 @@ bool Entity::AttachWithPosition(int32_t aX, int32_t aY, uint16_t AttachedRenderD
 
     if (this->renderMeta == nullptr)
     {
-        std::cout << "WARNING, missing render meta information" << std::endl;
+        printf("WARNING, missing render meta information %d\n", this->entityImageBmp->resourceID);
         return false;
     }
 

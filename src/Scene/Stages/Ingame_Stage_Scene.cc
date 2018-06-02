@@ -19,23 +19,14 @@ Ingame_Stage_Scene::Ingame_Stage_Scene(SDL_Color* aPaletteDataBytes, SaveManager
     this->dword90C = 0;
     this->dword910 = 0;
     this->sceneSoundMgr = nullptr;
-    
-    /*
-    cPtr = (int)&this->hudPMark1;
-    i = 2;
-
-    do
-    {
-        *(_DWORD *)(cPtr + 64) = 0;                 // zero init 4 offseted buffers 2 times
-                                                    // dword918, dword91C
-        *(_DWORD *)cPtr = 0;                        // dword8D8, dword8DC
-        *(_DWORD *)(cPtr + 0x19C) = 0;              // dwordA74, dwordA78
-        *(_DWORD *)(cPtr + 0x1A4) = 0;              // dwordA7C, dwordA80
-        cPtr += 4;
-        --i;
-    }
-    while ( i );
-    */
+    this->player1Entity = nullptr;
+    this->player2Entity = nullptr;
+    this->hudPMark1 = nullptr;
+    this->hudPMark2 = nullptr;
+    this->hudScoreP1 = nullptr;
+    this->hudScoreP2 = nullptr;
+    this->hudHeartP1 = nullptr;
+    this->hudHeartP2 = nullptr;
 
     memset(this->wallEntities, 0, sizeof(this->wallEntities));
     memset(this->hundredScoreEntities, 0, sizeof(this->hundredScoreEntities));
@@ -49,8 +40,8 @@ Ingame_Stage_Scene::Ingame_Stage_Scene(SDL_Color* aPaletteDataBytes, SaveManager
     this->pauseTextEntity = nullptr;
     this->dword908 = 0;
 
-    // TODO: check for save flag
-    this->sceneBitmapMgr = new BitmapResourceManager(this->saveManager->nextStage + 7, this->palette2, 0);
+    uint16_t secondarySet = (this->saveManager->IsSecretMode() ? 0xC : 0);
+    this->sceneBitmapMgr = new BitmapResourceManager(this->saveManager->nextStage + 7, this->palette2, secondarySet);
     this->sceneSoundMgr = new SoundResourceManager(this->saveManager->nextStage + 7);
     this->CreateBaseEntities();
     this->inputProcessor = new Ingame_InputProcessor(this->saveManager);
@@ -72,7 +63,7 @@ void Ingame_Stage_Scene::CreateBaseEntities()
         playerEntity->base.renderMeta = off_43D348[*((char *)&v7->VTable + v2)];
     */
 
-    this->hudPMark1 = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[33], nullptr, 0);
+    this->hudPMark1 = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[33], &Ingame_Stage_Scene_Meta::PMarkEntity_RenderMeta, 0);
     this->hudScoreP1 = new FontTileSetEntity(this, this->sceneBitmapMgr->bitmapPtrs[21], 0);
     this->hudHeartP1 = new HudHeartEntity(this, this->sceneBitmapMgr->bitmapPtrs[30]);
     
@@ -85,7 +76,7 @@ void Ingame_Stage_Scene::CreateBaseEntities()
     {
         this->player2Entity = new PlayerEntity(this, this->sceneBitmapMgr, this->saveManager->playerObject2.characterSelected, this->sceneSoundMgr, 0);
 
-        this->hudPMark2 = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[33], nullptr, 0);
+        this->hudPMark2 = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[33], &Ingame_Stage_Scene_Meta::PMarkEntity_RenderMeta, 0);
         this->hudScoreP2 = new FontTileSetEntity(this, this->sceneBitmapMgr->bitmapPtrs[21], 0);
         this->hudHeartP2 = new HudHeartEntity(this, this->sceneBitmapMgr->bitmapPtrs[30]);
         
@@ -151,7 +142,7 @@ int Ingame_Stage_Scene::GetNextSceneIDReference()
 {
     if ((this->saveManager->saveFlags & 0x1000) != 0 || (this->saveManager->saveFlags & 0x100) == 0 )
     {
-        // nani, you drunk Mr Yamada??
+        // nani, you drunk Mr Yamada/compiler??
         return ((-1 * (this->saveManager->IsSecretMode()) & 0xFD) + 4);
     }
     else
@@ -475,3 +466,74 @@ const RenderMeta Ingame_Stage_Scene_Meta::LampEntity_RenderMeta =
 };
 
 // ------ LampEntity RenderMeta END ------
+
+// ------ PMarkEntity RenderMeta START ------
+static const uint16_t PMarkEntity_RenderMeta_1_1[] =
+{
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+
+static const uint16_t PMarkEntity_RenderMeta_1_2[] =
+{
+    1,
+    2,
+    2,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+
+static const uint16_t PMarkEntity_RenderMeta_1_3[] =
+{
+    1,
+    3,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+
+static const uint16_t* PMarkEntity_RenderMeta_1[] =
+{
+    &PMarkEntity_RenderMeta_1_1[0],
+    &PMarkEntity_RenderMeta_1_2[0],
+    &PMarkEntity_RenderMeta_1_3[0],
+    0
+};
+
+static const MSRect PMarkEntity_RenderMeta_2[] =
+{
+    { 0x00, 0x00, 0x01, 0x01 },
+    { 0x00, 0x00, 0x20, 0x18 },
+    { 0x20, 0x00, 0x38, 0x18 },
+    { 0x38, 0x00, 0x58, 0x18 }
+};
+
+static const MSRect PMarkEntity_RenderMeta_3[] =
+{
+    { 0, 0, 1, 1 },
+    { -16, -12, 16, 12 }, // lengths to sides (dimensions)
+    { -12, -12, 12, 12 }
+};
+
+const RenderMeta Ingame_Stage_Scene_Meta::PMarkEntity_RenderMeta =
+{
+    &PMarkEntity_RenderMeta_1[0],
+    &PMarkEntity_RenderMeta_2[0],
+    &PMarkEntity_RenderMeta_3[0],
+    gConsts::RenderMetaTerminatorPtr
+};
+
+// ------ PMarkEntity RenderMeta END ------
+

@@ -1,8 +1,7 @@
 #include "Entity/UI/FontTileSetEntity.hpp"
 
-// TODO: add tile meta
 FontTileSetEntity::FontTileSetEntity(GameScene* aScene, Bitmap* aBitmap, uint32_t a4)
-    : TileSetEntity(aScene, aBitmap, nullptr)
+    : TileSetEntity(aScene, aBitmap, &FontTileSet_Meta::Default_TileMeta)
 {
     this->dword50 = -1;
     this->dword4C = 0;
@@ -21,7 +20,6 @@ FontTileSetEntity::FontTileSetEntity(GameScene* aScene, Bitmap* aBitmap, uint32_
 FontTileSetEntity::~FontTileSetEntity()
 {
 }
-
 
 void FontTileSetEntity::Update()
 {
@@ -48,3 +46,39 @@ void FontTileSetEntity::SetupRendering()
     this->dword58 = 0;
     this->word5C = 0;
 }
+
+// ------ Default_TileMeta TileMeta START ------
+const uint16_t Default_TileMeta_1[] =
+{
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+};
+
+const MSRect Default_TileMeta_Rects[] =
+{
+    { 0x0, 0x0, 0x10, 0x10 },
+    { 0x10, 0x0, 0x20, 0x10 },
+    { 0x20, 0x0, 0x30, 0x10 },
+    { 0x30, 0x0, 0x40, 0x10 },
+    { 0x40, 0x0, 0x50, 0x10 },
+    { 0x50, 0x0, 0x60, 0x10 },
+    { 0x60, 0x0, 0x70, 0x10 },
+    { 0x70, 0x0, 0x80, 0x10 },
+    { 0x80, 0x0, 0x90, 0x10 },
+    { 0x90, 0x0, 0x0A0, 0x10 },
+    { 0x0A0, 0x0, 0x0B0, 0x10 }
+};
+
+const TileMeta FontTileSet_Meta::Default_TileMeta =
+{
+    128,
+    16,
+    16,
+    0,
+    8,
+    0,
+    0,
+    &Default_TileMeta_1[0],
+    &Default_TileMeta_Rects[0],
+    0
+};
+// ------ Default_TileMeta TileMeta END ------

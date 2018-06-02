@@ -20,6 +20,7 @@ struct Ingame_Stage_Scene_Meta
 {
     static const RenderMeta WallBarEntity_RenderMeta;
     static const RenderMeta LampEntity_RenderMeta;
+    static const RenderMeta PMarkEntity_RenderMeta;
 };
 
 class Ingame_Stage_Scene : public GameScene

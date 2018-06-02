@@ -6,6 +6,12 @@
 class GameScene;
 class Bitmap;
 
+
+struct HudHeartEntity_Meta
+{
+    static const RenderMeta Default_RenderMeta;
+};
+
 class HudHeartEntity : public Entity
 {
     public:

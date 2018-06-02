@@ -6,6 +6,11 @@
 class GameScene;
 class Bitmap;
 
+struct FontTileSet_Meta
+{
+    static const TileMeta Default_TileMeta;
+};
+
 class FontTileSetEntity : public TileSetEntity
 {
     public:
