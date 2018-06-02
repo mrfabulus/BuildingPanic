@@ -4,18 +4,15 @@
 #include "Manager/Level/LevelManager_base.hpp"
 
 class FontTileSetEntity;
+class StaticPictureEntity;
 
 class LevelManager_Normal : public LevelManager_base
 {
     public:
-        uint32_t dword88;
-        uint8_t buffer8C[56];
-        FontTileSetEntity* dwordC4;
-        uint32_t dwordC8;
-        uint32_t dwordCC;
-        uint32_t dwordD0;
-        uint32_t dwordD4;
-        uint32_t dwordD8;
+        StaticPictureEntity* dword88;
+        StaticPictureEntity* buffer8C[14];
+        FontTileSetEntity* dwordC4[2];
+        uint32_t* dwordCC[4]; // ScoreTileSetEntity2*[]
         uint32_t dwordDC;
         uint16_t wordE0;
         uint8_t levelPhase;
@@ -24,6 +21,10 @@ class LevelManager_Normal : public LevelManager_base
 
         LevelManager_Normal(Ingame_BasicStage_Scene* aScene);
         virtual ~LevelManager_Normal();
+
+        bool CreateEntities();
+        void SetupLamps1();
+        void SetupLamps2();
 
         virtual void F2() override;
         virtual void F3() override;

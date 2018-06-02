@@ -24,7 +24,7 @@ PlayerEntity::PlayerEntity(Ingame_Stage_Scene* aScene, BitmapResourceManager* aB
     this->dword90 = 0;
     this->extraPositionData = 0;
     this->dword98 = 0;
-    this->dword9C = 0;
+    this->dword9C = nullptr;
     this->piyoBmp = 0;
     this->dwordA4 = 0;
     this->hitBmp = 0;

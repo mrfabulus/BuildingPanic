@@ -19,7 +19,7 @@ class GameManager
         GameManager();
         virtual ~GameManager();
 
-        bool Update();
+        void Update();
         bool LoadNewScene();
         bool Tick();
         bool ChangeScene();

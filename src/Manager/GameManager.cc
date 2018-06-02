@@ -5,6 +5,10 @@
 #include "Scene/MenuScene.hpp"
 #include "Scene/CharacterChoiceScene.hpp"
 #include "Scene/Stages/Ingame_Stage1_Scene.hpp"
+#include "Scene/Stages/Ingame_Stage2_Scene.hpp"
+#include "Scene/Stages/Ingame_Stage3_Scene.hpp"
+#include "Scene/Stages/Ingame_Stage4_Scene.hpp"
+#include "Scene/Stages/Ingame_Stage5_Scene.hpp"
 #include "Manager/GameManager.hpp"
 #include "Manager/SaveManager.hpp"
 #include "Input/InputProcessorBase.hpp"
@@ -39,7 +43,7 @@ GameManager::~GameManager()
     }
 }
 
-bool GameManager::Update()
+void GameManager::Update()
 {
     gSys.PerformEmptyBackSurfaceBlt();
 
@@ -55,7 +59,7 @@ bool GameManager::Update()
             this->ChangeScene();
             break;
         default:
-            return false;
+            break;
     }
 }
 
@@ -86,7 +90,7 @@ bool GameManager::LoadNewScene()
 
                 this->currentSceneID = GameSceneID_Ingame_Stage2;
                 this->nextDemoplayStage = 0;
-                newScene = nullptr; // new Ingame_Stage2_Scene();
+                newScene = new Ingame_Stage2_Scene(this->saveManager);
             }
             else
             {
@@ -113,16 +117,16 @@ bool GameManager::LoadNewScene()
             newScene = new Ingame_Stage1_Scene(this->saveManager);
             break;
         case GameSceneID_Ingame_Stage2:
-            // newScene = new Ingame_Stage2_Scene(this->saveManager);
+            newScene = new Ingame_Stage2_Scene(this->saveManager);
             break;
         case GameSceneID_Ingame_Stage3:
-            // newScene = new Ingame_Stage3_Scene(this->saveManager);
+            newScene = new Ingame_Stage3_Scene(this->saveManager);
             break;
         case GameSceneID_Ingame_Stage4:
-            // newScene = new Ingame_Stage4_Scene(this->saveManager);
+            newScene = new Ingame_Stage4_Scene(this->saveManager);
             break;
         case GameSceneID_Ingame_Stage5:
-            // newScene = new Ingame_Stage5_Scene(this->saveManager);
+            newScene = new Ingame_Stage5_Scene(this->saveManager);
             break;
     }
 

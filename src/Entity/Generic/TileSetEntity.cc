@@ -16,7 +16,7 @@ TileSetEntity::TileSetEntity(GameScene* aScene, Bitmap* aBitmap, const TileMeta*
 
     if (aTileMetadataPtr == nullptr)
     {
-        std::cout << "Warning: missing tilemetadata for an entity" << std::endl;
+        printf("Warning: missing tilemetadata for an entity %s\n", aBitmap->resourceName.c_str());
         return;
     }
 
@@ -50,7 +50,6 @@ TileSetEntity::~TileSetEntity()
 
 void TileSetEntity::Attach()
 {
-
     if (this->attachedToLayer)
         return;
 
@@ -97,6 +96,26 @@ void TileSetEntity::GetRenderRectangles(MSRect* aSrcRect, MSRect* aDstRect)
 bool TileSetEntity::CheckRenderBoundaries(MSRect* aSrcRect, MSRect* aDstRect)
 {
     return true;
+}
+
+void TileSetEntity::AttachWithPosition(int32_t aX, int32_t aY)
+{
+    if (!this->attachedToLayer)
+        return;
+
+    if (this->extraPositionDataBase != nullptr)
+    {
+        this->extraPositionDataBase->dCenterX = aX;
+        this->extraPositionDataBase->dCenterY = aY;
+    }
+
+    this->centerX = aX;
+    this->centerY = aY;
+
+    this->bitmap->IncRefCount();
+    this->SetupRendering();
+    this->scenePtr->AttachGameObjectToLayer(this);
+    this->attachedToLayer = true;
 }
 
 void TileSetEntity::Update()

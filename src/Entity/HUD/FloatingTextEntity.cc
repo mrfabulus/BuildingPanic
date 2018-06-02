@@ -1,5 +1,5 @@
 #include "Resource/Bitmap.hpp"
-#include "Entity/Stage/FloatingTextEntity.hpp"
+#include "Entity/HUD/FloatingTextEntity.hpp"
 
 // TODO: Render meta
 FloatingTextEntity::FloatingTextEntity(GameScene* aScene, Bitmap* aBitmap)

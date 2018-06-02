@@ -50,6 +50,19 @@ bool SaveManager::Is2PMode()
     return ((this->saveFlags & 0x202) != 0);
 }
 
+uint16_t SaveManager::GetNextLevel()
+{
+    if (this->IsSecretMode())
+        return 6;
+    else
+        return this->nextLevel;
+}
+
+bool SaveManager::IsSecretMode()
+{
+    return (this->saveFlags & 0x200) != 0;
+}
+
 Save_PlayerObject::Save_PlayerObject()
 {
 }

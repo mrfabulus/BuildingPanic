@@ -6,10 +6,11 @@
 #include "Entity/Generic/TileSetEntity.hpp"
 #include "Entity/Stage/WallEntity.hpp"
 #include "Entity/Stage/ItemEntity.hpp"
-#include "Entity/Stage/FloatingTextEntity.hpp"
-#include "Entity/Stage/FontTileSetEntity.hpp"
+#include "Entity/HUD/FloatingTextEntity.hpp"
+#include "Entity/UI/FontTileSetEntity.hpp"
 #include "Entity/Stage/PlayerEntity.hpp"
 #include "Scene/Stages/Ingame_Stage_Scene.hpp"
+#include "Entity/HUD/HudHeartEntity.hpp"
 
 Ingame_Stage_Scene::Ingame_Stage_Scene(SDL_Color* aPaletteDataBytes, SaveManager* aSaveManager)
     : GameScene(aPaletteDataBytes)
@@ -67,18 +68,13 @@ void Ingame_Stage_Scene::CreateBaseEntities()
     this->player1Entity = new PlayerEntity(this, this->sceneBitmapMgr, this->saveManager->playerObject1.characterSelected, this->sceneSoundMgr, 0);
 
     /*
-          v7 = this->saveManager;
-      if ( v7->saveFlags & 0x200 )
-        v8 = 6;
-      else
-        v8 = v7->nextLevel;
-      if ( v8 == 2 )
+    if (this->saveManager->GetNextLevel() == 2)
         playerEntity->base.renderMeta = off_43D348[*((char *)&v7->VTable + v2)];
     */
 
     this->hudPMark1 = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[33], nullptr, 0);
-    this->hudScoreP1 = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[21], nullptr, 0);
-    // this->hudHeartP1 = new EntityHudHeart(this, this->sceneBitmapMgr->bitmapPtrs[30]);
+    this->hudScoreP1 = new FontTileSetEntity(this, this->sceneBitmapMgr->bitmapPtrs[21], 0);
+    this->hudHeartP1 = new HudHeartEntity(this, this->sceneBitmapMgr->bitmapPtrs[30]);
     
     this->hudPMark1->SetLayerIndex(4);
     this->hudPMark1->dword10 = 0;
@@ -90,8 +86,8 @@ void Ingame_Stage_Scene::CreateBaseEntities()
         this->player2Entity = new PlayerEntity(this, this->sceneBitmapMgr, this->saveManager->playerObject2.characterSelected, this->sceneSoundMgr, 0);
 
         this->hudPMark2 = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[33], nullptr, 0);
-        this->hudScoreP2 = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[21], nullptr, 0);
-        // this->hudHeartP2 = new EntityHudHeart(this, this->sceneBitmapMgr->bitmapPtrs[30]);
+        this->hudScoreP2 = new FontTileSetEntity(this, this->sceneBitmapMgr->bitmapPtrs[21], 0);
+        this->hudHeartP2 = new HudHeartEntity(this, this->sceneBitmapMgr->bitmapPtrs[30]);
         
         this->hudPMark2->SetLayerIndex(4);
         this->hudPMark2->dword10 = 0;
@@ -156,27 +152,14 @@ int Ingame_Stage_Scene::GetNextSceneIDReference()
     if ((this->saveManager->saveFlags & 0x1000) != 0 || (this->saveManager->saveFlags & 0x100) == 0 )
     {
         // nani, you drunk Mr Yamada??
-        return ((-1 * ((this->saveManager->saveFlags & 0x200) != 0)) & 0xFD) + 4;
+        return ((-1 * (this->saveManager->IsSecretMode()) & 0xFD) + 4);
     }
     else
     {
-        if (this->saveManager->lastStageStatus != 0)
+        if (this->saveManager->lastStageStatus != 0 &&
+            (this->saveManager->lastStageStatus != 1 || this->saveManager->GetNextLevel() >= 5))
         {
-            uint16_t v4 = 0;
-
-            if ((this->saveManager->saveFlags & 0x200) == 0)
-            {
-                v4 = this->saveManager->nextLevel;
-            }
-            else
-            {
-                v4 = 6;
-            }
-
-            if (this->saveManager->lastStageStatus != 1 || v4 >= 5)
-            {
-                return 5;
-            }
+            return 5;
         }
 
         // Note: this is originally done via a reference array of numbers [7, 8, 9, 0xA, 0xB][nextStage]
@@ -215,8 +198,46 @@ void Ingame_Stage_Scene::AttachEntities()
 
 void Ingame_Stage_Scene::AttachBaseEntities()
 {
-    // TODO: Loop over players and setup hudScoreP1 and hudScoreP2
-    // TODO: Do something with save data and hudTextEntity
+    // Loop over players and setup hudScores and hearts
+    this->hudPMark1->AttachWithPosition(0x20, 24, 0);
+
+    if ((this->saveManager->saveFlags & 0x100) != 0)
+    {
+        this->hudScoreP1->AttachWithPosition(0x30, 16);
+        this->hudScoreP1->dword4C = this->saveManager->playerObject1.dword4;
+        this->hudHeartP1->AttachWithPosition(0x30, 40, 0);
+        this->hudHeartP1->heartsLeft = this->saveManager->playerObject1.heartsLeft;
+        this->hudHeartP1->AssignRenderRectangles(this->saveManager->playerObject1.heartsLeft);
+    }
+
+    if (this->saveManager->Is2PMode())
+    {
+        this->hudPMark2->AttachWithPosition(0x1D0, 24, 0);
+
+        if ((this->saveManager->saveFlags & 0x100) != 0)
+        {
+            this->hudScoreP2->AttachWithPosition(0x1E0, 16);
+            this->hudScoreP2->dword4C = this->saveManager->playerObject2.dword4;
+            this->hudHeartP2->AttachWithPosition(0x1E0, 40, 0);
+            this->hudHeartP2->heartsLeft = this->saveManager->playerObject2.heartsLeft;
+            this->hudHeartP2->AssignRenderRectangles(this->saveManager->playerObject2.heartsLeft);
+        }
+    }
+
+    // Read high score
+    if ((this->saveManager->saveFlags & 0x100) != 0)
+    {
+        this->hudTextEntity->AttachWithPosition(320, 8, 0);
+        this->scoreFontTileEntity->AttachWithPosition(256, 16);
+        uint32_t highScore = 0;
+
+        if ((this->saveManager->saveFlags & 2) != 0)
+            highScore = this->saveManager->saveState.p1Scoreboard[0].score;
+        else
+            highScore = this->saveManager->saveState.p2Scoreboard[0].score;
+
+        this->scoreFontTileEntity->dword4C = highScore;
+    }
 
     uint32_t barYOffsets[] = { 0x48, 0xB8, 0x128, 0x198 };
     uint32_t barXOffsets[] = { 0, 0x50, 0xA0, 0xF0, 0x140, 0x190, 0x1E0, 0x230, 0x280 };

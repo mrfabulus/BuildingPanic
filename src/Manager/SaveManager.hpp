@@ -62,4 +62,6 @@ class SaveManager
 
         void CreatePlayerObjects();
         bool Is2PMode();
+        uint16_t GetNextLevel();
+        bool IsSecretMode();
 };

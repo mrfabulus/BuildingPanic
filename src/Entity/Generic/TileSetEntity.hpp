@@ -31,6 +31,7 @@ class TileSetEntity : public TileSetEntity_base
         void Blt(MSRect* aSrcRect, MSRect* aDstRect, SDL_Surface* aSurface);
         void GetRenderRectangles(MSRect* aSrcRect, MSRect* aDstRect);
         bool CheckRenderBoundaries(MSRect* aSrcRect, MSRect* aDstRect);
+        void AttachWithPosition(int32_t aX, int32_t aY);
 
         virtual void Update() override;
         virtual void Render() override;

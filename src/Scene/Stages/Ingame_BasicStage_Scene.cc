@@ -12,7 +12,7 @@ Ingame_BasicStage_Scene::Ingame_BasicStage_Scene(SDL_Color* aPaletteDataBytes, S
     {
         // TODO: Create LevelManager_Demoplay
     }
-    else if ((this->saveManager->saveFlags & 0x200) != 0)
+    else if (this->saveManager->IsSecretMode())
     {
         // TODO: Create LevelManager_Secret
     }

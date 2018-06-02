@@ -14,6 +14,7 @@ class FontTileSetEntity;
 class PlayerEntity;
 class BitmapResourceManager;
 class SoundResourceManager;
+class HudHeartEntity;
 
 struct Ingame_Stage_Scene_Meta
 {
@@ -38,10 +39,10 @@ class Ingame_Stage_Scene : public GameScene
         TileSetEntity* stageBackgroundTileSetEntity;
         StaticPictureEntity* wallBarEntities[36];
         StaticPictureEntity* lampEntities[8];
-        StaticPictureEntity* hudScoreP1;
-        StaticPictureEntity* hudScoreP2;
-        int32_t hudHeartP1;
-        int32_t hudHeartP2;
+        FontTileSetEntity* hudScoreP1;
+        FontTileSetEntity* hudScoreP2;
+        HudHeartEntity* hudHeartP1;
+        HudHeartEntity* hudHeartP2;
         StaticPictureEntity* hudTextEntity;
         FontTileSetEntity* scoreFontTileEntity;
         StaticPictureEntity* pauseTextEntity;

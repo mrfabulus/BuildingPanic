@@ -2,6 +2,7 @@
 #include "Entity/Generic/StaticPictureEntity.hpp"
 #include "Manager/BitmapResourceManager.hpp"
 #include "Manager/SoundResourceManager.hpp"
+#include "Manager/SaveManager.hpp"
 #include "Input/LogoScene_InputProcessor.hpp"
 #include "Globals.hpp"
 
@@ -94,21 +95,26 @@ void LogoScene::Update()
         case 1:
             if (this->ticksLeftUntilReEval > 0)
             {
-                // TODO: Check if the cheat has been activated before
-                if (this->panicButtonsPressedCount >= 5)
+                // Check if the cheat has been activated before
+                if ((this->saveManagerPtr->saveState.unk2 & 0x10000000) == 0)
                 {
-                    // TODO: Set data in savefile
-                    // TODO: Play "SELECT" sound
-                    std::cout << "PANIC cheat activated" << std::endl;
-                }
-                else
-                {
-                    uint32_t buttonOrder[] = { 1, 2, 4, 8, 16 };
-
-                    if (buttonOrder[this->panicButtonsPressedCount] & this->inputProcessor->newButtonPressesMask)
+                    if (this->panicButtonsPressedCount >= 5)
                     {
-                        std::cout << "PANIC increase: " << this->panicButtonsPressedCount << std::endl;
-                        this->panicButtonsPressedCount++;
+                        this->saveManagerPtr->saveState.nextStageIndex = 4;
+                        this->saveManagerPtr->saveState.unk2 = 0xFFFFFFFF;
+
+                        // TODO: Play "SELECT" sound
+                        std::cout << "PANIC cheat activated" << std::endl;
+                    }
+                    else
+                    {
+                        uint32_t buttonOrder[] = { 1, 2, 4, 8, 16 };
+
+                        if (buttonOrder[this->panicButtonsPressedCount] & this->inputProcessor->newButtonPressesMask)
+                        {
+                            std::cout << "PANIC increase: " << this->panicButtonsPressedCount << std::endl;
+                            this->panicButtonsPressedCount++;
+                        }
                     }
                 }
             }

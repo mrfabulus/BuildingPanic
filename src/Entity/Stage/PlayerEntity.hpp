@@ -7,6 +7,7 @@ class StaticPictureEntity;
 class Ingame_Stage_Scene;
 class BitmapResourceManager;
 class SoundResourceManager;
+class HudHeartEntity;
 
 class PlayerEntity : public AnimatedEntity
 {
@@ -28,7 +29,7 @@ class PlayerEntity : public AnimatedEntity
         uint32_t dword90;
         EntityExtraPositionData3* extraPositionData;
         uint32_t dword98;
-        uint32_t dword9C;
+        HudHeartEntity* dword9C;
         StaticPictureEntity* piyoBmp;
         uint32_t dwordA4;
         StaticPictureEntity* hitBmp;

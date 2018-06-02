@@ -12,15 +12,16 @@ StaticPictureEntity::~StaticPictureEntity()
 {
 }
 
-// TODO: Check this.. ; may cause troubles but supposedly correct
 void StaticPictureEntity::Update()
 {
     if (!this->attachedToLayer)
         return;
 
-    /*
+    
     this->extraPositionData->ReassignPositionToEntity();
 
+    // TODO: Check this.. ; supposedly correct but does not reattach after some time ; where would that happen?
+    /*
     if (this->AssignRenderRectanglesAdvanced() && this->byte64_lastArg != 0)
     {
         this->Detach();
