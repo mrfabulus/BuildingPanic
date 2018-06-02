@@ -24,6 +24,42 @@ FontTileSetEntity::~FontTileSetEntity()
 void FontTileSetEntity::Update()
 {
     TileSetEntity::Update();
+    
+    if ((this->dword4C & 0x80000000) == 0)
+    {
+        if (this->dword4C > 0x5F5E0FF)
+            this->dword4C = 99999999;
+    }
+    else
+    {
+        this->dword4C = 0;
+    }
+
+    if (this->dword54 != 0)
+    {
+        if (++this->word5C > 15)
+        {
+            this->word5C = 0;
+            this->dword58 = (this->dword58 == 0);
+        }
+    }
+
+    if (this->dword4C != this->dword50)
+    {
+        this->byte64 = 0;
+
+        MSRect dst = { 0 };
+        dst.top = 0;
+        dst.bottom = this->tileMetadata->tileSize;
+        int32_t v12 = 0;
+
+        do
+        {
+            dst.left = this->tileMetadata->tileSize * v12;
+            dst.right = this->tileMetadata->tileSize + dst.left;
+        }
+    }
+
 
     // TODO: a lot more from 004046E0
 }

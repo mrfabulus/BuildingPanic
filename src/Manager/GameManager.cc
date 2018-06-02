@@ -103,6 +103,7 @@ bool GameManager::LoadNewScene()
             break;
         case GameSceneID_CharacterChoice:
             newScene = new CharacterChoiceScene(this->saveManager);
+            this->saveManager->saveFlags |= 0x100;
             break;
         case GameSceneID_Scoreboard:
             // newScene = new ScoreboardScene(this->saveManager);

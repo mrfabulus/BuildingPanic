@@ -17,7 +17,7 @@ Ingame_Stage1_Scene::~Ingame_Stage1_Scene()
 void Ingame_Stage1_Scene::LoadTileSets()
 {
     // BMP_BG_STG01
-    
+
     // Choose tile meta based on level number
     TileMeta* metadata = (TileMeta*) Ingame_Stage1_Scene_Meta::LevelBGTileMetas[this->saveManager->GetNextLevel()];
     this->stageBackgroundTileSetEntity = new TileSetEntity(this, this->sceneBitmapMgr->bitmapPtrs[38], metadata);

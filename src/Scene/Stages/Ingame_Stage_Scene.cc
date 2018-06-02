@@ -64,9 +64,9 @@ void Ingame_Stage_Scene::CreateBaseEntities()
     */
 
     this->hudPMark1 = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[33], &Ingame_Stage_Scene_Meta::PMarkEntity_RenderMeta, 0);
-    this->hudScoreP1 = new FontTileSetEntity(this, this->sceneBitmapMgr->bitmapPtrs[21], 0);
+    this->hudScoreP1 = new FontTileSetEntity(this, this->sceneBitmapMgr->bitmapPtrs[21], 0); // BMP_SCORE - Score number font
     this->hudHeartP1 = new HudHeartEntity(this, this->sceneBitmapMgr->bitmapPtrs[30]);
-    
+
     this->hudPMark1->SetLayerIndex(4);
     this->hudPMark1->dword10 = 0;
     this->hudPMark1->renderDataPtrIndex = this->saveManager->playerObject1.characterSelected;
@@ -77,7 +77,7 @@ void Ingame_Stage_Scene::CreateBaseEntities()
         this->player2Entity = new PlayerEntity(this, this->sceneBitmapMgr, this->saveManager->playerObject2.characterSelected, this->sceneSoundMgr, 0);
 
         this->hudPMark2 = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[33], &Ingame_Stage_Scene_Meta::PMarkEntity_RenderMeta, 0);
-        this->hudScoreP2 = new FontTileSetEntity(this, this->sceneBitmapMgr->bitmapPtrs[21], 0);
+        this->hudScoreP2 = new FontTileSetEntity(this, this->sceneBitmapMgr->bitmapPtrs[21], 0); // BMP_SCORE - Score number font
         this->hudHeartP2 = new HudHeartEntity(this, this->sceneBitmapMgr->bitmapPtrs[30]);
         
         this->hudPMark2->SetLayerIndex(4);
@@ -121,7 +121,7 @@ void Ingame_Stage_Scene::CreateBaseEntities()
     }
 
     // BMP_COCKPIT - HUD text ("HI-SCORE", "STAGE TIME")
-    this->hudTextEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[32], nullptr, 0);
+    this->hudTextEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[32], &Ingame_Stage_Scene_Meta::HudTextEntity_RenderMeta, 0);
     this->hudTextEntity->SetLayerIndex(4);
     this->hudTextEntity->dword10 = 0;
 
@@ -537,3 +537,72 @@ const RenderMeta Ingame_Stage_Scene_Meta::PMarkEntity_RenderMeta =
 
 // ------ PMarkEntity RenderMeta END ------
 
+// ------ HudTextEntity RenderMeta START ------
+static const uint16_t HudTextEntity_RenderMeta_1_1[] =
+{
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+};
+
+static const uint16_t HudTextEntity_RenderMeta_1_2[] =
+{
+    1,
+    2,
+    2,
+    0,
+    0,
+    0,
+    0,
+    0,
+};
+
+static const uint16_t HudTextEntity_RenderMeta_1_3[] =
+{
+    1,
+    3,
+    3,
+    0,
+    0,
+    0,
+    0,
+    0,
+};
+
+static const uint16_t* HudTextEntity_RenderMeta_1[] =
+{
+    &HudTextEntity_RenderMeta_1_1[0],
+    &HudTextEntity_RenderMeta_1_2[0],
+    &HudTextEntity_RenderMeta_1_3[0],
+    0
+};
+
+static const MSRect HudTextEntity_RenderMeta_2[] =
+{
+    { 0x00, 0x00, 0x01, 0x01 },
+    { 0x00, 0x00, 0x40, 0x08 },
+    { 0x40, 0x00, 0x68, 0x08 },
+    { 0x68, 0x00, 0x88, 0x08 },
+};
+
+static const MSRect HudTextEntity_RenderMeta_3[] =
+{
+    { 0x00, 0x00, 0x01, 0x01 },
+    { -32, -4, 0x20, 0x04 },
+    { -20, -4, 0x14, 0x04 },
+    { -16, -4, 0x10, 0x04 },
+};
+
+const RenderMeta Ingame_Stage_Scene_Meta::HudTextEntity_RenderMeta =
+{
+    &HudTextEntity_RenderMeta_1[0],
+    &HudTextEntity_RenderMeta_2[0],
+    &HudTextEntity_RenderMeta_3[0],
+    gConsts::RenderMetaTerminatorPtr
+};
+// ------ HudTextEntity RenderMeta END ------
