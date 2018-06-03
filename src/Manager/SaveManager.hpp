@@ -6,7 +6,7 @@ class Save_PlayerObject
 {
     public:
         int8_t characterSelected; // 0 for Doka, 1 for Tobi
-        int32_t dword4;
+        int32_t score;
         int16_t heartsLeft;
 
         Save_PlayerObject();
@@ -62,6 +62,7 @@ class SaveManager
 
         void CreatePlayerObjects();
         bool Is2PMode();
+        uint32_t GetPlayerCount();
         uint16_t GetNextLevel();
         bool IsSecretMode();
 };

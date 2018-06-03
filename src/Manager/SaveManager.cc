@@ -50,6 +50,11 @@ bool SaveManager::Is2PMode()
     return ((this->saveFlags & 0x202) != 0);
 }
 
+uint32_t SaveManager::GetPlayerCount()
+{
+    return 1 + (this->Is2PMode());
+}
+
 uint16_t SaveManager::GetNextLevel()
 {
     if (this->IsSecretMode())
@@ -70,7 +75,7 @@ Save_PlayerObject::Save_PlayerObject()
 void Save_PlayerObject::Initialize()
 {
     this->characterSelected = -1;
-    this->dword4 = 0;
+    this->score = 0;
     this->heartsLeft = 8;
 }
 

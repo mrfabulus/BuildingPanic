@@ -338,12 +338,11 @@ void MenuScene::Update()
                         if (this->menuCursorEntity->extraPositionDataBase != nullptr)
                         {
                             this->menuCursorEntity->extraPositionDataBase->dCenterX = menuOptionCursorCoordinates[2 * this->byte959];
-                            this->menuCursorEntity->extraPositionDataBase->dCenterX = menuOptionCursorCoordinates[1 + (2 * this->byte959)];
+                            this->menuCursorEntity->extraPositionDataBase->dCenterY = menuOptionCursorCoordinates[1 + (2 * this->byte959)];
                         }
 
                         this->menuCursorEntity->centerX = menuOptionCursorCoordinates[2 * this->byte959];
                         this->menuCursorEntity->centerY = menuOptionCursorCoordinates[1 + (2 * this->byte959)];
-                        printf("%d %d\n", this->menuCursorEntity->centerX, this->menuCursorEntity->centerY);
                     }
                     break;
                 case 3:

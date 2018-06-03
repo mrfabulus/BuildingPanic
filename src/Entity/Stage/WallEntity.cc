@@ -44,6 +44,22 @@ WallEntity::~WallEntity()
     }
 }
 
+void WallEntity::PreSet(WallOwner owner)
+{
+    if (!this->attachedToLayer)
+    {
+        this->AttachWithPosition(this->centerX, this->centerY, 0);
+    }
+
+    this->dword68 = 0;
+    this->byte64 = owner;
+    this->byte65 = 2;
+    this->dword6C = 0;
+
+    uint16_t ownerIndexes[] = { 0x1B, 0x1C, 0x1D, 0 };
+    this->AssignRenderRectangles(ownerIndexes[owner]);
+}
+
 void WallEntity::Update()
 {
     if (!this->attachedToLayer)

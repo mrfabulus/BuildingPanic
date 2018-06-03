@@ -14,7 +14,7 @@ struct FontTileSet_Meta
 class FontTileSetEntity : public TileSetEntity
 {
     public:
-        uint32_t dword4C;
+        uint32_t dword4C; // player score
         uint32_t dword50;
         uint32_t dword54;
         uint32_t dword58;

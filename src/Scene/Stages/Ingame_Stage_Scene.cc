@@ -195,7 +195,7 @@ void Ingame_Stage_Scene::AttachBaseEntities()
     if ((this->saveManager->saveFlags & 0x100) != 0)
     {
         this->hudScoreP1->AttachWithPosition(0x30, 16);
-        this->hudScoreP1->dword4C = this->saveManager->playerObject1.dword4;
+        this->hudScoreP1->dword4C = this->saveManager->playerObject1.score;
         this->hudHeartP1->AttachWithPosition(0x30, 40, 0);
         this->hudHeartP1->heartsLeft = this->saveManager->playerObject1.heartsLeft;
         this->hudHeartP1->AssignRenderRectangles(this->saveManager->playerObject1.heartsLeft);
@@ -208,7 +208,7 @@ void Ingame_Stage_Scene::AttachBaseEntities()
         if ((this->saveManager->saveFlags & 0x100) != 0)
         {
             this->hudScoreP2->AttachWithPosition(0x1E0, 16);
-            this->hudScoreP2->dword4C = this->saveManager->playerObject2.dword4;
+            this->hudScoreP2->dword4C = this->saveManager->playerObject2.score;
             this->hudHeartP2->AttachWithPosition(0x1E0, 40, 0);
             this->hudHeartP2->heartsLeft = this->saveManager->playerObject2.heartsLeft;
             this->hudHeartP2->AssignRenderRectangles(this->saveManager->playerObject2.heartsLeft);

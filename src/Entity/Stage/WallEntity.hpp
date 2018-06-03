@@ -12,6 +12,13 @@ struct WallEntity_Meta
     static const RenderMeta WallEntity_RenderMeta;
 };
 
+enum WallOwner : uint8_t
+{
+    WallOwner_Doka = 0,
+    WallOwner_Tobi = 1,
+    WallOwner_Garcia = 2
+};
+
 class WallEntity : public Entity
 {
     public:
@@ -25,6 +32,8 @@ class WallEntity : public Entity
 
         WallEntity(GameScene* aScene, Bitmap* aBitmap, uint32_t aCenterX, uint32_t aCenterY);
         virtual ~WallEntity();
+
+        void PreSet(WallOwner buildStage);
 
         virtual void Update() override;
         virtual void SetupRenderingInformation() override;

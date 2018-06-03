@@ -2,9 +2,16 @@
 
 #include <cstdint>
 #include "Manager/Level/LevelManager_base.hpp"
+#include "Globals.hpp"
 
 class FontTileSetEntity;
 class StaticPictureEntity;
+class ScoreTileSetEntity2;
+
+struct LevelManager_Normal_Meta
+{
+    static const RenderMeta WindowMsg_RenderMeta;
+};
 
 class LevelManager_Normal : public LevelManager_base
 {
@@ -12,7 +19,7 @@ class LevelManager_Normal : public LevelManager_base
         StaticPictureEntity* dword88;
         StaticPictureEntity* buffer8C[14];
         FontTileSetEntity* dwordC4[2];
-        uint32_t* dwordCC[4]; // ScoreTileSetEntity2*[]
+        ScoreTileSetEntity2* dwordCC[4];
         uint32_t dwordDC;
         uint16_t wordE0;
         uint8_t levelPhase;
@@ -23,8 +30,8 @@ class LevelManager_Normal : public LevelManager_base
         virtual ~LevelManager_Normal();
 
         bool CreateEntities();
-        void SetupLamps1();
-        void SetupLamps2();
+        void PrepareLevel();
+        void PrepareWalls();
 
         virtual void F2() override;
         virtual void F3() override;
