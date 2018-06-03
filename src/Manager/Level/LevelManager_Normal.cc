@@ -142,12 +142,67 @@ void LevelManager_Normal::F2()
 {
 }
 
-void LevelManager_Normal::F3()
+void LevelManager_Normal::Init()
 {
+    if (this->Scene->ticksLeftUntilReEval <= 0)
+    {
+        uint32_t nextLvl = this->Scene->saveManager->GetNextLevel();
+        uint32_t playerCount = this->Scene->saveManager->GetPlayerCount();
+        uint32_t index = nextLvl + 6 * playerCount;
+        // TODO: Dump struct \/
+        this->dwordE8 = 0;
+        this->Scene->scenePhaseIndex = 1;
+    }
+
+    this->Scene->RefreshHighScore();
 }
 
-void LevelManager_Normal::F4()
+void LevelManager_Normal::Update()
 {
+    if (this->F7())
+    {
+        this->Scene->gridImageEntity->AttachWithPosition(320, 240, 0);
+        this->Scene->scenePhaseIndex = 16;
+        this->levelPhase = 0;
+    }
+    else if (this->IsLevelOver())
+    {
+        this->Scene->scenePhaseIndex = 17;
+
+        if (this->Scene->saveManager->saveState.unk2 != 0)
+        {
+            this->Scene->gridImageEntity->AttachWithPosition(320, 240, 0);
+            this->levelPhase = 0;
+        }
+        else
+        {
+            this->Scene->saveManager->lastStageStatus = 2;
+            this->Scene->ticksLeftUntilReEval = 180;
+            this->levelPhase = 2;
+        }
+    }
+
+    if (this->Scene->saveManager->IsFlagMaskEnabledAny(0x1000))
+    {
+        if (this->Scene->saveManager->IsFlagMaskEnabledAny(2))
+        {
+            // this->Scene->Offset 30 in VTable();
+        }
+        else
+        {
+            // this->Scene->Offset 2C in VTable();
+        }
+    }
+
+    if (this->Scene->player1Entity->attachedToLayer)
+    {
+        // ->??()
+    }
+    
+    // ???
+
+    this->Scene->RefreshHighScore();
+
 }
 
 void LevelManager_Normal::F5()
@@ -158,12 +213,9 @@ void LevelManager_Normal::F6()
 {
 }
 
-void LevelManager_Normal::F7()
+bool LevelManager_Normal::IsLevelOver()
 {
-}
-
-void LevelManager_Normal::F8()
-{
+    return false;
 }
 
 void LevelManager_Normal::F9()

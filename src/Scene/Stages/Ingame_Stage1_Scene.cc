@@ -7,7 +7,7 @@ Ingame_Stage1_Scene::Ingame_Stage1_Scene(SaveManager* aSaveManager)
     : Ingame_BasicStage_Scene(nullptr, aSaveManager)
 {
     this->LoadTileSets();
-    this->AttachBaseEntities();
+    this->AttachBaseEntities_SuperClass();
 }
 
 Ingame_Stage1_Scene::~Ingame_Stage1_Scene()

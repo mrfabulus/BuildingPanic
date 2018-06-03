@@ -9,6 +9,12 @@ class BitmapResourceManager;
 class SoundResourceManager;
 class HudHeartEntity;
 
+struct PlayerEntity_Meta
+{
+    static const RenderMeta Doka_RenderMeta;
+    static const RenderMeta Tobi_RenderMeta;
+};
+
 class PlayerEntity : public AnimatedEntity
 {
     public:

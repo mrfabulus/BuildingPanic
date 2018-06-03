@@ -211,7 +211,7 @@ void CharacterChoiceScene::Update()
                 this->saveMgr->playerObject1.characterSelected = (uint16_t) this->tobiSelected;
 
                 // If there are 2 players, the other player is Tobi (who did not choose Doka)
-                if (this->saveMgr->saveFlags & 2)
+                if (this->saveMgr->IsFlagMaskEnabledAny(2))
                     this->saveMgr->playerObject2.characterSelected = (uint16_t) (this->tobiSelected == false);
 
                 this->selectionCursorEntity->renderDataPtrIndex = 2;

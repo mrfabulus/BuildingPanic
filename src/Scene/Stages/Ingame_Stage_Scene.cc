@@ -140,7 +140,7 @@ void Ingame_Stage_Scene::CreateBaseEntities()
 
 int Ingame_Stage_Scene::GetNextSceneIDReference()
 {
-    if ((this->saveManager->saveFlags & 0x1000) != 0 || (this->saveManager->saveFlags & 0x100) == 0 )
+    if (this->saveManager->IsFlagMaskEnabledAny(0x1000) || !this->saveManager->IsFlagMaskEnabledAny(0x100))
     {
         // nani, you drunk Mr Yamada/compiler??
         return ((-1 * (this->saveManager->IsSecretMode()) & 0xFD) + 4);
@@ -163,10 +163,10 @@ void Ingame_Stage_Scene::Update()
     switch (this->scenePhaseIndex)
     {
         case 0:
-            this->AttachEntities();
+            this->InitStage();
             break;
         case 1:
-            // this->GameplayUpdate();
+            this->GameplayUpdate();
             break;
         case 2:
             // this->SetFinishedIfFadesDone();
@@ -182,17 +182,12 @@ void Ingame_Stage_Scene::Update()
     }
 }
 
-void Ingame_Stage_Scene::AttachEntities()
-{
-
-}
-
 void Ingame_Stage_Scene::AttachBaseEntities()
 {
     // Loop over players and setup hudScores and hearts
     this->hudPMark1->AttachWithPosition(0x20, 24, 0);
 
-    if ((this->saveManager->saveFlags & 0x100) != 0)
+    if (this->saveManager->IsFlagMaskEnabledAny(0x100))
     {
         this->hudScoreP1->AttachWithPosition(0x30, 16);
         this->hudScoreP1->dword4C = this->saveManager->playerObject1.score;
@@ -205,7 +200,7 @@ void Ingame_Stage_Scene::AttachBaseEntities()
     {
         this->hudPMark2->AttachWithPosition(0x1D0, 24, 0);
 
-        if ((this->saveManager->saveFlags & 0x100) != 0)
+        if (this->saveManager->IsFlagMaskEnabledAny(0x100))
         {
             this->hudScoreP2->AttachWithPosition(0x1E0, 16);
             this->hudScoreP2->dword4C = this->saveManager->playerObject2.score;
@@ -216,13 +211,13 @@ void Ingame_Stage_Scene::AttachBaseEntities()
     }
 
     // Read high score
-    if ((this->saveManager->saveFlags & 0x100) != 0)
+    if (this->saveManager->IsFlagMaskEnabledAny(0x100))
     {
         this->hudTextEntity->AttachWithPosition(320, 8, 0);
         this->scoreFontTileEntity->AttachWithPosition(256, 16);
         uint32_t highScore = 0;
 
-        if ((this->saveManager->saveFlags & 2) != 0)
+        if (this->saveManager->IsFlagMaskEnabledAny(2))
             highScore = this->saveManager->saveState.p1Scoreboard[0].score;
         else
             highScore = this->saveManager->saveState.p2Scoreboard[0].score;
@@ -251,7 +246,11 @@ void Ingame_Stage_Scene::AttachBaseEntities()
     this->saveManager->lastStageStatus = 0;
     this->ticksLeftUntilReEval = 120;
     this->PaletteFadeInStart(1, 32);
+}
 
+void Ingame_Stage_Scene::AttachBaseEntities_SuperClass()
+{
+    this->AttachBaseEntities();
     this->stageBackgroundTileSetEntity->Attach();
 }
 
@@ -267,6 +266,18 @@ void Ingame_Stage_Scene::AttachLamps()
         this->lampEntities[i]->coordinateLikeThingie = 3;
         this->lampEntities[i]->renderDataPtrIndex = 2;
         this->lampEntities[i]->AssignRenderRectangles(2);
+    }
+}
+
+void Ingame_Stage_Scene::RefreshHighScore()
+{
+    if (this->scoreFontTileEntity->dword4C < this->hudScoreP1->dword4C)
+        this->scoreFontTileEntity->dword4C = this->hudScoreP1->dword4C;
+
+    if (this->saveManager->Is2PMode())
+    {
+        if (this->scoreFontTileEntity->dword4C < this->hudScoreP2->dword4C)
+            this->scoreFontTileEntity->dword4C = this->hudScoreP2->dword4C;
     }
 }
 

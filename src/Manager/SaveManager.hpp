@@ -65,4 +65,6 @@ class SaveManager
         uint32_t GetPlayerCount();
         uint16_t GetNextLevel();
         bool IsSecretMode();
+        bool IsFlagMaskEnabledAny(uint32_t mask);
+        bool IsFlagMaskEnabledAll(uint32_t mask);
 };

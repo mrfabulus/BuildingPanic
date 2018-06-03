@@ -59,9 +59,18 @@ class Ingame_Stage_Scene : public GameScene
         // virtual void MakeSureImagesAreReady()
         // virtual void UpdateLayer(LayerEntity* aLayer, int16_t aLayerEntityCount)
         virtual void Update() override;
-        virtual void AttachEntities();
+        virtual void AttachBaseEntities();
+        virtual void InitStage() = 0;
+        virtual void GameplayUpdate() = 0;
+        // ??
+        // ??
+        // setFinishedIfFadesDone
+        // ??
+        // ??
+        // ??
 
         void CreateBaseEntities();
-        void AttachBaseEntities();
+        void AttachBaseEntities_SuperClass();
         void AttachLamps();
+        void RefreshHighScore();
 };

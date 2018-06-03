@@ -47,7 +47,7 @@ void SaveManager::CreatePlayerObjects()
 
 bool SaveManager::Is2PMode()
 {
-    return ((this->saveFlags & 0x202) != 0);
+    return this->IsFlagMaskEnabledAny(0x202);
 }
 
 uint32_t SaveManager::GetPlayerCount()
@@ -65,7 +65,17 @@ uint16_t SaveManager::GetNextLevel()
 
 bool SaveManager::IsSecretMode()
 {
-    return (this->saveFlags & 0x200) != 0;
+    return this->IsFlagMaskEnabledAny(0x200);
+}
+
+bool SaveManager::IsFlagMaskEnabledAny(uint32_t mask)
+{
+    return (this->saveFlags & mask) != 0;
+}
+
+bool SaveManager::IsFlagMaskEnabledAll(uint32_t mask)
+{
+    return (this->saveFlags & mask) == mask;
 }
 
 Save_PlayerObject::Save_PlayerObject()

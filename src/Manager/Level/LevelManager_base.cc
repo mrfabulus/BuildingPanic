@@ -10,3 +10,8 @@ LevelManager_base::LevelManager_base(Ingame_BasicStage_Scene *aScene)
 LevelManager_base::~LevelManager_base()
 {
 }
+
+bool LevelManager_base::F7()
+{
+    return false;
+}

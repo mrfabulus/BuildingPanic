@@ -31,9 +31,9 @@ class LevelManager_base
         virtual ~LevelManager_base();
 
         virtual void F2() = 0;
-        virtual void F3() = 0;
-        virtual void F4() = 0;
+        virtual void Init() = 0;
+        virtual void Update() = 0;
         virtual void F5() = 0;
         virtual void F6() = 0;
-        virtual void F7() = 0;
+        virtual bool F7();
 };

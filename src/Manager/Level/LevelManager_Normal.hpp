@@ -34,11 +34,11 @@ class LevelManager_Normal : public LevelManager_base
         void PrepareWalls();
 
         virtual void F2() override;
-        virtual void F3() override;
-        virtual void F4() override;
+        virtual void Init() override;
+        virtual void Update() override;
         virtual void F5() override;
         virtual void F6() override;
-        virtual void F7() override;
-        virtual void F8();
+        // virtual bool F7() not overridden
+        virtual bool IsLevelOver();
         virtual void F9();
 };
