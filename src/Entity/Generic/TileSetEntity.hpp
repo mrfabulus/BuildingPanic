@@ -28,7 +28,8 @@ class TileSetEntity : public TileSetEntity_base
         void Attach();
         void Detach();
 
-        void Blt(MSRect* aSrcRect, MSRect* aDstRect, SDL_Surface* aSurface);
+        void StaticBlt(MSRect* aSrcRect, MSRect* aDstRect, SDL_Surface* aSurface);
+        void BltToComposed(uint16_t rectIndex, MSRect* dstRect);
         void GetRenderRectangles(MSRect* aSrcRect, MSRect* aDstRect);
         bool CheckRenderBoundaries(MSRect* aSrcRect, MSRect* aDstRect);
         void AttachWithPosition(int32_t aX, int32_t aY);

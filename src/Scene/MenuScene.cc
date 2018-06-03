@@ -343,6 +343,7 @@ void MenuScene::Update()
 
                         this->menuCursorEntity->centerX = menuOptionCursorCoordinates[2 * this->byte959];
                         this->menuCursorEntity->centerY = menuOptionCursorCoordinates[1 + (2 * this->byte959)];
+                        printf("%d %d\n", this->menuCursorEntity->centerX, this->menuCursorEntity->centerY);
                     }
                     break;
                 case 3:

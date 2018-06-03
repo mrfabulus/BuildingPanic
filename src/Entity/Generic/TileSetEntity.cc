@@ -70,7 +70,7 @@ void TileSetEntity::Detach()
     }
 }
 
-void TileSetEntity::Blt(MSRect* aSrcRect, MSRect* aDstRect, SDL_Surface* aSurface)
+void TileSetEntity::StaticBlt(MSRect* aSrcRect, MSRect* aDstRect, SDL_Surface* aSurface)
 {
     // Manual conversion from MS style rects into SDL style
     SDL_Rect SDL_srcRect = aSrcRect->ToSDLRect();
@@ -145,7 +145,7 @@ void TileSetEntity::Render()
     if (!renderOK)
         return;
 
-    this->Blt(&srcRect, &dstRect, this->composedSurface);
+    this->StaticBlt(&srcRect, &dstRect, this->composedSurface);
 }
 
 
@@ -217,11 +217,16 @@ void TileSetEntity::RenderTiles()
             rect.bottom = this->tileMetadata->tileSize + rect.top;
             rect.right = this->tileMetadata->tileSize + rect.left;
 
-            MSRect* srcRectMS = (MSRect*) &(this->tileMetadata->rectangles[srcRectIndex]);
-
-            SDL_Rect srcRect = srcRectMS->ToSDLRect();
-            SDL_Rect dstRect = rect.ToSDLRect();
-
-            SDL_BlitSurface(this->bitmap->SDL_surface, &srcRect, this->composedSurface, &dstRect);
+            this->BltToComposed(srcRectIndex, &rect);
         }
+}
+
+void TileSetEntity::BltToComposed(uint16_t srcRectIndex, MSRect* aDstRect)
+{
+    MSRect* srcRectMS = (MSRect*) &(this->tileMetadata->rectangles[srcRectIndex]);
+
+    SDL_Rect srcRect = srcRectMS->ToSDLRect();
+    SDL_Rect dstRect = aDstRect->ToSDLRect();
+
+    SDL_BlitSurface(this->bitmap->SDL_surface, &srcRect, this->composedSurface, &dstRect);
 }

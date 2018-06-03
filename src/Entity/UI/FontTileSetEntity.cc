@@ -52,16 +52,35 @@ void FontTileSetEntity::Update()
         dst.top = 0;
         dst.bottom = this->tileMetadata->tileSize;
         int32_t v12 = 0;
-
+        int32_t v7_index = 0;
+        uint32_t v7_array[] = { 0x989680, 0x0F4240, 0x186A0, 0x2710, 0x3E8, 0x64, 0x0A, 1 };
+        uint32_t v5 = this->dword4C;
+        
         do
         {
             dst.left = this->tileMetadata->tileSize * v12;
             dst.right = this->tileMetadata->tileSize + dst.left;
+            dst.right = this->tileMetadata->tileSize + dst.left;
+            int32_t v11 = v5 / v7_array[v7_index];
+            v5 %= v7_array[v7_index];
+
+            if (this->dword60 == 0 || this->byte64 != 0 || v11 != 0 || v7_index > 6)
+            {
+                this->byte64 = 1;
+                this->BltToComposed(v11, &dst);
+            }
+            else
+            {
+                this->BltToComposed(0xA, &dst);
+            }
+
+            v7_index++;
+            v12++;
         }
+        while (v7_index < 8);
+
+        this->dword50 = this->dword4C;
     }
-
-
-    // TODO: a lot more from 004046E0
 }
 
 void FontTileSetEntity::Render()
