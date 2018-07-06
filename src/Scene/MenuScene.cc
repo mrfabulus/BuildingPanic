@@ -207,6 +207,8 @@ void MenuScene::Update()
                     return;
 
                 // TODO: Play sound slot 1
+                std::string asd = "asd";
+                this->sceneSoundMgr->LoadByID(0, asd);
 
                 this->menuChoice--;
                 this->ticksLeftUntilReEval = 1800;
@@ -224,6 +226,8 @@ void MenuScene::Update()
                 if (this->menuChoice == 2)
                     return;
 
+                std::string asd = "asd";
+                this->sceneSoundMgr->LoadByID(0, asd);
                 // TODO: Play sound slot 1
 
                 this->menuChoice++;
