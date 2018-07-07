@@ -31,19 +31,19 @@ LevelManager_Normal::LevelManager_Normal(Ingame_BasicStage_Scene* aScene)
 
     if (this->CreateEntities())
     {
-        this->Scene->player1Entity->dword9C = this->Scene->hudHeartP1;
-        uint16_t heartsLeft = this->Scene->saveManager->playerObject1.heartsLeft;
-        this->Scene->hudHeartP1->heartsLeft = heartsLeft;
-        this->Scene->hudHeartP1->AssignRenderRectangles(heartsLeft);
-        this->Scene->hudScoreP1->dword4C = this->Scene->saveManager->playerObject1.score;
+        this->scene->player1Entity->dword9C = this->scene->hudHeartP1;
+        uint16_t heartsLeft = this->scene->saveManager->playerObject1.heartsLeft;
+        this->scene->hudHeartP1->heartsLeft = heartsLeft;
+        this->scene->hudHeartP1->AssignRenderRectangles(heartsLeft);
+        this->scene->hudScoreP1->dword4C = this->scene->saveManager->playerObject1.score;
 
-        if (this->Scene->saveManager->Is2PMode())
+        if (this->scene->saveManager->Is2PMode())
         {
-            this->Scene->player2Entity->dword9C = this->Scene->hudHeartP2;
-            heartsLeft = this->Scene->saveManager->playerObject2.heartsLeft;
-            this->Scene->hudHeartP2->heartsLeft = heartsLeft;
-            this->Scene->hudHeartP2->AssignRenderRectangles(heartsLeft);
-            this->Scene->hudScoreP2->dword4C = this->Scene->saveManager->playerObject2.score;
+            this->scene->player2Entity->dword9C = this->scene->hudHeartP2;
+            heartsLeft = this->scene->saveManager->playerObject2.heartsLeft;
+            this->scene->hudHeartP2->heartsLeft = heartsLeft;
+            this->scene->hudHeartP2->AssignRenderRectangles(heartsLeft);
+            this->scene->hudScoreP2->dword4C = this->scene->saveManager->playerObject2.score;
         }
 
         this->PrepareLevel();
@@ -62,24 +62,24 @@ bool LevelManager_Normal::CreateEntities()
     for (uint32_t i = 0; i < 2; i++)
     {
          // BMP_SCORE - Score number font
-        this->dwordC4[i] = new FontTileSetEntity(this->Scene, this->Scene->sceneBitmapMgr->bitmapPtrs[21], 0);
+        this->dwordC4[i] = new FontTileSetEntity(this->scene, this->scene->sceneBitmapMgr->bitmapPtrs[21], 0);
     }
 
     for (uint32_t i = 0; i < 4; i++)
     {
         // Create score tiles
-        this->dwordCC[i] = new ScoreTileSetEntity2(this->Scene, this->Scene->sceneBitmapMgr->bitmapPtrs[21], 1);
+        this->dwordCC[i] = new ScoreTileSetEntity2(this->scene, this->scene->sceneBitmapMgr->bitmapPtrs[21], 1);
     }
 
     // CURSOR
-    this->dword88 = new StaticPictureEntity(this->Scene, this->Scene->sceneBitmapMgr->bitmapPtrs[37], &MenuScene_Meta::SelectCursorEntity_RenderMeta, 0);
+    this->dword88 = new StaticPictureEntity(this->scene, this->scene->sceneBitmapMgr->bitmapPtrs[37], &MenuScene_Meta::SelectCursorEntity_RenderMeta, 0);
     this->dword88->SetLayerIndex(4);
     this->dword88->dword10 = 0;
 
     for (uint32_t i = 0; i < 14; i++)
     {
         // WNDMSG
-        this->buffer8C[i] = new StaticPictureEntity(this->Scene, this->Scene->sceneBitmapMgr->bitmapPtrs[36], &LevelManager_Normal_Meta::WindowMsg_RenderMeta, 0);
+        this->buffer8C[i] = new StaticPictureEntity(this->scene, this->scene->sceneBitmapMgr->bitmapPtrs[36], &LevelManager_Normal_Meta::WindowMsg_RenderMeta, 0);
         this->buffer8C[i]->SetLayerIndex(4);
         this->buffer8C[i]->dword10 = 0;
     }
@@ -90,11 +90,11 @@ bool LevelManager_Normal::CreateEntities()
 void LevelManager_Normal::PrepareLevel()
 {
     printf("LevelManager_Normal::PrepareLevel()\n");
-    this->Scene->AttachLamps();
+    this->scene->AttachLamps();
 
-    uint16_t nextLvl = this->Scene->saveManager->GetNextLevel();
-    uint32_t playerCount = this->Scene->saveManager->GetPlayerCount();
-    uint32_t stageRelated = this->Scene->saveManager->nextStage - 5;
+    uint16_t nextLvl = this->scene->saveManager->GetNextLevel();
+    uint32_t playerCount = this->scene->saveManager->GetPlayerCount();
+    uint32_t stageRelated = this->scene->saveManager->nextStage - 5;
     uint32_t index = (((playerCount + stageRelated) * 5) * 6) + nextLvl;
     
     // TODO: Dump struct
@@ -125,8 +125,8 @@ void LevelManager_Normal::PrepareLevel()
 
 void LevelManager_Normal::PrepareWalls()
 {
-    uint16_t nextLvl = this->Scene->saveManager->GetNextLevel();
-    uint16_t levelIndex = (this->Scene->saveManager->nextStage * 6) + nextLvl;
+    uint16_t nextLvl = this->scene->saveManager->GetNextLevel();
+    uint16_t levelIndex = (this->scene->saveManager->nextStage * 6) + nextLvl;
 
     // TODO: Struct
     uint8_t levelExample[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -134,7 +134,7 @@ void LevelManager_Normal::PrepareWalls()
     for (uint32_t i = 0; i < 32; i++)
     {
         if (levelExample[i] != 0)
-            this->Scene->wallEntities[i]->PreSet(WallOwner_Garcia);
+            this->scene->wallEntities[i]->PreSet(WallOwner_Garcia);
     }
 }
 
@@ -144,64 +144,64 @@ void LevelManager_Normal::F2()
 
 void LevelManager_Normal::Init()
 {
-    if (this->Scene->ticksLeftUntilReEval <= 0)
+    if (this->scene->ticksLeftUntilReEval <= 0)
     {
-        uint32_t nextLvl = this->Scene->saveManager->GetNextLevel();
-        uint32_t playerCount = this->Scene->saveManager->GetPlayerCount();
+        uint32_t nextLvl = this->scene->saveManager->GetNextLevel();
+        uint32_t playerCount = this->scene->saveManager->GetPlayerCount();
         uint32_t index = nextLvl + 6 * playerCount;
         // TODO: Dump struct \/
         this->dwordE8 = 0;
-        this->Scene->scenePhaseIndex = 1;
+        this->scene->scenePhaseIndex = 1;
     }
 
-    this->Scene->RefreshHighScore();
+    this->scene->RefreshHighScore();
 }
 
 void LevelManager_Normal::Update()
 {
     if (this->F7())
     {
-        this->Scene->gridImageEntity->AttachWithPosition(320, 240, 0);
-        this->Scene->scenePhaseIndex = 16;
+        this->scene->gridImageEntity->AttachWithPosition(320, 240, 0);
+        this->scene->scenePhaseIndex = 16;
         this->levelPhase = 0;
     }
     else if (this->IsLevelOver())
     {
-        this->Scene->scenePhaseIndex = 17;
+        this->scene->scenePhaseIndex = 17;
 
-        if (this->Scene->saveManager->saveState.unk2 != 0)
+        if (this->scene->saveManager->saveState.unk2 != 0)
         {
-            this->Scene->gridImageEntity->AttachWithPosition(320, 240, 0);
+            this->scene->gridImageEntity->AttachWithPosition(320, 240, 0);
             this->levelPhase = 0;
         }
         else
         {
-            this->Scene->saveManager->lastStageStatus = 2;
-            this->Scene->ticksLeftUntilReEval = 180;
+            this->scene->saveManager->lastStageStatus = 2;
+            this->scene->ticksLeftUntilReEval = 180;
             this->levelPhase = 2;
         }
     }
 
-    if (this->Scene->saveManager->IsFlagMaskEnabledAny(0x1000))
+    if (this->scene->saveManager->IsFlagMaskEnabledAny(0x1000))
     {
-        if (this->Scene->saveManager->IsFlagMaskEnabledAny(2))
+        if (this->scene->saveManager->IsFlagMaskEnabledAny(2))
         {
-            // this->Scene->Offset 30 in VTable();
+            // this->scene->Offset 30 in VTable();
         }
         else
         {
-            // this->Scene->Offset 2C in VTable();
+            // this->scene->Offset 2C in VTable();
         }
     }
 
-    if (this->Scene->player1Entity->attachedToLayer)
+    if (this->scene->player1Entity->attachedToLayer)
     {
         // ->??()
     }
     
     // ???
 
-    this->Scene->RefreshHighScore();
+    this->scene->RefreshHighScore();
 
 }
 

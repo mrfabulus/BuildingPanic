@@ -3,7 +3,7 @@
 
 LevelManager_base::LevelManager_base(Ingame_BasicStage_Scene *aScene)
 {
-    this->Scene = aScene;
+    this->scene = aScene;
     memset(this->enemyFactories, 0, sizeof(this->enemyFactories));
 }
 

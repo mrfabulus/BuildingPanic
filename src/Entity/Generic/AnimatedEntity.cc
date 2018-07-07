@@ -17,12 +17,26 @@ void AnimatedEntity::Render()
     if (!this->attachedToLayer)
         return;
 
+    // printf("AnimatedEntity::Render 1\n");
+
     if (this->cacheSurface == nullptr)
     {
+        MSRect srcRect;
+        MSRect dstRect;
+        this->GetRenderRectangles(&srcRect, &dstRect);
+        
+        SDL_Rect SDL_srcRect = srcRect.ToSDLRect();
+        SDL_Rect SDL_dstRect = dstRect.ToSDLRect();
+
+        printf("Rendering %s\n", this->entityImageBmp->resourceName.c_str());
+        printf("src %d %d %d %d\n", SDL_srcRect.x, SDL_srcRect.y, SDL_srcRect.w, SDL_srcRect.h);
+        printf("dst %d %d %d %d\n", SDL_dstRect.x, SDL_dstRect.y, SDL_dstRect.w, SDL_dstRect.h);
+
         Entity::Render();
         return;
     }
 
+    printf("AnimatedEntity::Render 2\n");
     MSRect srcRect;
     MSRect dstRect;
 
@@ -34,10 +48,12 @@ void AnimatedEntity::Render()
 
     if (this->renderCacheSurface)
     {
+        printf("AnimatedEntity::Render 3\n");
         this->cacheSurface->Render(&srcRect, &dstRect);
     }
     else
     {
+        printf("AnimatedEntity::Render 4\n");
         this->entityImageBmp->Render(&srcRect, &dstRect);
     }
 }

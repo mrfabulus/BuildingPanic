@@ -9,10 +9,10 @@ PlayerEntity::PlayerEntity(Ingame_Stage_Scene* aScene, BitmapResourceManager* aB
     : AnimatedEntity(aScene, aBmpMgr->bitmapPtrs[aCharacterChosen], &PlayerEntity_Meta::Doka_RenderMeta, aBmpMgr->bitmapCachePtrs[aCharacterChosen])
 {
     this->double80 = 0;
-    this->dword88 = 0;
+    this->double88 = 0;
     this->byte68 = aCharacterChosen;
     this->byte69 = 0;
-    this->byte6A = 0;
+    this->updatePhase = 0;
     this->byte6B = 0;
     this->byte6C = 0;
     this->byte6D = 0;
@@ -21,7 +21,6 @@ PlayerEntity::PlayerEntity(Ingame_Stage_Scene* aScene, BitmapResourceManager* aB
     this->dword74 = 0;
     this->dword78 = 0;
     this->dword7C = a6;
-    this->dword8C = 0;
     this->dword90 = 0;
     this->extraPositionData = 0;
     this->dword98 = 0;
@@ -71,25 +70,28 @@ void PlayerEntity::Update()
 
         if (this->dword70 == 0)
         {
-            // TODO: call something
+            this->Update_0();
         }
     }
 
-    switch (this->byte6A)
+    printf("Update phase %d\n", this->updatePhase);
+    switch (this->updatePhase)
     {
         case 0:
             this->extraPositionData->double2 = 0;
 
             if (this->byte6B)
             {
-
+                this->Update_1_3();
             }
             else
             {
+                this->Update_1_2();
                 this->AssignRenderRectangles(0);
             }
             break;
         case 1:
+            this->Update_1();
             break;
         case 2:
             break;
@@ -102,6 +104,7 @@ void PlayerEntity::Update()
         case 6:
             break;
         case 7:
+            this->Update_7();
             break;
         case 8:
             break;
@@ -116,6 +119,7 @@ void PlayerEntity::Update()
     if (this->dword78 != 0)
         this->dword78--;
 
+    this->Update_11();
     this->AssignRenderRectanglesAdvanced();
     this->byte6B = 0;
     this->word5C = 0;
@@ -125,6 +129,12 @@ void PlayerEntity::Render()
 {
     if ((this->dword78 & 1) == 0)
     {
+        /*
+        printf("PlayerEntity::Render() %d\n", this->attachedToLayer);
+        this->extraPositionData->dCenterX = 280;
+        this->extraPositionData->dCenterY = 300;
+        this->extraPositionData->ReassignPositionToEntity();
+        */
         AnimatedEntity::Render();
     }
 }
@@ -141,7 +151,7 @@ void PlayerEntity::SetupRenderingInformation()
     this->dword78 = 120;
     this->double80 = 2;
     this->dword90 = 0x1A6; // TODO: Is this correct?
-    this->byte6A = 7;
+    this->updatePhase = 7;
     this->byte6C = 2;
 
     this->extraPositionData->double1 = 2;
@@ -172,6 +182,188 @@ void PlayerEntity::ReleaseResources()
 
 
     AnimatedEntity::ReleaseResources();
+}
+
+void PlayerEntity::Update_0()
+{
+    // TODO: Call into this->scene->??(); for palette manipulation
+    this->byte69 = 0;
+    this->dword70 = 0;
+
+    if (this->double80 >= 3)
+    {
+        this->double80 = 3;
+        this->extraPositionData->double1 = 3;
+    }
+}
+
+void PlayerEntity::Update_1()
+{
+    if (this->byte6C != 0)
+    {
+        if (this->byte6C == 1)
+        {
+            this->Update_1_1();
+            this->Update_1_2();
+        }
+        else if (this->byte6C == 2)
+        {
+            if (this->byte6B != 0)
+            {
+                this->Update_1_3();
+            }
+            else
+            {
+                this->Update_1_2();
+            }
+
+            uint16_t v2 = this->Update_1_4() - 1;
+
+            if (v2 != 0)
+            {
+                if (v2 == 1)
+                {
+                    this->sndMgr->PlaySoundSlot(3, this->centerX); // ?? Why though
+                    this->AssignRenderRectangles(5);
+                }
+            }
+            else
+            {
+                this->AssignRenderRectangles(4);
+            }
+        }
+    }
+    else
+    {
+        this->Update_1_5();
+        this->Update_1_2();
+    }
+}
+
+void PlayerEntity::Update_1_1()
+{
+    if (this->dword38_assignedZeroFromRenderSetup != 0)
+    {
+        this->byte6C = 2;
+        this->extraPositionData->double2 = this->double88;
+        this->extraPositionData->byte39 = -1;
+        this->AssignRenderRectangles(3);
+        this->sndMgr->PlaySoundSlot(2, this->centerX);
+    }
+}
+
+void PlayerEntity::Update_1_2()
+{
+    uint32_t index = 5 *  this->byte6D + this->byte69;
+    
+    // TODO: Implement
+}
+
+void PlayerEntity::Update_1_3()
+{
+    // TODO: Implement
+}
+
+uint16_t PlayerEntity::Update_1_4()
+{
+    if (this->extraPositionData->byte39 == -1)
+    {
+        if (this->extraPositionData->double2 <= 0)
+        {
+            this->extraPositionData->byte39 = 1;
+            return 1;
+        }
+
+        this->extraPositionData->double2 -= 0.8;
+        
+        if (this->extraPositionData->double2 <= 0)
+        {
+            this->extraPositionData->double2 = 0;
+            return 0;
+        }
+    }
+    else
+    {
+        if (this->centerY >= this->dword90)
+        {
+            this->extraPositionData->dCenterY = this->dword90;
+            this->extraPositionData->entityPtr->centerY = this->dword90;
+
+            this->extraPositionData->double2 = 0;
+            this->byte6C = 0;
+            this->coordinateLikeThingie = 100 * this->unsigned6E + 20;
+
+            return 2;
+        }
+
+        this->extraPositionData->double2 += 0.8;
+    }
+
+    return 0;
+}
+
+void PlayerEntity::Update_1_5()
+{
+    if (this->dword38_assignedZeroFromRenderSetup != 0)
+        this->updatePhase = 0;
+}
+
+void PlayerEntity::Update_7()
+{
+    if (this->byte6C != 0)
+    {
+        if (this->byte6C == 2)
+        {
+            uint16_t v2 = this->Update_1_4() - 1;
+            
+            if (v2 != 0)
+            {
+                if (v2 == 1)
+                {
+                    this->double80 = 0;
+                    this->extraPositionData->double1 = 0;
+                    this->sndMgr->PlaySoundSlot(3, this->centerX);
+                    this->AssignRenderRectangles(5);
+                }
+            }
+            else
+            {
+                this->AssignRenderRectangles(4);
+            }
+        }
+    }
+    else
+    {
+        this->Update_1_5();
+    }
+}
+
+void PlayerEntity::Update_11()
+{
+    uint32_t d457DC0[] =
+    {
+        0x56, 0xC6, 0x136, 0x1A6
+    };
+
+    if (this->updatePhase == 0)
+    {
+        this->extraPositionData->dCenterY = d457DC0[this->unsigned6E];
+        this->extraPositionData->entityPtr->centerY = d457DC0[this->unsigned6E];
+    }
+
+    if (this->centerX >= 0)
+    {
+        if (this->centerX > 640)
+        {
+            this->extraPositionData->dCenterX = 0;
+            this->extraPositionData->entityPtr->centerX = 0;
+        }
+    }
+    else
+    {
+        this->extraPositionData->dCenterX = 640;
+        this->extraPositionData->entityPtr->centerX = 640;
+    }
 }
 
 // ------ Doka_RenderMeta RenderMeta START ------

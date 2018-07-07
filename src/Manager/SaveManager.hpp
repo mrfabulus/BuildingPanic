@@ -34,7 +34,7 @@ class SaveState
         ScoreboardEntry p2Scoreboard[10];
         uint16_t nextStageIndex;
         uint16_t unk1;
-        uint32_t unk2;
+        int32_t unk2;
         uint16_t p1Bindings[8];
         uint16_t p2Bindings[8];
 

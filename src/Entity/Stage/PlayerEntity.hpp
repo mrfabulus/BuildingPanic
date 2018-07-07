@@ -20,7 +20,7 @@ class PlayerEntity : public AnimatedEntity
     public:
         uint8_t byte68;
         uint8_t byte69;
-        uint8_t byte6A;
+        uint8_t updatePhase;
         uint8_t byte6B;
         uint8_t byte6C;
         uint8_t byte6D;
@@ -30,8 +30,7 @@ class PlayerEntity : public AnimatedEntity
         uint32_t dword78;
         uint32_t dword7C;
         double   double80;
-        uint32_t dword88;
-        uint32_t dword8C;
+        double   double88;
         uint32_t dword90;
         EntityExtraPositionData3* extraPositionData;
         uint32_t dword98;
@@ -50,4 +49,24 @@ class PlayerEntity : public AnimatedEntity
         virtual void Render() override;
         virtual void SetupRenderingInformation() override;
         virtual void ReleaseResources() override;
+
+        void Update_0();
+        void Update_1();
+
+        void Update_1_1();
+        void Update_1_2();
+        void Update_1_3();
+        uint16_t Update_1_4();
+        void Update_1_5();
+
+
+        void Update_7();
+        void Update_11();
+
+        /*
+        void Update_2();
+        void Update_3();
+        void Update_4();
+        void Update_5();
+        */
 };

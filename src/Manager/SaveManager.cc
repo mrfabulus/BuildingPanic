@@ -122,7 +122,7 @@ SaveState::SaveState()
         this->p2Scoreboard[i].score = 100000 - (10000 * i);
     }
 
-    this->nextStageIndex = 3;
+    this->nextStageIndex = 0;
     this->unk1 = 0;
     this->unk2 = 10;
 

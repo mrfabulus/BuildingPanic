@@ -63,7 +63,7 @@ MenuScene::MenuScene(SaveManager* aSaveManager)
     this->ticksLeftUntilReEval = 90;
 
     // Start playing menu midi
-    // TODO: Fix music timing
+    // TODO: Fix music timing (maybe the lack of fade-in and fade-out screws it up?)
     this->sceneSoundMgr->PlayMidi("BPBGM01.MID");
 }
 
@@ -117,7 +117,7 @@ void MenuScene::Update()
         case 2:
             if (!this->fadeIn_active && !this->fadeAway_active)
             {
-                // TODO: SaveManager interaction
+                this->saveManager->saveState.unk2 = ((this->saveManager->saveState.unk2 & 0x10000000) != 0 ? -1 : 10);
                 this->finished = true;
             }
             break;

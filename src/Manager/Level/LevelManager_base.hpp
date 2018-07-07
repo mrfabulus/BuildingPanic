@@ -24,7 +24,7 @@ struct LevelInfoEntry
 class LevelManager_base
 {
     public:
-        Ingame_BasicStage_Scene* Scene;
+        Ingame_BasicStage_Scene* scene;
         int enemyFactories[32];
 
         LevelManager_base(Ingame_BasicStage_Scene* aScene);
