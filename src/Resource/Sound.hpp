@@ -6,10 +6,9 @@
 class Sound
 {
     private:
-        string soundName;
+        std::string soundName;
 
     public:
-        Sound(string& aSoundName);
-
+        Sound(std::string& aSoundName);
         ~Sound();
 };

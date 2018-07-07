@@ -9,8 +9,17 @@ SoundResourceManager::SoundResourceManager(uint16_t aSetIndex)
 
 SoundResourceManager::~SoundResourceManager()
 {
-    Mix_FreeChunk(this->wav);
-    Mix_FreeMusic(this->music);
+    if (this->wav != nullptr)
+    {
+        Mix_FreeChunk(this->wav);
+        this->wav = nullptr;
+    }
+
+    if (this->music != nullptr)
+    {
+        Mix_FreeMusic(this->music);
+        this->music = nullptr;
+    }
 }
 
 void SoundResourceManager::LoadBySetID(uint16_t aSetID)

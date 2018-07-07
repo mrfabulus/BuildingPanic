@@ -1,6 +1,6 @@
-#include <Sound.hpp>
+#include "Resource/Sound.hpp"
 
-Sound::Sound(string& aSoundName)
+Sound::Sound(std::string& aSoundName)
 {
     this->soundName = aSoundName;
 }
