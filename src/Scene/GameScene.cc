@@ -6,6 +6,7 @@
 #include "Scene/GameScene.hpp"
 #include <string.h>
 #include <iostream>
+#include <stdio.h>
 
 GameScene::GameScene(SDL_Color* aPaletteDataBytes)
 {
@@ -228,9 +229,61 @@ void GameScene::PaletteFadeInStart(char, short)
 
 }
 
-void GameScene::PaletteFadeAwayStart(char, short)
+void GameScene::PaletteFadeAwayStart(char aFadeAwayPersist, short aFadeFrameCount)
 {
+    if(gNonStandardDimensions)
+        PaletteFadeAwayStart_Impl(aFadeAwayPersist, aFadeFrameCount, 0, 256);
+    else
+        PaletteFadeAwayStart_Impl(aFadeAwayPersist, aFadeFrameCount, 10, 236);
+}
 
+void GameScene::PaletteFadeAwayStart_Impl(char aFadeAwayPersist, short aFadeFrameCount, short aDwStartEntry, short aDwCount)
+{
+    SDL_Palette* palette = this->palette1;
+    int8_t* cEntryPtr = nullptr;
+    if(palette)
+    {
+        *((int8_t*)palette) = this->fadeIn_active;
+        if(!*((char*)palette))
+        {
+            *((int8_t*)palette) = this->fadeAway_active;
+            if(!*((char*)palette))
+            {
+                this->fadeAway_active = aFadeAwayPersist;
+
+                if(aFadeFrameCount <= 0x100)
+                    *((int16_t*)palette) = aFadeAwayPersist;
+                else
+                    *((int16_t*)palette) = 256;
+
+                this->fadeFrameProgressCount = *((uint16_t*)palette);
+
+                *((int8_t*)palette) = aDwCount;
+                this->dwStartingEntry = aDwStartEntry;
+                this->dwCount = aDwCount;
+
+                if(dwCount)
+                {
+
+                    cEntryPtr = (int8_t*) &(*((SDL_Color*)this->paletteDataPtr)).g;
+                    int i = 0;
+                    do
+                    {
+
+                        cEntryPtr += 4;
+                        /*((SDL_Color*)palette)->b = 256 / this->fadeFrameProgressCount;
+                        ((SDL_Color*)palette)->g = 256 / this->fadeFrameProgressCount;
+                        ((SDL_Color*)palette)->r = 256 / this->fadeFrameProgressCount;*/
+                        ((SDL_Color*)palette)->a = 256 / this->fadeFrameProgressCount;
+
+                        *((int16_t*)palette) = this->dwCount;
+                        i++;
+                    }
+                    while(i < *((uint16_t*)palette));
+                }
+            }
+        }
+    }
 }
 
 void GameScene::SetFinishedIfFadesDone()

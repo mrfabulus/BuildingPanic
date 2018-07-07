@@ -21,7 +21,7 @@ class GameScene
         LayerEntity* layers[5];
         int16_t layerEntityCounts[5];
         // __int16 word3A;
-        void* paletteDataPtr;
+        SDL_Color* paletteDataPtr;
         // PALETTEENTRY paletteEntries[512];
         uint16_t dwStartingEntry;
         uint16_t dwCount;
@@ -44,6 +44,8 @@ class GameScene
         void PaletteFadeInStart(char, short);
 
         void PaletteFadeAwayStart(char, short);
+
+        void PaletteFadeAwayStart_Impl(char, short, short, short);
 
         void SetFinishedIfFadesDone();
 
