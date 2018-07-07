@@ -234,7 +234,7 @@ void CharacterChoiceScene::Update()
                 }
 
                 this->PaletteFadeAwayStart(1, 0x40u);
-                // this->sceneSoundMgr->PlaySoundForDuration(0, 320);
+                this->sceneSoundMgr->PlaySoundSlot(0, 320);
             }
             else if ( (mask & 0x100010) != 0 && this->tobiSelected )
             {
@@ -247,7 +247,7 @@ void CharacterChoiceScene::Update()
                 }
 
                 this->selectionCursorEntity->centerX = 0xB0;
-                // this->sceneSoundMgr->PlaySoundForDuration(1, 320);
+                this->sceneSoundMgr->PlaySoundSlot(1, 320);
             }
             else if ( (mask & 0x200020) != 0 && !this->tobiSelected)
             {
@@ -260,7 +260,7 @@ void CharacterChoiceScene::Update()
                 }
 
                 this->selectionCursorEntity->centerX = 0x1D0;
-                // this->sceneSoundMgr->PlaySoundForDuration(1, 320);
+                this->sceneSoundMgr->PlaySoundSlot(1, 320);
             }
             break;
         case 4098:
@@ -331,7 +331,7 @@ void CharacterChoiceScene::Update()
             if ((mask & 0x10001) != 0)
             {
                 // Enter pressed
-                // this->sceneSoundMgr->PlaySoundForDuration(0, 320);
+                this->sceneSoundMgr->PlaySoundSlot(0, 320);
                 
                 this->selectionCursorEntity->renderDataPtrIndex = 3;
                 this->selectionCursorEntity->AssignRenderRectangles(3);
@@ -352,7 +352,7 @@ void CharacterChoiceScene::Update()
                 }
 
                 this->selectionCursorEntity->centerX = buildingXOffsets[this->selectedStageNumber];
-                // this->sceneSoundMgr->PlaySoundForDuration(1, 320);
+                this->sceneSoundMgr->PlaySoundSlot(1, 320);
             }
             else if ( (mask & 0x200020) != 0 && this->selectedStageNumber < nextStageIndex)
             {
@@ -365,7 +365,7 @@ void CharacterChoiceScene::Update()
                 }
 
                 this->selectionCursorEntity->centerX = buildingXOffsets[this->selectedStageNumber];
-                // this->sceneSoundMgr->PlaySoundForDuration(1, 320);
+                this->sceneSoundMgr->PlaySoundSlot(1, 320);
             }
             break;
     }

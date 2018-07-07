@@ -17,6 +17,17 @@ SoundResourceManager::~SoundResourceManager()
         Mix_FreeMusic(this->music);
         this->music = nullptr;
     }
+
+    uint32_t slotCount = (sizeof(this->soundSlots) / sizeof(Sound*));
+
+    for (uint32_t i = 0; i < slotCount; i++)
+    {
+        if (this->soundSlots[i] != nullptr)
+        {
+            delete this->soundSlots[i];
+            this->soundSlots[i] = nullptr;
+        }
+    }
 }
 
 void SoundResourceManager::LoadBySetID(uint16_t aSetID)
