@@ -61,7 +61,10 @@ MenuScene::MenuScene(SaveManager* aSaveManager)
     this->CreateEntities();
 
     this->ticksLeftUntilReEval = 90;
-    // TODO: start playing menu midi (Bpbgm01.mid)
+
+    // Start playing menu midi
+    // TODO: Fix music timing
+    this->sceneSoundMgr->PlayMidi("BPBGM01.MID");
 }
 
 MenuScene::~MenuScene()
@@ -185,7 +188,9 @@ void MenuScene::Update()
             if ((mask & 0x10001) != 0)
             {
                 // ENTER
-                // TODO: Play sound slot 0
+
+                // Play sound slot 0
+                this->sceneSoundMgr->PlaySoundSlot(0, 320);
 
                 if (this->menuChoice == 2)
                 {
@@ -206,7 +211,8 @@ void MenuScene::Update()
                 if (this->menuChoice == 0)
                     return;
 
-                // TODO: Play sound slot 1
+                // Play sound slot 1
+                this->sceneSoundMgr->PlaySoundSlot(1, 320);
 
                 this->menuChoice--;
                 this->ticksLeftUntilReEval = 1800;
@@ -224,7 +230,8 @@ void MenuScene::Update()
                 if (this->menuChoice == 2)
                     return;
 
-                // TODO: Play sound slot 1
+                // Play sound slot 1
+                this->sceneSoundMgr->PlaySoundSlot(1, 320);
 
                 this->menuChoice++;
                 this->ticksLeftUntilReEval = 1800;
@@ -284,7 +291,9 @@ void MenuScene::Update()
                         if ((mask & 0x10001) != 0)
                         {
                             // ENTER
-                            // TODO: Play sound slot 0 for 320
+
+                            // Play sound slot 0 for 320
+                            this->sceneSoundMgr->PlaySoundSlot(0, 320);
 
                             if (this->byte959 == 9)
                             {
@@ -322,7 +331,9 @@ void MenuScene::Update()
                             if (this->byte959 != 0)
                             {
                                 this->byte959--;
-                                // TODO: Play sound slot 1 for 320
+
+                                // Play sound slot 1 for 320
+                                this->sceneSoundMgr->PlaySoundSlot(1, 320);
                             }
                         }
                         else if ((mask & 0x800080) != 0)
@@ -331,7 +342,9 @@ void MenuScene::Update()
                             if (this->byte959 < 9)
                             {
                                 this->byte959++;
-                                // TODO: Play sound slot 1 for 320
+
+                                // Play sound slot 1 for 320
+                                this->sceneSoundMgr->PlaySoundSlot(1, 320);
                             }
                         }
 
@@ -349,7 +362,9 @@ void MenuScene::Update()
                     // Handle key setting
                     if ((mask & 0x10001) != 0)
                     {
-                        // TODO: Play sound slot 0 for 320
+                        // Play sound slot 0 for 320
+                        this->sceneSoundMgr->PlaySoundSlot(0, 320);
+
                         if (this->byte958 != 0)
                         {
                             this->cutScenePhase = 2;

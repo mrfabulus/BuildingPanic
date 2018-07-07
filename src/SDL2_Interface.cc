@@ -52,6 +52,7 @@ namespace sdl2
 
     SDL2_Interface::~SDL2_Interface()
     {
+        Mix_CloseAudio();
         SDL_Quit();
     }
 
@@ -80,7 +81,7 @@ namespace sdl2
         
         // TODO: Handle and init JOYSTICK, HAPTIC, GAMECONTROLLER
 
-        if (SDL_InitSubSystem(subsystems) != 0)
+        if (SDL_Init(subsystems) != 0)
         {
             cout << "Error in further SDL initialization: " << SDL_GetError() << endl;
             return false;
@@ -98,18 +99,21 @@ namespace sdl2
         this->proxyRenderSurface = SDL_CreateRGBSurface(0, 640, 480, 32, 0, 0, 0, 0);
         this->proxyRenderTexture = SDL_CreateTexture(gameRenderer.get(), SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, 640, 480);
 
-        #ifndef WIN32
-        // Init SDL2_Mixer
-        // TODO: Check which flags are really needed
-        int mixFlags = 0; /* MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_MP3 | MIX_INIT_OGG | MIX_INIT_MID */ ;
-        int32_t inited = Mix_Init(mixFlags);
-
-        if (inited != mixFlags)
+        /*int mix_flags = MIX_INIT_MP3 | MIX_INIT_OGG | MIX_INIT_FLAC | MIX_INIT_MOD;
+        int mix_init = Mix_Init(mix_flags);
+        if(mix_init & mix_flags != mix_flags)
         {
-            cout << "Error initializing mixer: " << SDL_GetError() << endl;
+            printf("Mix_Init: Failed to init required ogg and mod support!\n");
+            printf("Mix_Init: %s\n", Mix_GetError());
+        }*/
+
+        //22050, MIX_DEFAULT_FORMAT, 2, 4096
+        //44100, MIX_DEFAULT_FORMAT, 2, 2048
+        if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) == -1 )
+        {
+            cout << "Error opening audio: " << Mix_GetError() << endl;
             return false;
         }
-        #endif
 
         return true;
     }

@@ -3,6 +3,7 @@
         "*.tcc": "cpp",
         "string_view": "cpp",
         "__config": "cpp",
-        "__nullptr": "cpp"
+        "__nullptr": "cpp",
+        "string": "cpp"
     }
 }
