@@ -4,17 +4,14 @@
 
 SoundResourceManager::SoundResourceManager(uint16_t aSetIndex)
 {
+    this->music = nullptr;
+
+    memset(&this->soundSlots, 0, sizeof(this->soundSlots));
     this->LoadBySetID(aSetIndex);
 }
 
 SoundResourceManager::~SoundResourceManager()
 {
-    if (this->wav != nullptr)
-    {
-        Mix_FreeChunk(this->wav);
-        this->wav = nullptr;
-    }
-
     if (this->music != nullptr)
     {
         Mix_FreeMusic(this->music);
@@ -29,36 +26,43 @@ void SoundResourceManager::LoadBySetID(uint16_t aSetID)
     switch(aSetID)
     {
         case 0:
+        case 1:
+        case 3:
+        case 4:
+        case 5:
             ptr = (int16_t*) SoundInformation::Sound_Select_Ok_ResourceLinkerPtr;
             break;
-        case 1:
+        case 7:
             ptr = (int16_t*) SoundInformation::Sound_1_ResourceLinkerPtr;
             break;
-        case 2:
+        case 8:
             ptr = (int16_t*) SoundInformation::Sound_2_ResourceLinkerPtr;
             break;
-        case 3:
+        case 9:
             ptr = (int16_t*) SoundInformation::Sound_3_ResourceLinkerPtr;
             break;
-        case 4:
+        case 10:
             ptr = (int16_t*) SoundInformation::Sound_4_ResourceLinkerPtr;
             break;
-        case 5:
+        case 11:
             ptr = (int16_t*) SoundInformation::Sound_5_ResourceLinkerPtr;
             break;
         default:
             break;
     }
 
-    while(*ptr != -1)
+    if (ptr != nullptr)
     {
-        int16_t sID = *ptr;
-        std::string soundName = SoundInformation::WavNames[sID];
+        while(*ptr != -1)
+        {
+            int16_t sID = *ptr;
+            std::string soundName = SoundInformation::WavNames[sID];
 
-        std::cout << "Loading sound " << soundName << " with ID " << sID << std::endl;
-        this->LoadByID(sID, soundName);
+            std::cout << "Loading sound " << soundName << " with ID " << sID << std::endl;
+            this->LoadByID(sID, soundName);
 
-        ptr++;
+            ptr++;
+        }
     }
 }
 
@@ -67,7 +71,33 @@ void SoundResourceManager::LoadByID(int16_t aID, std::string& aName)
     if (aID >= 0x40)
         return;
 
-    Sound* sound = new Sound(*aName);
+    this->soundSlots[aID] = new Sound(aName);
+}
+
+void SoundResourceManager::PlayMidi(std::string midiName)
+{
+    if (this->music != nullptr)
+    {
+        Mix_FreeMusic(this->music);
+        this->music = nullptr;
+    }
+
+    this->music = Mix_LoadMUS(("../assets/midi/" + midiName).c_str());
+
+    if(Mix_PlayMusic(this->music, 1) == -1)
+    {
+        printf("Couldn't play midi\n");
+        return;
+    }
+}
+
+void SoundResourceManager::PlaySoundSlot(uint16_t aSlotID, uint32_t aDuration)
+{
+    // TODO: Duration ?
+    if (this->soundSlots[aSlotID] != nullptr)
+    {
+        this->soundSlots[aSlotID]->Play();
+    }
 }
 
 static const int16_t Sound_Select_Ok_ResourceLinker[] = 

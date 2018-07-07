@@ -37,7 +37,7 @@ CharacterChoiceScene::CharacterChoiceScene(SaveManager* aSaveManager)
 
 CharacterChoiceScene::~CharacterChoiceScene()
 {
-    // TODO: stop current MIDI
+    // Stopping the current MIDI will be done by the sound manager dtor (?)
 
     if (this->player1PortraitEntity != nullptr)
     {
@@ -146,7 +146,9 @@ void CharacterChoiceScene::Init()
 
     this->ticksLeftUntilReEval = 60;
     this->PaletteFadeInStart(1, 32);
-    // TODO: start bpbgm02.mid
+
+    // Start bpbgm02.mid
+    this->sceneSoundMgr->PlayMidi("BPBGM02.MID");
 }
 
 int32_t CharacterChoiceScene::GetNextSceneIDReference()

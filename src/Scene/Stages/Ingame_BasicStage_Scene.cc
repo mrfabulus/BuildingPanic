@@ -4,6 +4,7 @@
 #include "Entity/Stage/PlayerEntity.hpp"
 #include "Entity/Generic/StaticPictureEntity.hpp"
 #include "Input/InputProcessorBase.hpp"
+#include "Manager/SoundResourceManager.hpp"
 
 Ingame_BasicStage_Scene::Ingame_BasicStage_Scene(SDL_Color* aPaletteDataBytes, SaveManager* aSaveManager)
     : Ingame_Stage_Scene(aPaletteDataBytes, aSaveManager)
@@ -62,8 +63,23 @@ void Ingame_BasicStage_Scene::InitStage()
 
     if (!this->saveManager->IsFlagMaskEnabledAny(0x1000))
     {
-        // TODO: stop midi
-        // TODO: start right midi for level
+        // Start right midi for level
+        if (this->saveManager->IsFlagMaskEnabledAny(0x200))
+        {
+            this->sceneSoundMgr->PlayMidi("BPBGM03.MID");
+        }
+        else if (this->saveManager->nextLevel == 2)
+        {
+            this->sceneSoundMgr->PlayMidi("BPBGM04.MID");
+        }
+        else if (this->saveManager->GetNextLevel() != 5)
+        {
+            this->sceneSoundMgr->PlayMidi("BPBGM03.MID");
+        }
+        else
+        {
+            this->sceneSoundMgr->PlayMidi("BPBGM05.MID");
+        }
     }
 
     this->player1Entity->AttachWithPosition(0x100, 512, 0);

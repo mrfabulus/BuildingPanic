@@ -22,12 +22,16 @@ struct SoundInformation
 class SoundResourceManager
 {
     private:
-        Mix_Chunk* wav;
         Mix_Music* music;
+
+        Sound* soundSlots[128];
     public:
         SoundResourceManager(uint16_t aSetIndex);
         ~SoundResourceManager();
 
         void LoadBySetID(uint16_t aSetID);
         void LoadByID(int16_t aID, std::string& aName);
+
+        void PlaySoundSlot(uint16_t aSlotID, uint32_t aDuration);
+        void PlayMidi(std::string midiName);
 };

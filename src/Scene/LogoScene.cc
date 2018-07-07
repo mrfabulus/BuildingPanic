@@ -103,7 +103,8 @@ void LogoScene::Update()
                         this->saveManagerPtr->saveState.nextStageIndex = 4;
                         this->saveManagerPtr->saveState.unk2 = 0xFFFFFFFF;
 
-                        // TODO: Play "SELECT" sound
+                        // Play "SELECT" sound
+                        this->sceneSoundMgr->PlaySoundSlot(0, 320);
                         std::cout << "PANIC cheat activated" << std::endl;
                     }
                     else
