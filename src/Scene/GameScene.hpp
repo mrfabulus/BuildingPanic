@@ -47,6 +47,8 @@ class GameScene
 
         void PaletteFadeAwayStart_Impl(char, short, short, short);
 
+        void PaletteRotationFadeAway();
+
         void SetFinishedIfFadesDone();
 
         void AttachGameObjectToLayer(GameObject* aEntity);

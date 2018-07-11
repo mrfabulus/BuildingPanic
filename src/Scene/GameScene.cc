@@ -49,9 +49,12 @@ GameScene::GameScene(SDL_Color* aPaletteDataBytes)
         this->dwCount = 236;
     }
 
-    if (   this->InitPaletteFromColors(&this->palette1, aPaletteDataBytes)
-        && this->InitPaletteFromColors(&this->palette2, aPaletteDataBytes)
-        && this->InitMainSurfacePalette(this->palette1))
+    bool a2 = this->InitPaletteFromColors(&this->palette1, aPaletteDataBytes);
+    bool a1 = this->InitMainSurfacePalette(this->palette1);
+    
+    bool a3 = this->InitPaletteFromColors(&this->palette2, aPaletteDataBytes);
+
+    if ( a1 && a2 && a3)
     {
         std::cout << "GameScene init OK" << std::endl;
         this->init_OK = true;
@@ -194,8 +197,7 @@ void GameScene::Tick()
         }
         else if (this->fadeAway_active)
         {
-            // TODO: Implement
-            // GameScene_paletteRotation_fadeAway()
+            PaletteRotationFadeAway();
         }
 
         // Simplified original logic a bit, not sure if its correct
@@ -238,50 +240,62 @@ void GameScene::PaletteFadeAwayStart(char aFadeAwayPersist, short aFadeFrameCoun
 }
 
 void GameScene::PaletteFadeAwayStart_Impl(char aFadeAwayPersist, short aFadeFrameCount, short aDwStartEntry, short aDwCount)
-{
-    SDL_Palette* palette = this->palette1;
-    int8_t* cEntryPtr = nullptr;
-    if(palette)
+{    
+    if(this->palette1)
     {
-        *((int8_t*)palette) = this->fadeIn_active;
-        if(!*((char*)palette))
+        if(!this->fadeIn_active)
         {
-            *((int8_t*)palette) = this->fadeAway_active;
-            if(!*((char*)palette))
+            if(!this->fadeAway_active)
             {
                 this->fadeAway_active = aFadeAwayPersist;
 
                 if(aFadeFrameCount <= 0x100)
-                    *((int16_t*)palette) = aFadeAwayPersist;
+                    this->fadeFrameProgressCount = aFadeFrameCount;
                 else
-                    *((int16_t*)palette) = 256;
+                    this->fadeFrameProgressCount = 256;
 
-                this->fadeFrameProgressCount = *((uint16_t*)palette);
-
-                *((int8_t*)palette) = aDwCount;
-                this->dwStartingEntry = aDwStartEntry;
+                this->dwStartingEntry = aDwStartEntry;                
                 this->dwCount = aDwCount;
 
                 if(dwCount)
                 {
-
-                    cEntryPtr = (int8_t*) &(*((SDL_Color*)this->paletteDataPtr)).g;
                     int i = 0;
+                    SDL_Color* color = &this->paletteDataPtr[256];
                     do
                     {
-
-                        cEntryPtr += 4;
-                        /*((SDL_Color*)palette)->b = 256 / this->fadeFrameProgressCount;
-                        ((SDL_Color*)palette)->g = 256 / this->fadeFrameProgressCount;
-                        ((SDL_Color*)palette)->r = 256 / this->fadeFrameProgressCount;*/
-                        ((SDL_Color*)palette)->a = 256 / this->fadeFrameProgressCount;
-
-                        *((int16_t*)palette) = this->dwCount;
+                        if(color)
+                        {
+                            printf("color\n");
+                            color->r = 256 / aFadeAwayPersist;
+                            color->g = 256 / aFadeAwayPersist;
+                            color->b = 256 / aFadeAwayPersist;
+                        }
+                        //this->paletteDataPtr[i] = color;
+                        //printf("%d %d %d\n", this->paletteDataPtr[i].r, this->paletteDataPtr[i].g, this->paletteDataPtr[i].b);
+                        color += 4;
                         i++;
                     }
-                    while(i < *((uint16_t*)palette));
+                    while(i < this->dwCount);
+
+                    //SDL_SetPaletteColors(this->palette1, this->paletteDataPtr, dwStartingEntry, dwCount);
                 }
             }
+        }
+    } 
+}
+
+void GameScene::PaletteRotationFadeAway()
+{
+    if(this->palette1)
+    {
+        if(this->fadeAway_active)
+        {
+
+        }
+
+        if(!--this->fadeFrameProgressCount)
+        {
+            this->fadeAway_active = 0;
         }
     }
 }
@@ -316,18 +330,20 @@ void GameScene::UpdateEntities()
 bool GameScene::InitPaletteFromColors(SDL_Palette** aOutPalette, SDL_Color* aColors)
 {
     if (aColors == nullptr)
-        return true;
+        return false;
 
     // TODO: Error handling
     SDL_Palette* newPalette = SDL_AllocPalette(256);
+    //SDL_SetPaletteColors(newPalette, aColors, 0, 256);
+    printf("ncolors: %d\n", newPalette->ncolors);
     SDL_PixelFormat format;
     format.format = SDL_PIXELFORMAT_INDEX8;
     format.palette = newPalette;
     format.BitsPerPixel = 8;
     // format.By
-
+    
     // TODO: Solve "SDL_SetPixelFormatPalette() passed a palette that doesn't match the format"
-    SDL_SetPixelFormatPalette(&format, newPalette);
+    //SDL_SetPixelFormatPalette(&format, newPalette);
 
     SDL_SetPaletteColors(newPalette, aColors, 0, 256);
     *aOutPalette = newPalette;
@@ -339,7 +355,6 @@ bool GameScene::InitMainSurfacePalette(SDL_Palette* aPalette)
 {
     int result = SDL_SetSurfacePalette(gSys.GetMainSurface(), aPalette);
     std::cout << "SDL_SetSurfacePalette returned " << result << std::endl;
-
     if (result < 0)
     {
         std::cout << SDL_GetError() << std::endl;
