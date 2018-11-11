@@ -94,13 +94,13 @@ ScoreboardEntry::ScoreboardEntry()
     this->character = 0;
     this->padding1 = 0;
 
-    // "D. YAMA" bytes somehow??
-    this->name[0] = 13;
-    this->name[1] = 36;
-    this->name[2] = 34;
-    this->name[3] = 10;
-    this->name[4] = 22;
-    this->name[5] = 10;
+    // "D.YAMA" bytes somehow??
+    this->name[0] = 13; // D
+    this->name[1] = 36; // .
+    this->name[2] = 34; // Y
+    this->name[3] = 10; // A
+    this->name[4] = 22; // M
+    this->name[5] = 10; // A
     this->name[6] = 37;
     this->name[7] = 37;
 

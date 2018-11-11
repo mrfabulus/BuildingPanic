@@ -4,7 +4,7 @@
 
 #include "Manager/BitmapResourceManager.hpp"
 #include "Resource/Bitmap.hpp"
-#include "Resource/BitmapCacheSurface.hpp"
+#include "Resource/OffscreenSurface.hpp"
 
 BitmapResourceManager::BitmapResourceManager(uint16_t setID, void* ddPalette, uint16_t secondSetID)
 {
@@ -114,7 +114,7 @@ void BitmapResourceManager::LoadByID(std::string& aName, int16_t aID)
 
     if (aID >= 0x11)
     {
-        BitmapCacheSurface* cSlot2 = this->bitmapCachePtrs[aID];
+        OffscreenSurface* cSlot2 = this->bitmapCachePtrs[aID];
 
         // Check if bitmap pair is loaded at same slot
         if (cSlot2)
@@ -123,7 +123,7 @@ void BitmapResourceManager::LoadByID(std::string& aName, int16_t aID)
             this->bitmapCachePtrs[aID] = nullptr;
         }
 
-        this->bitmapCachePtrs[aID] = new BitmapCacheSurface(this->bitmapPtrs[aID]);
+        this->bitmapCachePtrs[aID] = new OffscreenSurface(this->bitmapPtrs[aID]);
     }
 }
 

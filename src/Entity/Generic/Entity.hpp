@@ -40,7 +40,7 @@ class EntityExtraPositionData3 : public EntityExtraPositionData
         int8_t byte39;
 
         EntityExtraPositionData3(GameObject* aEntity);
-        ~EntityExtraPositionData3();
+        virtual ~EntityExtraPositionData3();
 
         virtual void ReassignPositionToEntity() override;
         void ReassignPositionXYToEntity(double aX, double aY);

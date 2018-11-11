@@ -4,7 +4,7 @@
 #include <string>
 
 class Bitmap;
-class BitmapCacheSurface;
+class OffscreenSurface;
 
 struct BitmapInformation
 {
@@ -28,7 +28,7 @@ class BitmapResourceManager
 {
     public:
         Bitmap* bitmapPtrs[128];
-        BitmapCacheSurface* bitmapCachePtrs[128];
+        OffscreenSurface* bitmapCachePtrs[128];
 
         // LPDIRECTDRAWPALETTE ddPalette;
         void* ddPalette;

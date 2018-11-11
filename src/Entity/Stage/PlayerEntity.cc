@@ -1,12 +1,15 @@
 #include "Entity/Stage/PlayerEntity.hpp"
+#include "Entity/Stage/PlayerWeaponEntity.hpp"
 #include "Entity/Generic/StaticPictureEntity.hpp"
 #include "Manager/BitmapResourceManager.hpp"
 #include "Manager/SoundResourceManager.hpp"
 #include "Scene/Stages/Ingame_Stage_Scene.hpp"
 
-// TODO: Pass render meta based on character chosen
+// TODO: Dump render meta for Tobi
 PlayerEntity::PlayerEntity(Ingame_Stage_Scene* aScene, BitmapResourceManager* aBmpMgr, int aCharacterChosen, SoundResourceManager* aSndMgr, int a6)
-    : AnimatedEntity(aScene, aBmpMgr->bitmapPtrs[aCharacterChosen], &PlayerEntity_Meta::Doka_RenderMeta, aBmpMgr->bitmapCachePtrs[aCharacterChosen])
+    : FastEntity(aScene, aBmpMgr->bitmapPtrs[aCharacterChosen],
+        PlayerEntity_Meta::Player_RenderMetaArray[aCharacterChosen],
+        aBmpMgr->bitmapCachePtrs[aCharacterChosen])
 {
     this->double80 = 0;
     this->double88 = 0;
@@ -39,9 +42,9 @@ PlayerEntity::PlayerEntity(Ingame_Stage_Scene* aScene, BitmapResourceManager* aB
     this->hitBmp->coordinateLikeThingie = 10;
     this->hitBmp->dword10 = 0;
 
-    for (int i = 3; i > 0; i--)
+    for (int i = 0; i < 3; i++)
     {
-        // TODO: Create something??
+        this->playerWeaponEntities[i] = new PlayerWeaponEntity(aScene, aBmpMgr, aCharacterChosen);
     }
 
     this->extraPositionData = new EntityExtraPositionData3(this);
@@ -135,13 +138,13 @@ void PlayerEntity::Render()
         this->extraPositionData->dCenterY = 300;
         this->extraPositionData->ReassignPositionToEntity();
         */
-        AnimatedEntity::Render();
+        FastEntity::Render();
     }
 }
 
 void PlayerEntity::SetupRenderingInformation()
 {
-    AnimatedEntity::SetupRenderingInformation();
+    FastEntity::SetupRenderingInformation();
 
     this->byte69 = 0;
     this->dword70 = 0;
@@ -181,7 +184,7 @@ void PlayerEntity::ReleaseResources()
     }
 
 
-    AnimatedEntity::ReleaseResources();
+    FastEntity::ReleaseResources();
 }
 
 void PlayerEntity::Update_0()
@@ -1105,3 +1108,8 @@ const RenderMeta PlayerEntity_Meta::Doka_RenderMeta =
 };
 // ------ Doka_RenderMeta RenderMeta END ------
 
+const RenderMeta* PlayerEntity_Meta::Player_RenderMetaArray[] =
+{
+    &PlayerEntity_Meta::Doka_RenderMeta,
+    &PlayerEntity_Meta::Doka_RenderMeta // <- Fix when Tobi is dumped
+};

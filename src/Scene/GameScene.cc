@@ -76,12 +76,15 @@ GameScene::~GameScene()
     }
 
     for (int i = 0; i < 5; i++)
+    {
         delete this->layers[i];
+        this->layers[i] = nullptr;
+    }
 }
 
 void GameScene::AttachGameObjectToLayer(GameObject* aEntity)
 {
-    // push_front() type of logic into the linked list
+    // push_front() into the linked list
     GameObject* cFirstEntity = this->layers[aEntity->layerIndex]->nextAttachedEntity;
 
     if (cFirstEntity)

@@ -1,23 +1,23 @@
-#include "Entity/Generic/AnimatedEntity.hpp"
+#include "Entity/Generic/FastEntity.hpp"
 #include "Resource/Bitmap.hpp"
-#include "Resource/BitmapCacheSurface.hpp"
+#include "Resource/OffscreenSurface.hpp"
 
-AnimatedEntity::AnimatedEntity(GameScene* aScene, Bitmap* aBitmap, const RenderMeta* aRenderMeta, BitmapCacheSurface* aCacheSurface)
+FastEntity::FastEntity(GameScene* aScene, Bitmap* aBitmap, const RenderMeta* aRenderMeta, OffscreenSurface* aCacheSurface)
     : Entity(aScene, aBitmap, aRenderMeta)
 {
     this->cacheSurface = aCacheSurface;
 }
 
-AnimatedEntity::~AnimatedEntity()
+FastEntity::~FastEntity()
 {
 }
 
-void AnimatedEntity::Render()
+void FastEntity::Render()
 {
     if (!this->attachedToLayer)
         return;
 
-    // printf("AnimatedEntity::Render 1\n");
+    // printf("FastEntity::Render 1\n");
 
     if (this->cacheSurface == nullptr)
     {
@@ -36,34 +36,35 @@ void AnimatedEntity::Render()
         return;
     }
 
-    printf("AnimatedEntity::Render 2\n");
+    printf("FastEntity::Render 2\n");
+
     MSRect srcRect;
     MSRect dstRect;
 
     this->GetRenderRectangles(&srcRect, &dstRect);
-    bool renderOK = this->CheckRenderBoundaries(&srcRect, &dstRect);
 
-    if (!renderOK)
+    if (!this->CheckRenderBoundaries(&srcRect, &dstRect))
         return;
 
     if (this->renderCacheSurface)
     {
-        printf("AnimatedEntity::Render 3\n");
+        printf("FastEntity::Render 3\n");
         this->cacheSurface->Render(&srcRect, &dstRect);
     }
     else
     {
-        printf("AnimatedEntity::Render 4\n");
+        printf("FastEntity::Render 4\n");
         this->entityImageBmp->Render(&srcRect, &dstRect);
     }
 }
 
-void AnimatedEntity::SetupRenderingInformation()
+void FastEntity::SetupRenderingInformation()
 {
     if (this->cacheSurface != nullptr)
     {
         if (this->cacheSurface->refCount == 0)
         {
+            // Cache is still new, need to render on the surface first
             this->cacheSurface->SetupSurface();
         }
 
@@ -71,7 +72,7 @@ void AnimatedEntity::SetupRenderingInformation()
     }
 }
 
-void AnimatedEntity::ReleaseResources()
+void FastEntity::ReleaseResources()
 {
     if (this->cacheSurface != nullptr)
     {
@@ -79,13 +80,13 @@ void AnimatedEntity::ReleaseResources()
     }
 }
 
-bool AnimatedEntity::CheckRenderBoundaries(MSRect* aSrcRect, MSRect* aDstRect)
+bool FastEntity::CheckRenderBoundaries(MSRect* aSrcRect, MSRect* aDstRect)
 {
     // TODO: Implement 00401990
     return true;
 }
 
-void AnimatedEntity::GetRenderRectangles(MSRect* aSrcRect, MSRect* aDstRect)
+void FastEntity::GetRenderRectangles(MSRect* aSrcRect, MSRect* aDstRect)
 {
     if (this->cacheSurface == nullptr)
     {

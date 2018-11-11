@@ -1,16 +1,16 @@
 #include "Globals.hpp"
 #include "SDL2_Interface.hpp"
 #include "Resource/Bitmap.hpp"
-#include "Resource/BitmapCacheSurface.hpp"
+#include "Resource/OffscreenSurface.hpp"
 
-BitmapCacheSurface::BitmapCacheSurface(Bitmap* aBitmap)
+OffscreenSurface::OffscreenSurface(Bitmap* aBitmap)
 {
     this->surface = nullptr;
     this->bitmapPtr = aBitmap;
     this->refCount = 0;
 }
 
-BitmapCacheSurface::~BitmapCacheSurface()
+OffscreenSurface::~OffscreenSurface()
 {
     if (this->surface != nullptr)
     {
@@ -20,7 +20,7 @@ BitmapCacheSurface::~BitmapCacheSurface()
 }
 
 // TODO: Find out how to "Blit" textures so we can use VRAM
-void BitmapCacheSurface::Render(MSRect* aSrcRect, MSRect* aDstRect)
+void OffscreenSurface::Render(MSRect* aSrcRect, MSRect* aDstRect)
 {
     // Manual conversion from MS style rects into SDL style
     SDL_Rect SDL_srcRect = aSrcRect->ToSDLRect();
@@ -30,7 +30,7 @@ void BitmapCacheSurface::Render(MSRect* aSrcRect, MSRect* aDstRect)
     SDL_BlitSurface(this->surface, &SDL_srcRect, gSys.GetMainSurface(), &SDL_dstRect);
 }
 
-void BitmapCacheSurface::SetupSurface()
+void OffscreenSurface::SetupSurface()
 {
     // Create an exact copy of the associated bitmap's surface data
     this->surface = gSys.CreateSurface(this->bitmapPtr->SDL_surface->w, this->bitmapPtr->SDL_surface->h);
@@ -40,7 +40,7 @@ void BitmapCacheSurface::SetupSurface()
     SDL_SetColorKey(this->surface, SDL_TRUE, SDL_MapRGB(this->surface->format, 0, 0, 0));
 }
 
-void BitmapCacheSurface::DecRefCount()
+void OffscreenSurface::DecRefCount()
 {
     this->refCount--;
 

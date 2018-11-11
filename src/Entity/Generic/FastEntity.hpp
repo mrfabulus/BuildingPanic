@@ -6,15 +6,15 @@
 
 class GameScene;
 class Bitmap;
-class BitmapCacheSurface;
+class OffscreenSurface;
 
-class AnimatedEntity : public Entity
+class FastEntity : public Entity
 {
     public:
-        BitmapCacheSurface* cacheSurface;
+        OffscreenSurface* cacheSurface;
 
-        AnimatedEntity(GameScene* aScene, Bitmap* aBitmap, const RenderMeta* aRenderMeta, BitmapCacheSurface* aCacheSurface);
-        ~AnimatedEntity();
+        FastEntity(GameScene* aScene, Bitmap* aBitmap, const RenderMeta* aRenderMeta, OffscreenSurface* aCacheSurface);
+        virtual ~FastEntity();
 
         virtual void Update() = 0;
         virtual void Render() override;
