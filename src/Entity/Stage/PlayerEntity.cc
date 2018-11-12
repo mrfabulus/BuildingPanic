@@ -25,8 +25,8 @@ PlayerEntity::PlayerEntity(Ingame_Stage_Scene* aScene, BitmapResourceManager* aB
     this->dword78 = 0;
     this->dword7C = a6;
     this->dword90 = 0;
-    this->extraPositionData = 0;
-    this->dword98 = 0;
+    this->extraPositionData = nullptr;
+    this->extraPositionPair = nullptr;
     this->dword9C = nullptr;
     this->piyoBmp = 0;
     this->dwordA4 = 0;
@@ -48,8 +48,8 @@ PlayerEntity::PlayerEntity(Ingame_Stage_Scene* aScene, BitmapResourceManager* aB
     }
 
     this->extraPositionData = new EntityExtraPositionData3(this);
-
-    // this->dword98 = new ???
+    this->extraPositionDataBase = this->extraPositionData;
+    this->extraPositionPair = new FastEntityExtraPositionPair(this, this->extraPositionData);
 
     this->coordinateLikeThingie = 100 * this->unsigned6E + 20;
     this->AssignRenderRectangles(0);
@@ -57,7 +57,41 @@ PlayerEntity::PlayerEntity(Ingame_Stage_Scene* aScene, BitmapResourceManager* aB
 
 PlayerEntity::~PlayerEntity()
 {
-    
+    for(int i = 0; i < 3; i++)
+    {
+        if (this->playerWeaponEntities[i] != nullptr)
+        {
+            delete this->playerWeaponEntities[i];
+            this->playerWeaponEntities[i] = 0;
+        }
+    }
+
+    if (this->hitBmp != nullptr)
+    {
+        delete this->hitBmp;
+        this->hitBmp = nullptr;
+    }
+
+    if (this->piyoBmp != nullptr)
+    {
+        delete this->piyoBmp;
+        this->piyoBmp = nullptr;
+    }
+
+    // cleanup dwordA4
+    this->extraPositionDataBase = nullptr;
+
+    if (this->extraPositionPair != nullptr)
+    {
+        delete this->extraPositionPair;
+        this->extraPositionPair = nullptr;
+    }
+
+    if (this->extraPositionData != nullptr)
+    {
+        delete this->extraPositionData;
+        this->extraPositionData = nullptr;
+    }
 }
 
 void PlayerEntity::Update()
@@ -78,12 +112,13 @@ void PlayerEntity::Update()
     }
 
     printf("Update phase %d\n", this->updatePhase);
+    // this->updatePhase = 3;
     switch (this->updatePhase)
     {
         case 0:
             this->extraPositionData->double2 = 0;
 
-            if (this->byte6B)
+            if (this->byte6B != 0)
             {
                 this->Update_1_3();
             }
@@ -97,14 +132,19 @@ void PlayerEntity::Update()
             this->Update_1();
             break;
         case 2:
+            this->Update_2();
             break;
         case 3:
+            this->Update_3();
             break;
         case 4:
+            this->Update_4();
             break;
         case 5:
+            this->Update_5();
             break;
         case 6:
+            this->Update_6();
             break;
         case 7:
             this->Update_7();
@@ -114,6 +154,7 @@ void PlayerEntity::Update()
         case 9:
             break;
         case 10:
+            this->Update_10();
             break;
         default:
             break;
@@ -133,11 +174,13 @@ void PlayerEntity::Render()
     if ((this->dword78 & 1) == 0)
     {
         /*
+        // For testing player rendering:
         printf("PlayerEntity::Render() %d\n", this->attachedToLayer);
         this->extraPositionData->dCenterX = 280;
         this->extraPositionData->dCenterY = 300;
         this->extraPositionData->ReassignPositionToEntity();
         */
+
         FastEntity::Render();
     }
 }
@@ -177,13 +220,12 @@ void PlayerEntity::SetupRenderingInformation()
 
 void PlayerEntity::ReleaseResources()
 {
-    // TODO: Implement missing stuff
-    if (this->byte69)
+    if (this->byte69 != 0)
     {
-
+        this->Update_0();
     }
 
-
+    // TODO: Implement PlayerEntity_4160B0
     FastEntity::ReleaseResources();
 }
 
@@ -220,19 +262,16 @@ void PlayerEntity::Update_1()
                 this->Update_1_2();
             }
 
-            uint16_t v2 = this->Update_1_4() - 1;
+            uint16_t u4_res = this->Update_1_4();
 
-            if (v2 != 0)
-            {
-                if (v2 == 1)
-                {
-                    this->sndMgr->PlaySoundSlot(3, this->centerX); // ?? Why though
-                    this->AssignRenderRectangles(5);
-                }
-            }
-            else
+            if (u4_res == 1)
             {
                 this->AssignRenderRectangles(4);
+            }
+            else if (u4_res == 2)
+            {
+                this->sndMgr->PlaySoundSlot(3, this->centerX); // ?? Why though
+                this->AssignRenderRectangles(5);
             }
         }
     }
@@ -257,14 +296,36 @@ void PlayerEntity::Update_1_1()
 
 void PlayerEntity::Update_1_2()
 {
-    uint32_t index = 5 *  this->byte6D + this->byte69;
+    double dlArray[] = { 3.0,  5.0,  3.0,  3.0,  3.0, 0.5,  5.0,  0.5,  0.5,  0.5,  0.05,  5.0,  0.05,  0.05,  0.05 };
+    uint32_t index = (5 *  this->byte6D) + this->byte69;
+    this->double80 -= dlArray[5 + index];
     
-    // TODO: Implement
+    if (this->double80 > 0)
+    {
+        this->extraPositionData->double1 = this->double80;
+    }
+    else
+    {
+        this->double80 = 0;
+        this->extraPositionData->double1 = 0;
+    }
 }
 
 void PlayerEntity::Update_1_3()
 {
-    // TODO: Implement
+    double dlArray[] = { 3.0,  5.0,  3.0,  3.0,  3.0, 0.5,  5.0,  0.5,  0.5,  0.5,  0.05,  5.0,  0.05,  0.05,  0.05 };
+    uint8_t index = this->byte69 + (4 * this->byte6D) + this->byte6D;
+    this->double80 = dlArray[5 + index];
+
+    if (this->double80 < dlArray[this->byte69])
+    {
+        this->extraPositionData->double1 = this->double80;
+    }
+    else
+    {
+        this->double80 = dlArray[this->byte69];
+        this->extraPositionData->double1 = dlArray[this->byte69];
+    }
 }
 
 uint16_t PlayerEntity::Update_1_4()
@@ -279,7 +340,7 @@ uint16_t PlayerEntity::Update_1_4()
 
         this->extraPositionData->double2 -= 0.8;
         
-        if (this->extraPositionData->double2 <= 0)
+        if (this->extraPositionData->double2 < 0)
         {
             this->extraPositionData->double2 = 0;
             return 0;
@@ -298,8 +359,10 @@ uint16_t PlayerEntity::Update_1_4()
 
             return 2;
         }
-
-        this->extraPositionData->double2 += 0.8;
+        else
+        {
+            this->extraPositionData->double2 += 0.8;
+        }
     }
 
     return 0;
@@ -311,27 +374,96 @@ void PlayerEntity::Update_1_5()
         this->updatePhase = 0;
 }
 
+void PlayerEntity::Update_2()
+{
+    if (this->byte6C != 0)
+    {
+        if (this->byte6C == 1)
+        {
+            this->Update_1_1();
+            this->Update_1_2();
+        }
+        else if(this->byte6C == 2)
+        {
+            if (this->byte6B != 0)
+            {
+                this->Update_1_3();
+            }
+            else
+            {
+                this->Update_1_2();
+            }
+
+            uint16_t u4_res = this->Update_1_4();
+
+            if (u4_res == 1)
+            {
+                uint32_t ar1[] = { 0, 86, 198, 310, 422, 62, 174, 286, 398 };
+                if (this->dword90 == ar1[this->unsigned6E])
+                {
+                    this->unsigned6E--;
+                }
+
+                this->coordinateLikeThingie = (100 * this->unsigned6E) + 20;
+                this->AssignRenderRectangles(4);
+            }
+            else if(u4_res == 2)
+            {
+                this->sndMgr->PlaySoundSlot(3, this->centerX);
+                this->AssignRenderRectangles(5);
+            }
+        }
+    }
+    else
+    {
+        this->Update_1_5();
+        this->Update_1_2();
+    }
+}
+
+void PlayerEntity::Update_3()
+{
+    
+}
+
+void PlayerEntity::Update_4()
+{
+    this->Update_1_2();
+
+    if (this->dword38_assignedZeroFromRenderSetup != 0)
+    {
+        this->updatePhase = 0;
+    }
+}
+
+void PlayerEntity::Update_5()
+{
+    
+}
+
+void PlayerEntity::Update_6()
+{
+
+}
+
 void PlayerEntity::Update_7()
 {
     if (this->byte6C != 0)
     {
         if (this->byte6C == 2)
         {
-            uint16_t v2 = this->Update_1_4() - 1;
-            
-            if (v2 != 0)
-            {
-                if (v2 == 1)
-                {
-                    this->double80 = 0;
-                    this->extraPositionData->double1 = 0;
-                    this->sndMgr->PlaySoundSlot(3, this->centerX);
-                    this->AssignRenderRectangles(5);
-                }
-            }
-            else
+            uint16_t u4_res = this->Update_1_4();
+
+            if (u4_res == 1)
             {
                 this->AssignRenderRectangles(4);
+            }
+            else if (u4_res == 2)
+            {
+                this->double80 = 0;
+                this->extraPositionData->double1 = 0;
+                this->sndMgr->PlaySoundSlot(3, this->centerX);
+                this->AssignRenderRectangles(5);
             }
         }
     }
@@ -339,6 +471,14 @@ void PlayerEntity::Update_7()
     {
         this->Update_1_5();
     }
+}
+
+void PlayerEntity::Update_10()
+{
+    uint16_t u4_res = this->Update_1_4();
+    
+    if (u4_res == 2)
+        this->Detach();
 }
 
 void PlayerEntity::Update_11()

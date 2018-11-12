@@ -6,6 +6,7 @@
 
 class GameScene;
 class Bitmap;
+class FastEntity;
 
 class EntityExtraPositionData
 {
@@ -44,6 +45,16 @@ class EntityExtraPositionData3 : public EntityExtraPositionData
 
         virtual void ReassignPositionToEntity() override;
         void ReassignPositionXYToEntity(double aX, double aY);
+};
+
+class FastEntityExtraPositionPair
+{
+    public:
+        FastEntity* fastEntity;
+        EntityExtraPositionData3* extraPosition;
+
+        FastEntityExtraPositionPair(FastEntity* aFastEntity, EntityExtraPositionData3* aExtraPos);
+        virtual ~FastEntityExtraPositionPair();
 };
 
 class Entity : public GameObject

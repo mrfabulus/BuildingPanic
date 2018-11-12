@@ -5,13 +5,13 @@ PlayerWeaponEntity::PlayerWeaponEntity(GameScene* aScene, BitmapResourceManager*
     : FastEntity(aScene, aBmpMgr->bitmapPtrs[14], &PlayerWeaponEntity_Meta::PlayerWeaponEntity_RenderMeta, aBmpMgr->bitmapCachePtrs[14])
 {
     this->extraPosData = nullptr;
-    // this->feExtraPos3 = 0;
+    this->feExtraPos3 = nullptr;
     this->byte70 = 0;
     this->byte71 = 0;
     this->characterChosen = aCharacterChosen;
 
     this->extraPosData = new EntityExtraPositionData3(this);
-    // TODO: assign pair object
+    this->feExtraPos3 = new FastEntityExtraPositionPair(this, this->extraPosData);
 
     if (!this->attachedToLayer)
         this->layerIndex = 3;
@@ -23,19 +23,17 @@ PlayerWeaponEntity::~PlayerWeaponEntity()
 {
     this->extraPositionDataBase = nullptr;
 
-    /*
     if (this->feExtraPos3 != nullptr)
     {
         delete this->feExtraPos3;
         this->feExtraPos3 = nullptr;
     }
-    */
 
-   if (this->extraPosData != nullptr)
-   {
-       delete this->extraPosData;
-       this->extraPosData = nullptr;
-   }
+    if (this->extraPosData != nullptr)
+    {
+        delete this->extraPosData;
+        this->extraPosData = nullptr;
+    }
 }
 
 void PlayerWeaponEntity::Update()

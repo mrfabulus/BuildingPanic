@@ -15,7 +15,7 @@ class PlayerWeaponEntity : public FastEntity
 {
     public:
         EntityExtraPositionData3* extraPosData;
-        // FastEntityExtraPos3* feExtraPos3;
+        FastEntityExtraPositionPair* feExtraPos3;
         uint8_t byte70;
         uint8_t byte71;
         uint8_t characterChosen;

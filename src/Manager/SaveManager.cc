@@ -94,7 +94,7 @@ ScoreboardEntry::ScoreboardEntry()
     this->character = 0;
     this->padding1 = 0;
 
-    // "D.YAMA" bytes somehow??
+    // "D.YAMA" indexs in MOJI font
     this->name[0] = 13; // D
     this->name[1] = 36; // .
     this->name[2] = 34; // Y
@@ -132,21 +132,21 @@ SaveState::SaveState()
 void SaveState::LoadDefaultKeyBindings()
 {
     // Default keybindings
-    this->p1Bindings[0] = 0x0E;
-    this->p1Bindings[1] = 0x1B;
-    this->p1Bindings[2] = 0x20;
-    this->p1Bindings[3] = 0x1A;
-    this->p1Bindings[4] = 0x0F;
-    this->p1Bindings[5] = 0x1F;
-    this->p1Bindings[6] = 0x0C;
-    this->p1Bindings[7] = 0x0B;
+    this->p1Bindings[0] = 0x0E; // SDL_SCANCODE_E
+    this->p1Bindings[1] = 0x1B; // SDL_SCANCODE_R
+    this->p1Bindings[2] = 0x20; // SDL_SCANCODE_W
+    this->p1Bindings[3] = 0x1A; // SDL_SCANCODE_Q
+    this->p1Bindings[4] = 0x0F; // SDL_SCANCODE_F
+    this->p1Bindings[5] = 0x1F; // SDL_SCANCODE_V
+    this->p1Bindings[6] = 0x0C; // SDL_SCANCODE_C
+    this->p1Bindings[7] = 0x0B; // SDL_SCANCODE_B
 
-    this->p2Bindings[0] = 0x28;
-    this->p2Bindings[1] = 0x29;
-    this->p2Bindings[2] = 0x27;
-    this->p2Bindings[3] = 0x15;
-    this->p2Bindings[4] = 0x2E;
-    this->p2Bindings[5] = 0x2F;
-    this->p2Bindings[6] = 0x30;
-    this->p2Bindings[7] = 0x31;
+    this->p2Bindings[0] = 0x28; // SDL_SCANCODE_KP_COLON
+    this->p2Bindings[1] = 0x29; // SDL_SCANCODE_RIGHTBRACKET
+    this->p2Bindings[2] = 0x27; // SDL_SCANCODE_SEMICOLON
+    this->p2Bindings[3] = 0x15; // SDL_SCANCODE_L
+    this->p2Bindings[4] = 0x2E; // SDL_SCANCODE_UP
+    this->p2Bindings[5] = 0x2F; // SDL_SCANCODE_DOWN
+    this->p2Bindings[6] = 0x30; // SDL_SCANCODE_LEFT
+    this->p2Bindings[7] = 0x31; // SDL_SCANCODE_RIGHT
 }

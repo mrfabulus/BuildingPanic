@@ -52,6 +52,16 @@ void EntityExtraPositionData3::ReassignPositionXYToEntity(double aX, double aY)
     this->entityPtr->centerY = newY;
 }
 
+FastEntityExtraPositionPair::FastEntityExtraPositionPair(FastEntity* aFastEntity, EntityExtraPositionData3* aExtraPos)
+{
+    this->fastEntity = aFastEntity;
+    this->extraPosition = aExtraPos;
+}
+
+FastEntityExtraPositionPair::~FastEntityExtraPositionPair()
+{
+}
+
 Entity::Entity(GameScene* aScene, Bitmap* aBitmap, const RenderMeta* aRenderMeta)
     : GameObject()
 {

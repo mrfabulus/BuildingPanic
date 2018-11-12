@@ -41,7 +41,7 @@ class MenuScene : public GameScene
         TileSetEntity* fontCharsetEntity;
         BitmapResourceManager* sceneBitmapMgr;
         SoundResourceManager* sceneSoundMgr;
-        InputProcessorBase* inputProcessorMenu; // I think this is redundant but I'll keep it here
+        MenuScene_InputProcessor* inputProcessorMenu;
         StaticPictureEntity* fontGlyphEntities[16];
         int8_t byte958;
         int8_t byte959; // options cursor place?

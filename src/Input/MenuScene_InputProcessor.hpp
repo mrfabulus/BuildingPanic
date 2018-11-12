@@ -9,7 +9,7 @@ class MenuScene_InputProcessor : public InputProcessorBase
         MenuScene_InputProcessor();
         virtual ~MenuScene_InputProcessor();
 
-        int16_t word14;
+        int16_t lastButtonPressed;
 
         virtual void Process() override;
 };

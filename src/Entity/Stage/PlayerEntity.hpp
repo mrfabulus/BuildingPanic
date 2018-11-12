@@ -35,10 +35,10 @@ class PlayerEntity : public FastEntity
         double   double88;
         uint32_t dword90;
         EntityExtraPositionData3* extraPositionData;
-        uint32_t dword98; // fast entity extra pos pair*
+        FastEntityExtraPositionPair* extraPositionPair;
         HudHeartEntity* dword9C;
         StaticPictureEntity* piyoBmp; // Dizzy star particles above the player's head
-        uint32_t dwordA4;
+        uint32_t dwordA4; // some pointer
         StaticPictureEntity* hitBmp; // Hit particle when an item fall's on the player
         PlayerWeaponEntity* playerWeaponEntities[3];
         SoundResourceManager* sndMgr;
@@ -61,14 +61,15 @@ class PlayerEntity : public FastEntity
         uint16_t Update_1_4();
         void Update_1_5();
 
-
-        void Update_7();
-        void Update_11();
-
-        /*
         void Update_2();
         void Update_3();
         void Update_4();
         void Update_5();
-        */
+        void Update_6();
+        void Update_7();
+        void Update_10();
+        void Update_11();
+
+        
+        
 };
