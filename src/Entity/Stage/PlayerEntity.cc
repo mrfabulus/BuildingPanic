@@ -62,7 +62,7 @@ PlayerEntity::~PlayerEntity()
         if (this->playerWeaponEntities[i] != nullptr)
         {
             delete this->playerWeaponEntities[i];
-            this->playerWeaponEntities[i] = 0;
+            this->playerWeaponEntities[i] = nullptr;
         }
     }
 

@@ -5,7 +5,7 @@
 MenuScene_InputProcessor::MenuScene_InputProcessor()
     : InputProcessorBase()
 {
-    this->word14 = -1;
+    this->lastButtonPressed = -1;
 }
 
 MenuScene_InputProcessor::~MenuScene_InputProcessor()
@@ -15,7 +15,7 @@ MenuScene_InputProcessor::~MenuScene_InputProcessor()
 void MenuScene_InputProcessor::Process()
 {
     // std::cout << "MenuScene_InputProcessor::Process ";
-    const Uint8* state = SDL_GetKeyboardState(NULL);
+    const uint8_t* state = SDL_GetKeyboardState(NULL);
 
     if (state[SDL_SCANCODE_RETURN])
     {
@@ -38,5 +38,5 @@ void MenuScene_InputProcessor::Process()
         // std::cout << "DOWN ";
     }
 
-    // std::cout << std::endl;
+    this->lastButtonPressed = InputKeyCodes::GetIndexForPressedKey(state);
 }

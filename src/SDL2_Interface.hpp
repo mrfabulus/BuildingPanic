@@ -10,6 +10,13 @@
 
 using namespace std;
 
+struct InputKeyCodes
+{
+    static const SDL_Scancode keyCodeArray[50];
+    static uint16_t GetIndexForKeycode(SDL_Scancode code);
+    static uint16_t GetIndexForPressedKey(const uint8_t* state);
+};
+
 // Very useful function from Eric Scott Barr.
 // https://eb2.co/blog/2014/04/c-plus-plus-14-and-sdl2-managing-resources/
 template <typename Creator, typename Destructor, typename... Arguments>

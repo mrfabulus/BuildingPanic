@@ -78,6 +78,21 @@ bool SaveManager::IsFlagMaskEnabledAll(uint32_t mask)
     return (this->saveFlags & mask) == mask;
 }
 
+void SaveManager::SetControlKey(uint16_t isPlayerTwo, uint16_t keyIndex, uint16_t lastButtonPressed)
+{
+    if (lastButtonPressed < 0x32)
+    {
+        if (isPlayerTwo == 0)
+        {
+            this->saveState.p1Bindings[keyIndex] = lastButtonPressed;
+        }
+        else
+        {
+            this->saveState.p2Bindings[keyIndex] = lastButtonPressed;
+        }
+    }
+}
+
 Save_PlayerObject::Save_PlayerObject()
 {
 }
@@ -94,7 +109,7 @@ ScoreboardEntry::ScoreboardEntry()
     this->character = 0;
     this->padding1 = 0;
 
-    // "D.YAMA" indexs in MOJI font
+    // "D.YAMA" indexes in MOJI font
     this->name[0] = 13; // D
     this->name[1] = 36; // .
     this->name[2] = 34; // Y
@@ -132,21 +147,21 @@ SaveState::SaveState()
 void SaveState::LoadDefaultKeyBindings()
 {
     // Default keybindings
-    this->p1Bindings[0] = 0x0E; // SDL_SCANCODE_E
-    this->p1Bindings[1] = 0x1B; // SDL_SCANCODE_R
-    this->p1Bindings[2] = 0x20; // SDL_SCANCODE_W
-    this->p1Bindings[3] = 0x1A; // SDL_SCANCODE_Q
-    this->p1Bindings[4] = 0x0F; // SDL_SCANCODE_F
-    this->p1Bindings[5] = 0x1F; // SDL_SCANCODE_V
-    this->p1Bindings[6] = 0x0C; // SDL_SCANCODE_C
-    this->p1Bindings[7] = 0x0B; // SDL_SCANCODE_B
+    this->p1Bindings[0] = InputKeyCodes::GetIndexForKeycode(SDL_SCANCODE_E);
+    this->p1Bindings[1] = InputKeyCodes::GetIndexForKeycode(SDL_SCANCODE_R);
+    this->p1Bindings[2] = InputKeyCodes::GetIndexForKeycode(SDL_SCANCODE_W);
+    this->p1Bindings[3] = InputKeyCodes::GetIndexForKeycode(SDL_SCANCODE_Q);
+    this->p1Bindings[4] = InputKeyCodes::GetIndexForKeycode(SDL_SCANCODE_F);
+    this->p1Bindings[5] = InputKeyCodes::GetIndexForKeycode(SDL_SCANCODE_V);
+    this->p1Bindings[6] = InputKeyCodes::GetIndexForKeycode(SDL_SCANCODE_C);
+    this->p1Bindings[7] = InputKeyCodes::GetIndexForKeycode(SDL_SCANCODE_B);
 
-    this->p2Bindings[0] = 0x28; // SDL_SCANCODE_KP_COLON
-    this->p2Bindings[1] = 0x29; // SDL_SCANCODE_RIGHTBRACKET
-    this->p2Bindings[2] = 0x27; // SDL_SCANCODE_SEMICOLON
-    this->p2Bindings[3] = 0x15; // SDL_SCANCODE_L
-    this->p2Bindings[4] = 0x2E; // SDL_SCANCODE_UP
-    this->p2Bindings[5] = 0x2F; // SDL_SCANCODE_DOWN
-    this->p2Bindings[6] = 0x30; // SDL_SCANCODE_LEFT
-    this->p2Bindings[7] = 0x31; // SDL_SCANCODE_RIGHT
+    this->p2Bindings[0] = InputKeyCodes::GetIndexForKeycode(SDL_SCANCODE_KP_COLON);
+    this->p2Bindings[1] = InputKeyCodes::GetIndexForKeycode(SDL_SCANCODE_RIGHTBRACKET);
+    this->p2Bindings[2] = InputKeyCodes::GetIndexForKeycode(SDL_SCANCODE_SEMICOLON);
+    this->p2Bindings[3] = InputKeyCodes::GetIndexForKeycode(SDL_SCANCODE_L);
+    this->p2Bindings[4] = InputKeyCodes::GetIndexForKeycode(SDL_SCANCODE_UP);
+    this->p2Bindings[5] = InputKeyCodes::GetIndexForKeycode(SDL_SCANCODE_DOWN);
+    this->p2Bindings[6] = InputKeyCodes::GetIndexForKeycode(SDL_SCANCODE_LEFT);
+    this->p2Bindings[7] = InputKeyCodes::GetIndexForKeycode(SDL_SCANCODE_RIGHT);
 }

@@ -40,8 +40,8 @@ MenuScene::MenuScene(SaveManager* aSaveManager)
     this->menuChoice = 0;
     this->cutSceneRenderDataPtrIndex = 0;
     this->portraitFlipsLeft = 4;
-    this->byte958 = 0;
-    this->byte959 = 0;
+    this->optionsIsKeyForPlayerTwo = 0;
+    this->optionsKeyIndex = 0;
     this->gap8D8 = 0;
 
     this->inputProcessorMenu = nullptr;
@@ -96,7 +96,10 @@ void MenuScene::CreateEntities()
 
 int MenuScene::GetNextSceneIDReference()
 {
-    return (this->menuChoice != 0xFF) + 2;
+    if (this->menuChoice == 0xFF)
+        return 2; // We go to the demo scene if the menu timed out
+    else
+        return 3; // Otherwise, character select
 }
 
 void MenuScene::MakeSureImagesAreReady()
@@ -258,13 +261,13 @@ void MenuScene::Update()
                         this->optionLabelEntity->Detach();
                         this->menuCursorEntity->Detach();
                         this->cutScenePhase = 2;
-                        this->byte959 = 0;
-                        this->byte958 = 0;
+                        this->optionsKeyIndex = 0;
+                        this->optionsIsKeyForPlayerTwo = 0;
                         this->fontCharsetEntity->Attach();
 
                         this->menuCursorEntity->AttachWithPosition(
-                            menuOptionCursorCoordinates[2 * this->byte959],
-                            menuOptionCursorCoordinates[1 + (2 * this->byte959)], 0);
+                            menuOptionCursorCoordinates[2 * this->optionsKeyIndex],
+                            menuOptionCursorCoordinates[1 + (2 * this->optionsKeyIndex)], 0);
 
                         // Setup font glyphs from saved keybindings
                         for (int i = 0; i < 8; i++)
@@ -295,13 +298,13 @@ void MenuScene::Update()
                             // Play sound slot 0 for 320
                             this->sceneSoundMgr->PlaySoundSlot(0, 320);
 
-                            if (this->byte959 == 9)
+                            if (this->optionsKeyIndex == 9)
                             {
                                 // Back to main menu?
                                 this->cutScenePhase = 4;
                                 this->PaletteFadeAwayStart(1, 32);
                             }
-                            else if (this->byte959 == 8)
+                            else if (this->optionsKeyIndex == 8)
                             {
                                 // Reset to default settings
                                 this->saveManager->saveState.LoadDefaultKeyBindings();
@@ -320,17 +323,17 @@ void MenuScene::Update()
                             }
                             else
                             {
-                                this->byte958 = 0;
+                                this->optionsIsKeyForPlayerTwo = 0;
                                 this->cutScenePhase = 3;
-                                this->selectCursorEntity->AttachWithPosition(0x118, menuOptionActivationYCoordinates[this->byte959], 0);
+                                this->selectCursorEntity->AttachWithPosition(0x118, menuOptionActivationYCoordinates[this->optionsKeyIndex], 0);
                             }
                         }
                         else if ((mask & 0x400040) != 0)
                         {
                             // UP
-                            if (this->byte959 != 0)
+                            if (this->optionsKeyIndex != 0)
                             {
-                                this->byte959--;
+                                this->optionsKeyIndex--;
 
                                 // Play sound slot 1 for 320
                                 this->sceneSoundMgr->PlaySoundSlot(1, 320);
@@ -339,9 +342,9 @@ void MenuScene::Update()
                         else if ((mask & 0x800080) != 0)
                         {
                             // DOWN
-                            if (this->byte959 < 9)
+                            if (this->optionsKeyIndex < 9)
                             {
-                                this->byte959++;
+                                this->optionsKeyIndex++;
 
                                 // Play sound slot 1 for 320
                                 this->sceneSoundMgr->PlaySoundSlot(1, 320);
@@ -350,12 +353,12 @@ void MenuScene::Update()
 
                         if (this->menuCursorEntity->extraPositionDataBase != nullptr)
                         {
-                            this->menuCursorEntity->extraPositionDataBase->dCenterX = menuOptionCursorCoordinates[2 * this->byte959];
-                            this->menuCursorEntity->extraPositionDataBase->dCenterY = menuOptionCursorCoordinates[1 + (2 * this->byte959)];
+                            this->menuCursorEntity->extraPositionDataBase->dCenterX = menuOptionCursorCoordinates[2 * this->optionsKeyIndex];
+                            this->menuCursorEntity->extraPositionDataBase->dCenterY = menuOptionCursorCoordinates[1 + (2 * this->optionsKeyIndex)];
                         }
 
-                        this->menuCursorEntity->centerX = menuOptionCursorCoordinates[2 * this->byte959];
-                        this->menuCursorEntity->centerY = menuOptionCursorCoordinates[1 + (2 * this->byte959)];
+                        this->menuCursorEntity->centerX = menuOptionCursorCoordinates[2 * this->optionsKeyIndex];
+                        this->menuCursorEntity->centerY = menuOptionCursorCoordinates[1 + (2 * this->optionsKeyIndex)];
                     }
                     break;
                 case 3:
@@ -365,14 +368,14 @@ void MenuScene::Update()
                         // Play sound slot 0 for 320
                         this->sceneSoundMgr->PlaySoundSlot(0, 320);
 
-                        if (this->byte958 != 0)
+                        if (this->optionsIsKeyForPlayerTwo != 0)
                         {
                             this->cutScenePhase = 2;
                             this->selectCursorEntity->Detach();
                         }
                         else
                         {
-                            this->byte958 = 1;
+                            this->optionsIsKeyForPlayerTwo = 1;
 
                             if (this->selectCursorEntity->extraPositionDataBase != nullptr)
                             {
@@ -384,8 +387,22 @@ void MenuScene::Update()
                     }
                     else
                     {
-                        // TODO: Handle this whole case
-                        // this->inputProcessorMenu->lastButtonPressed
+                        uint16_t lastButtonPressed = this->inputProcessorMenu->lastButtonPressed;
+
+                        if (lastButtonPressed < 0x32)
+                        {
+                            StaticPictureEntity* keyFontGlpyh = this->fontGlyphEntities[this->optionsKeyIndex + (8 * this->optionsIsKeyForPlayerTwo)];
+                            int16_t currentKey = keyFontGlpyh->renderDataPtrIndex;
+
+                            if (lastButtonPressed != currentKey)
+                            {
+                                this->sceneSoundMgr->PlaySoundSlot(1, 320);
+                                this->saveManager->SetControlKey(this->optionsIsKeyForPlayerTwo, this->optionsKeyIndex, lastButtonPressed);
+
+                                keyFontGlpyh->renderDataPtrIndex = lastButtonPressed;
+                                keyFontGlpyh->AssignRenderRectangles(lastButtonPressed);
+                            }
+                        }
                     }
                     break;
                 case 4:

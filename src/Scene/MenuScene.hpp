@@ -8,6 +8,7 @@ class SoundResourceManager;
 class StaticPictureEntity;
 class IntroCutSceneEntity;
 class TileSetEntity;
+class MenuScene_InputProcessor;
 
 struct MenuScene_Meta
 {
@@ -43,8 +44,8 @@ class MenuScene : public GameScene
         SoundResourceManager* sceneSoundMgr;
         MenuScene_InputProcessor* inputProcessorMenu;
         StaticPictureEntity* fontGlyphEntities[16];
-        int8_t byte958;
-        int8_t byte959; // options cursor place?
+        int8_t optionsIsKeyForPlayerTwo;
+        int8_t optionsKeyIndex;
 
         MenuScene(SaveManager* aSaveManager);
         virtual ~MenuScene();

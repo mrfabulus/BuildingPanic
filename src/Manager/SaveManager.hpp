@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include "SDL2_Interface.hpp"
 
 class Save_PlayerObject
 {
@@ -67,4 +68,6 @@ class SaveManager
         bool IsSecretMode();
         bool IsFlagMaskEnabledAny(uint32_t mask);
         bool IsFlagMaskEnabledAll(uint32_t mask);
+
+        void SetControlKey(uint16_t isPlayerTwo, uint16_t keyIndex, uint16_t lastButtonPressed);
 };

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include "SDL2_Interface.hpp"
 
 class InputProcessorBase
 {
