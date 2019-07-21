@@ -111,8 +111,9 @@ void PlayerEntity::Update()
         }
     }
 
-    printf("Update phase %d\n", this->updatePhase);
+    // printf("Update phase %d\n", this->updatePhase);
     // this->updatePhase = 3;
+
     switch (this->updatePhase)
     {
         case 0:

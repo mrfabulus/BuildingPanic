@@ -133,7 +133,7 @@ void Ingame_Stage_Scene::CreateBaseEntities()
 
     this->scoreFontTileEntity = new FontTileSetEntity(this, this->sceneBitmapMgr->bitmapPtrs[21], 0);
 
-    this->pauseTextEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[66], nullptr, 0);
+    this->pauseTextEntity = new StaticPictureEntity(this, this->sceneBitmapMgr->bitmapPtrs[66], &Ingame_Stage_Scene_Meta::PauseTextEntity_RenderMeta, 0);
     this->pauseTextEntity->SetLayerIndex(4);
     this->pauseTextEntity->dword10 = 0;
 }
@@ -617,3 +617,47 @@ const RenderMeta Ingame_Stage_Scene_Meta::HudTextEntity_RenderMeta =
     gConsts::RenderMetaTerminatorPtr
 };
 // ------ HudTextEntity RenderMeta END ------
+
+// ------ PauseTextEntity RenderMeta START ------
+static const uint16_t PauseTextEntity_RenderMeta1_1[] =
+{
+    16,
+    1,
+    1,
+    0,
+    0,
+    2,
+    16,
+    0,
+    0,
+    0,
+    0,
+    1,
+};
+
+static const uint16_t* PauseTextEntity_RenderMeta1[] =
+{
+    &PauseTextEntity_RenderMeta1_1[0],
+    0
+};
+
+static const MSRect PauseTextEntity_RenderMeta2[] =
+{
+    { 0x00, 0x00, 0x01, 0x01 },
+    { 0x00, 0x00, 0x50, 0x10 },
+};
+
+static const MSRect PauseTextEntity_RenderMeta3[] =
+{
+    { 0x00, 0x00, 0x01, 0x01 },
+    { -40, -8, 0x28, 0x08 },
+};
+
+const RenderMeta Ingame_Stage_Scene_Meta::PauseTextEntity_RenderMeta =
+{
+    &PauseTextEntity_RenderMeta1[0],
+    &PauseTextEntity_RenderMeta2[0],
+    &PauseTextEntity_RenderMeta3[0],
+    gConsts::RenderMetaTerminatorPtr
+};
+// ------ PauseTextEntity RenderMeta END ------

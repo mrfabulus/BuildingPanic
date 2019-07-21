@@ -22,6 +22,7 @@ struct Ingame_Stage_Scene_Meta
     static const RenderMeta LampEntity_RenderMeta;
     static const RenderMeta PMarkEntity_RenderMeta;
     static const RenderMeta HudTextEntity_RenderMeta;
+    static const RenderMeta PauseTextEntity_RenderMeta;
 };
 
 class Ingame_Stage_Scene : public GameScene

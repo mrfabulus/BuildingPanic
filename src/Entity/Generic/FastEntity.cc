@@ -28,15 +28,17 @@ void FastEntity::Render()
         SDL_Rect SDL_srcRect = srcRect.ToSDLRect();
         SDL_Rect SDL_dstRect = dstRect.ToSDLRect();
 
+        /*
         printf("Rendering %s\n", this->entityImageBmp->resourceName.c_str());
         printf("src %d %d %d %d\n", SDL_srcRect.x, SDL_srcRect.y, SDL_srcRect.w, SDL_srcRect.h);
         printf("dst %d %d %d %d\n", SDL_dstRect.x, SDL_dstRect.y, SDL_dstRect.w, SDL_dstRect.h);
+        */
 
         Entity::Render();
         return;
     }
 
-    printf("FastEntity::Render 2\n");
+    // printf("FastEntity::Render 2\n");
 
     MSRect srcRect;
     MSRect dstRect;
