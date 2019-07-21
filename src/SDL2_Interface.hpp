@@ -12,7 +12,7 @@ using namespace std;
 
 struct InputKeyCodes
 {
-    static const SDL_Scancode keyCodeArray[50];
+    static const SDL_Scancode keyCodeArray[51];
     static uint16_t GetIndexForKeycode(SDL_Scancode code);
     static uint16_t GetIndexForPressedKey(const uint8_t* state);
 };
